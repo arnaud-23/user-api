@@ -8,7 +8,7 @@ use App\BusinessRules\User\Responders\UserResponse;
 use App\BusinessRules\User\UseCases\DTO\Request\CreateUserRequestBuilderImpl;
 use App\BusinessRules\User\UseCases\DTO\Request\CreateUserRequestDTO;
 use App\BusinessRules\User\UseCases\DTO\Response\UserResponseAssemblerImpl;
-use App\Entity\UserFactoryImpl;
+use App\Entity\User\UserFactoryImpl;
 use App\Tests\Doubles\BusinessRules\User\Entities\UserStub;
 use App\Tests\Doubles\BusinessRules\User\Gateways\InMemoryUserGateway;
 use App\Tests\Doubles\BusinessRules\User\Responders\UserResponseStub;
@@ -27,7 +27,10 @@ class CreateUserTest extends TestCase
      */
     private $useCase;
 
-    final public function testCreateUserSaveAndReturnUser(): void
+    /**
+     * @test
+     */
+    final public function createUserSaveAndReturnUser(): void
     {
         InMemoryUserGateway::$id = UserStub::ID;
         InMemoryUserGateway::$uuid = UserStub::UUID;

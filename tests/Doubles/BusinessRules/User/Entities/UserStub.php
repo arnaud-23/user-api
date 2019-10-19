@@ -2,7 +2,7 @@
 
 namespace App\Tests\Doubles\BusinessRules\User\Entities;
 
-use App\Entity\UserImpl;
+use App\Entity\User\UserImpl;
 use Carbon\Carbon;
 
 class UserStub extends UserImpl
