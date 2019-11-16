@@ -73,6 +73,6 @@ class PostUserController
 
     private function createCreatedResponse(): JsonResponse
     {
-        return new JsonResponse('', Response::HTTP_CREATED);
+        return new JsonResponse(null, Response::HTTP_CREATED);
     }
 }

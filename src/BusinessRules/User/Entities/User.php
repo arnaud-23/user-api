@@ -66,12 +66,12 @@ abstract class User
 
     public function getLastName(): string
     {
-        return $this->LastName;
+        return $this->lastName;
     }
 
-    public function setLastName(string $LastName): void
+    public function setLastName(string $lastName): void
     {
-        $this->LastName = $LastName;
+        $this->lastName = $lastName;
     }
 
     public function getUuid(): string

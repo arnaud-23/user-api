@@ -25,7 +25,7 @@ class UserStub extends UserImpl
 
     protected $id = self::ID;
 
-    protected $LastName = self::LAST_NAME;
+    protected $lastName = self::LAST_NAME;
 
     protected $uuid = self::UUID;
 
