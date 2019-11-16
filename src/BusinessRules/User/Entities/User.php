@@ -2,8 +2,6 @@
 
 namespace App\BusinessRules\User\Entities;
 
-use Carbon\CarbonImmutable;
-
 abstract class User
 {
     /**
@@ -39,7 +37,6 @@ abstract class User
     public function __construct(string $email)
     {
         $this->email = $email;
-        $this->createdAt = new CarbonImmutable();
     }
 
     public function getEmail(): string
@@ -80,10 +77,5 @@ abstract class User
     public function getUuid(): string
     {
         return $this->uuid;
-    }
-
-    public function setUuid(string $uuid): void
-    {
-        $this->uuid = $uuid;
     }
 }
