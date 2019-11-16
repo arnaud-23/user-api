@@ -8,6 +8,7 @@
       "ext-json": "*",
       "nesbot/carbon": "^2.24",
       "nyholm/psr7": "^1.2",
+      "phpunit/phpunit": "8.4.3",
       "ramsey/uuid": "^3.8",
         "sensio/framework-extra-bundle": "^5.4",
         "symfony/console": "4.3.*",

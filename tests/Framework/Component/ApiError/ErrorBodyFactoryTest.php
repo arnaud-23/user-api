@@ -92,7 +92,7 @@ final class ErrorBodyFactoryTest extends TestCase
         Assert::assertJsonStringEqualsJsonString($result, json_encode($errors));
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->factory = new ErrorBodyFactory();
     }
