@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 
-class ErrorBodyFactoryTest extends TestCase
+final class ErrorBodyFactoryTest extends TestCase
 {
     /**
      * @var ErrorBodyFactory
@@ -22,10 +22,10 @@ class ErrorBodyFactoryTest extends TestCase
         $nullResult = 'null';
 
         $partialData = ['code' => 'code', 'field' => null, 'message' => 'lorem ipsum', 'value' => null];
-        $partialResult = '[{"code":"code","message":"lorem ipsum"}]';
+        $partialResult = '{"errors": [{"code":"code","message":"lorem ipsum"}]}';
 
         $fullData = ['code' => 'code', 'field' => 'field', 'message' => 'lorem ipsum', 'value' => 5];
-        $fullResult = '[{"code":"code","field":"field","message":"lorem ipsum","value":"5"}]';
+        $fullResult = '{"errors": [{"code":"code","field":"field","message":"lorem ipsum","value":"5"}]}';
 
         yield [$nullData, $nullResult];
         yield [$partialData, $partialResult];
@@ -36,7 +36,7 @@ class ErrorBodyFactoryTest extends TestCase
      * @test
      * @dataProvider singleErrorProvider
      */
-    final public function createSingleError(array $data, string $result): void
+    public function createSingleError(array $data, string $result): void
     {
         $errors = $this->factory->createSingleError($data['code'], $data['field'], $data['message'], $data['value']);
 
@@ -59,7 +59,7 @@ class ErrorBodyFactoryTest extends TestCase
             $constraint::IS_BLANK_ERROR,
             $constraint
         );
-        $resultWithProperty = '[{"code":"IS_BLANK_ERROR","field":"field","message":"This value should not be blank."}]';
+        $resultWithProperty = '{"errors": [{"code":"IS_BLANK_ERROR","field":"field","message":"This value should not be blank."}]}';
 
         $violationWithoutProperty = new ConstraintViolation(
             $constraint->message,
@@ -72,7 +72,7 @@ class ErrorBodyFactoryTest extends TestCase
             $constraint::IS_BLANK_ERROR,
             $constraint
         );
-        $resultWithoutProperty = '[{"code":"IS_BLANK_ERROR","message":"This value should not be blank."}]';
+        $resultWithoutProperty = '{"errors": [{"code":"IS_BLANK_ERROR","message":"This value should not be blank."}]}';
 
         yield [$violationWithProperty, $resultWithProperty];
         yield [$violationWithoutProperty, $resultWithoutProperty];
@@ -83,7 +83,7 @@ class ErrorBodyFactoryTest extends TestCase
      *
      * @dataProvider violationErrorProvider
      */
-    final public function createFromViolations($violation, $result): void
+    public function createFromViolations($violation, $result): void
     {
         $violations = new ConstraintViolationList([$violation]);
 
