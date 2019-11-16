@@ -2,6 +2,7 @@
 
 namespace App\Controller\User;
 
+use App\BusinessRules\UseCase;
 use App\BusinessRules\User\Requestors\CreateUserRequestBuilder;
 use App\BusinessRules\User\UseCases\CreateUser;
 use App\Framework\Component\ApiError\ApiExceptionFactory;
@@ -37,7 +38,7 @@ class PostUserController
     private $apiExceptionFactory;
 
     public function __construct(
-        CreateUser $createUser,
+        UseCase $createUser,
         CreateUserRequestBuilder $createUserRequestBuilder,
         ValidatorInterface $validator,
         ApiExceptionFactory $apiExceptionFactory

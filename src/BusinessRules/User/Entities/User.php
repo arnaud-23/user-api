@@ -2,7 +2,7 @@
 
 namespace App\BusinessRules\User\Entities;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 
 abstract class User
 {
@@ -29,7 +29,7 @@ abstract class User
     /**
      * @var string
      */
-    protected $LastName;
+    protected $lastName;
 
     /**
      * @var string
@@ -39,7 +39,7 @@ abstract class User
     public function __construct(string $email)
     {
         $this->email = $email;
-        $this->createdAt = new Carbon();
+        $this->createdAt = new CarbonImmutable();
     }
 
     public function getEmail(): string
