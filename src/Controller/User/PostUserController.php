@@ -50,7 +50,7 @@ class PostUserController
     }
 
     /**
-     * @Route("/api/users", methods={"POST"})
+     * @Route("/api/users", methods={"POST"}, defaults={"oauth2_scopes":{"user_creation"}})
      */
     public function post(Request $request): JsonResponse
     {
