@@ -6,8 +6,6 @@ security:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
-    main:
-      anonymous: true
     api_token:
       pattern: ^/api/token$
       security: false
@@ -23,9 +21,5 @@ security:
       # https://symfony.com/doc/current/security/impersonating_user.html
       # switch_user: true
 
-  # Easy way to control access for large sections of your site
-  # Note: Only the *first* access control that matches will be used
   access_control:
-    # - { path: ^/admin, roles: ROLE_ADMIN }
-    # - { path: ^/profile, roles: ROLE_USER }
     - { path: ^/authorize, roles: IS_AUTHENTICATED_REMEMBERED }
