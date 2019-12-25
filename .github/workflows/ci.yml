@@ -1,0 +1,57 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:11.5
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: user_api
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: 7.2
+          extensions: mbstring, xml, ctype, iconv, pgsql, redis, apcu, intl
+          ini-values: memory_limit=512M, date.timezone = "Europe/Paris"
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --no-scripts --no-interaction --prefer-dist --optimize-autoloader --no-progress --no-suggest
+
+      - name: Run Migration
+        run: |
+          php bin/console doctrine:migrations:migrate --env=test || echo "No migrations found or migration failed"
+          php bin/console doctrine:schema:update --env=test --dump-sql || echo "No migrations found or schema update failed"
+          php bin/console doctrine:schema:validate --env=test
+        env:
+          DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8
+
+      - name: Run phpunit tests
+        run: |
+          cp phpunit.xml.dist phpunit.xml
+          bin/console cache:warmup --env=test
+          bin/phpunit --configuration phpunit.xml tests
