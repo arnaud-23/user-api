@@ -11,11 +11,18 @@
             <generator strategy="AUTO"/>
         </id>
 
-        <field name="createdAt" type="datetimetz_immutable" column="created_at" unique="false"/>
         <field name="email" type="string" column="email" unique="false"/>
         <field name="firstName" type="string" column="first_name" unique="false"/>
         <field name="lastName" type="string" column="last_name" unique="false"/>
         <field name="uuid" type="string" column="uuid" unique="true"/>
+
+        <one-to-one field="securityCredential"
+                    target-entity="App\Entity\Security\User\UserSecurityCredentialImpl" mapped-by="user">
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+        </one-to-one>
 
     </entity>
 
