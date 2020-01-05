@@ -1,7 +1,13 @@
 security:
-  # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+
   providers:
-    in_memory: { memory: null }
+    user_provider:
+      id: 'App\Framework\Component\Security\User\UserProviderImpl'
+
+  encoders:
+    App\Entity\User\UserImpl:
+      algorithm: auto
+
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
