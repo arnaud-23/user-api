@@ -12,11 +12,13 @@ services:
             dockerfile: docker/php-fpm/Dockerfile
             args:
                 - PHP_VERSION=${PHP_VERSION}
-                - INSTALL_XDEBUG= true
                 - INSTALL_PGSQL= true
+                - INSTALL_XDEBUG= true
                 - INSTALL_YAML= true
                 - INSTALL_INTL= true
                 - INSTALL_APCU= true
+                - INSTALL_COMPOSER=true
+                - INSTALL_SYMFONY=false
                 - INSTALL_PHPDBG=false
                 - LOCALE=POSIX
                 - http_proxy
@@ -49,4 +51,4 @@ services:
         volumes:
             - postgres:/var/lib/postgresql/data
         ports:
-            - "5432:5432"
+            - "15432:5432"

@@ -19,7 +19,7 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*
 
 RUN set -eux; \
-    docker-php-ext-install pdo_pgsql; \
+#    docker-php-ext-install pdo_pgsql; \
     docker-php-ext-configure gd --prefix=/usr --with-jpeg --with-freetype; \
     docker-php-ext-install gd; \
     php -r 'var_dump(gd_info());'
@@ -48,7 +48,9 @@ RUN set -xe; \
 ARG INSTALL_PGSQL=false
 
 RUN if [ ${INSTALL_PGSQL} = true ]; then \
-    docker-php-ext-install pgsql \
+    docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql \
+#    docker-php-ext-install pgsql \
 ;fi
 
 ###########################################################################
@@ -118,6 +120,31 @@ RUN if [ ${INSTALL_YAML} = true ]; then \
 ;fi
 
 ###########################################################################
+# SYMFONY:
+###########################################################################
+
+ARG INSTALL_SYMFONY=false
+
+RUN if [ ${INSTALL_SYMFONY} = true ]; then \
+    curl -sS https://get.symfony.com/cli/installer | bash \
+    && mv ~/.symfony/bin/symfony /usr/local/bin/symfony
+;fi
+
+###########################################################################
+# SYMFONY:
+###########################################################################
+
+ARG INSTALL_COMPOSER=false
+
+RUN if [ ${INSTALL_COMPOSER} = true ]; then \
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+        && php -r "if (hash_file('SHA384', 'composer-setup.php') === 'c5b9b6d368201a9db6f74e2611495f369991b72d9c8cbd3ffbc63edff210eb73d46ffbfce88669ad33695ef77dc76976') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+        && php composer-setup.php --filename=composer \
+        && php -r "unlink('composer-setup.php');" \
+        && mv composer /usr/local/bin/composer
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
@@ -128,15 +155,6 @@ RUN set -xe; php -v | head -n 1 | grep -q "PHP ${PHP_VERSION}."
 # Final Touch
 #--------------------------------------------------------------------------
 #
-
-RUN curl -sS https://get.symfony.com/cli/installer | bash \
-    && mv ~/.symfony/bin/symfony /usr/local/bin/symfony
-
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php -r "if (hash_file('SHA384', 'composer-setup.php') === 'c5b9b6d368201a9db6f74e2611495f369991b72d9c8cbd3ffbc63edff210eb73d46ffbfce88669ad33695ef77dc76976') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
-    && php composer-setup.php --filename=composer \
-    && php -r "unlink('composer-setup.php');" \
-    && mv composer /usr/local/bin/composer
 
 USER root
 
