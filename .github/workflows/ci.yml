@@ -24,7 +24,7 @@ jobs:
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v1
         with:
-          php-version: 7.2
+          php-version: 7.4
           extensions: mbstring, xml, ctype, iconv, pgsql, redis, apcu, intl
           ini-values: memory_limit=512M, date.timezone = "Europe/Paris"
 
