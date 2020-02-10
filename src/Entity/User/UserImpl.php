@@ -21,7 +21,7 @@ class UserImpl extends User implements UserInterface
     /**
      * @inheritDoc
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         return $this->securityCredential->getRoles();
     }
@@ -29,7 +29,7 @@ class UserImpl extends User implements UserInterface
     /**
      * @inheritDoc
      */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->securityCredential->getPassword();
     }
@@ -37,7 +37,7 @@ class UserImpl extends User implements UserInterface
     /**
      * @inheritDoc
      */
-    public function getSalt()
+    public function getSalt(): string
     {
         return $this->securityCredential->getSalt();
     }
@@ -45,7 +45,7 @@ class UserImpl extends User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->securityCredential->getUsername();
     }
@@ -53,12 +53,12 @@ class UserImpl extends User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
-        return $this->securityCredential->eraseCredentials();
+        $this->securityCredential->eraseCredentials();
     }
 
-    protected function makeSecurityCredential()
+    protected function makeSecurityCredential(): void
     {
         $this->securityCredential = new UserSecurityCredentialImpl();
     }

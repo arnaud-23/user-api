@@ -42,7 +42,7 @@ abstract class User
         $this->makeSecurityCredential();
     }
 
-    abstract protected function makeSecurityCredential();
+    abstract protected function makeSecurityCredential(): void;
 
     public function getEmail(): string
     {

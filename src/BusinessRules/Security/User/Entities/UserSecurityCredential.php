@@ -53,7 +53,7 @@ abstract class UserSecurityCredential
 
     public function addRole(string $role): void
     {
-        if (!array_search($role, $this->roles)) {
+        if (!in_array($role, $this->roles)) {
             $this->roles[] = $role;
         }
     }

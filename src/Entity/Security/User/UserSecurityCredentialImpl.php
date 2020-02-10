@@ -10,7 +10,7 @@ class UserSecurityCredentialImpl extends UserSecurityCredential implements UserI
     /**
      * @see UserInterface
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         $this->getUser()->getEmail();
     }
