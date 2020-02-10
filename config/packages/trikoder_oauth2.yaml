@@ -15,15 +15,15 @@ trikoder_oauth2:
     auth_code_ttl:        PT10M
 
     enable_client_credentials_grant: true
-    enable_password_grant: true
+    enable_password_grant: false
     enable_refresh_token_grant: true
     enable_auth_code_grant: true
-    enable_implicit_grant: true
+    enable_implicit_grant: false
 
   resource_server:
     public_key: '%kernel.project_dir%/var/oauth/public.key'
 
-  scopes: []
+  scopes: [user_creation]
 
   persistence:
     doctrine:
