@@ -5,9 +5,9 @@ security:
       id: 'App\Framework\Component\Security\User\UserProviderImpl'
 
   encoders:
-    App\Entity/Security/User/UserSecurityCredentialImpl:
+    App\Entity\Security\User\UserSecurityCredentialImpl:
         algorithm: auto
-
+    #
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
