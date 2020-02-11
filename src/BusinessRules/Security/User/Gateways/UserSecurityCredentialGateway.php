@@ -15,4 +15,6 @@ interface UserSecurityCredentialGateway
      * @throws UserSecurityCredentialsNotFoundException
      */
     public function findByEmail(string $email): UserSecurityCredential;
+
+    public function insert(UserSecurityCredential $userSecurityCredential): void;
 }

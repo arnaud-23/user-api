@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PostUserController
@@ -37,16 +38,21 @@ class PostUserController
      */
     private $apiExceptionFactory;
 
+    /** @var Serializer */
+    private $serializer;
+
     public function __construct(
         UseCase $createUser,
         CreateUserRequestBuilder $createUserRequestBuilder,
         ValidatorInterface $validator,
-        ApiExceptionFactory $apiExceptionFactory
+        ApiExceptionFactory $apiExceptionFactory,
+        Serializer $serializer
     ) {
         $this->createUser = $createUser;
         $this->createUserRequestBuilder = $createUserRequestBuilder;
         $this->validator = $validator;
         $this->apiExceptionFactory = $apiExceptionFactory;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -54,21 +60,33 @@ class PostUserController
      */
     public function post(Request $request): JsonResponse
     {
-        $model = new PostUserModel($request->getContent());
-        $violations = $this->validator->validate($model);
-        if ($violations->count() > 0) {
-            throw $this->apiExceptionFactory->createFromViolations($violations);
-        }
+        $model = $this->validateRequest($request, PostUserModel::class);
 
         $this->createUser->execute(
             $this->createUserRequestBuilder
                 ->create($model->email)
                 ->withFirstName($model->firstName)
                 ->withLastName($model->lastName)
+                ->withPassword($model->password)
                 ->build()
         );
 
         return $this->createCreatedResponse();
+    }
+
+    /**
+     * @return array|object
+     */
+    private function validateRequest(Request $request, string $model)
+    {
+        $model = $this->serializer->deserialize($request->getContent(), $model, 'json');
+        $violations = $this->validator->validate($model);
+
+        if ($violations->count() > 0) {
+            throw $this->apiExceptionFactory->createFromViolations($violations);
+        }
+
+        return $model;
     }
 
     private function createCreatedResponse(): JsonResponse

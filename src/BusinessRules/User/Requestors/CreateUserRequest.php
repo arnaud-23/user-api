@@ -11,4 +11,6 @@ interface CreateUserRequest extends UseCaseRequest
     public function getFirstName(): string;
 
     public function getLastName(): string;
+
+    public function getPassword(): string;
 }

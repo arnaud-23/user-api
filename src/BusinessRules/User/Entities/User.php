@@ -2,8 +2,6 @@
 
 namespace App\BusinessRules\User\Entities;
 
-use App\BusinessRules\Security\User\Entities\UserSecurityCredential;
-
 abstract class User
 {
     /**
@@ -31,27 +29,14 @@ abstract class User
      */
     protected $uuid;
 
-    /**
-     * @var UserSecurityCredential
-     */
-    protected $securityCredential;
-
     public function __construct(string $email)
     {
         $this->email = $email;
-        $this->makeSecurityCredential();
     }
-
-    abstract protected function makeSecurityCredential(): void;
 
     public function getEmail(): string
     {
         return $this->email;
-    }
-
-    public function setEmail(string $email): void
-    {
-        $this->email = $email;
     }
 
     public function getFirstName(): string

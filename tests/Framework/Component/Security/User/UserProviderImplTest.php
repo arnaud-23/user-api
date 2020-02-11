@@ -2,20 +2,18 @@
 
 namespace App\Tests\Framework\Component\Security\User;
 
-use App\Entity\User\UserImpl;
+use App\Entity\Security\User\UserSecurityCredentialImpl;
 use App\Framework\Component\Security\User\UserProviderImpl;
+use App\Tests\Doubles\Assert;
 use App\Tests\Doubles\BusinessRules\Security\User\Entities\UserSecurityCredentialStub;
 use App\Tests\Doubles\BusinessRules\Security\User\Gateways\InMemoryUserSecurityGateway;
 use App\Tests\Doubles\BusinessRules\User\Entities\UserStub;
-use App\Tests\Doubles\BusinessRules\User\Entities\UserTestCase;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 final class UserProviderImplTest extends TestCase
 {
-    use UserTestCase;
-
     /** @var UserProviderImpl */
     private $provider;
 
@@ -33,7 +31,7 @@ final class UserProviderImplTest extends TestCase
      */
     public function supportedUserClassReturnTrue(): void
     {
-        $result = $this->provider->supportsClass(UserImpl::class);
+        $result = $this->provider->supportsClass(UserSecurityCredentialImpl::class);
         $this->assertTrue($result);
     }
 
@@ -56,7 +54,7 @@ final class UserProviderImplTest extends TestCase
     {
         $user = $this->provider->loadUserByUsername(UserStub::EMAIL);
 
-        $this->assertUser(new UserStub(), $user);
+        Assert::assertObjectsEquals(new UserStub(), $user);
     }
 
     /**
@@ -78,7 +76,7 @@ final class UserProviderImplTest extends TestCase
         $this->expectExceptionMessage("User id '236543' not exist.");
 
         InMemoryUserSecurityGateway::$userSecurityCredentials = [];
-        $this->provider->refreshUser(new UserStub());
+        $this->provider->refreshUser(new UserSecurityCredentialStub());
     }
 
     /**
@@ -86,9 +84,9 @@ final class UserProviderImplTest extends TestCase
      */
     public function refreshReturnUser(): void
     {
-        $user = $this->provider->refreshUser(new UserStub());
+        $user = $this->provider->refreshUser(new UserSecurityCredentialStub());
 
-        $this->assertUser(new UserStub(), $user);
+        Assert::assertObjectsEquals(new UserStub(), $user);
     }
 
     protected function setUp(): void

@@ -39,4 +39,9 @@ class InMemoryUserSecurityGateway implements UserSecurityCredentialGateway
 
         throw new UserSecurityCredentialsNotFoundException();
     }
+
+    public function insert(UserSecurityCredential $userSecurityCredential): void
+    {
+        self::$userSecurityCredentials[] = $userSecurityCredential;
+    }
 }

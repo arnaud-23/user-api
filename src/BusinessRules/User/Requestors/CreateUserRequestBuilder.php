@@ -11,4 +11,6 @@ interface CreateUserRequestBuilder
     public function withFirstName(string $firstName): CreateUserRequestBuilder;
 
     public function withLastName(string $lastName): CreateUserRequestBuilder;
+
+    public function withPassword(string $password): CreateUserRequestBuilder;
 }

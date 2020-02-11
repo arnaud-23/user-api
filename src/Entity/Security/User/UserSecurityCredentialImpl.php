@@ -12,13 +12,13 @@ class UserSecurityCredentialImpl extends UserSecurityCredential implements UserI
      */
     public function getUsername(): string
     {
-        $this->getUser()->getEmail();
+        return $this->getUser()->getEmail();
     }
 
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;

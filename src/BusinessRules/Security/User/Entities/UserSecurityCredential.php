@@ -22,14 +22,10 @@ abstract class UserSecurityCredential
     /** @var User */
     protected $user;
 
-    public function __construct()
+    public function __construct(User $user)
     {
         $this->createdAt = CarbonImmutable::now();
-    }
-
-    public function getCreatedAt(): \DateTimeInterface
-    {
-        return $this->createdAt;
+        $this->user = $user;
     }
 
     public function getPassword(): string
@@ -37,10 +33,9 @@ abstract class UserSecurityCredential
         return $this->password;
     }
 
-    public function setPassword(string $password, string $salt): void
+    public function setPassword(string $password): void
     {
         $this->password = $password;
-        $this->salt = $salt;
     }
 
     public function getRoles(): array
@@ -70,8 +65,18 @@ abstract class UserSecurityCredential
         return $this->salt;
     }
 
+    public function setSalt(string $salt): void
+    {
+        $this->salt = $salt;
+    }
+
     public function getUser(): User
     {
         return $this->user;
+    }
+
+    public function getUserId(): int
+    {
+        return $this->user->getId();
     }
 }

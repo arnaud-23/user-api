@@ -2,6 +2,9 @@
 
 namespace App\BusinessRules\User\UseCases;
 
+use App\BusinessRules\Security\User\Entities\UserSecurityCredential;
+use App\BusinessRules\Security\User\Entities\UserSecurityCredentialFactory;
+use App\BusinessRules\Security\User\Gateways\UserSecurityCredentialGateway;
 use App\BusinessRules\UseCase;
 use App\BusinessRules\UseCaseRequest;
 use App\BusinessRules\User\Entities\User;
@@ -24,6 +27,16 @@ class CreateUser implements UseCase
     private $userGateway;
 
     /**
+     * @var UserSecurityCredentialFactory
+     */
+    private $userSecurityCredentialFactory;
+
+    /**
+     * @var UserSecurityCredentialGateway
+     */
+    private $userSecurityCredentialGateway;
+
+    /**
      * @var UserResponseAssembler
      */
     private $userResponseAssembler;
@@ -31,10 +44,14 @@ class CreateUser implements UseCase
     public function __construct(
         UserFactory $userFactory,
         UserGateway $userGateway,
+        UserSecurityCredentialFactory $userSecurityCredentialFactory,
+        UserSecurityCredentialGateway $userSecurityCredentialGateway,
         UserResponseAssembler $userResponseAssembler
     ) {
         $this->userFactory = $userFactory;
         $this->userGateway = $userGateway;
+        $this->userSecurityCredentialFactory = $userSecurityCredentialFactory;
+        $this->userSecurityCredentialGateway = $userSecurityCredentialGateway;
         $this->userResponseAssembler = $userResponseAssembler;
     }
 
@@ -44,7 +61,9 @@ class CreateUser implements UseCase
     public function execute(UseCaseRequest $useCaseRequest): UserResponse
     {
         $user = $this->buildUser($useCaseRequest);
-        $this->save($user);
+        $credentials = $this->buildSecurityCredentials($useCaseRequest, $user);
+
+        $this->save($user, $credentials);
 
         return $this->userResponseAssembler->create($user);
     }
@@ -58,8 +77,14 @@ class CreateUser implements UseCase
         return $user;
     }
 
-    private function save(User $user): void
+    private function buildSecurityCredentials(UseCaseRequest $useCaseRequest, User $user): UserSecurityCredential
+    {
+        return $this->userSecurityCredentialFactory->create($user, $useCaseRequest->getPassword());
+    }
+
+    private function save(User $user, UserSecurityCredential $credentials): void
     {
         $this->userGateway->insert($user);
+        $this->userSecurityCredentialGateway->insert($credentials);
     }
 }

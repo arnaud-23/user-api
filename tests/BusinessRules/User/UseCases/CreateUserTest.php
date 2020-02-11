@@ -2,22 +2,25 @@
 
 namespace App\BusinessRules\User\UseCases;
 
+use App\BusinessRules\Security\User\Entities\UserSecurityCredential;
 use App\BusinessRules\User\Requestors\CreateUserRequest;
-use App\BusinessRules\User\Responders\UserResponse;
 use App\BusinessRules\User\UseCases\DTO\Request\CreateUserRequestBuilderImpl;
 use App\BusinessRules\User\UseCases\DTO\Request\CreateUserRequestDTO;
 use App\BusinessRules\User\UseCases\DTO\Response\UserResponseAssemblerImpl;
+use App\Entity\Security\User\UserSecurityCredentialFactoryImpl;
 use App\Entity\User\UserFactoryImpl;
+use App\Tests\Doubles\Assert;
+use App\Tests\Doubles\BusinessRules\Security\User\Entities\UserSecurityCredentialStub;
+use App\Tests\Doubles\BusinessRules\Security\User\Gateways\InMemoryUserSecurityGateway;
 use App\Tests\Doubles\BusinessRules\User\Entities\UserStub;
-use App\Tests\Doubles\BusinessRules\User\Entities\UserTestCase;
 use App\Tests\Doubles\BusinessRules\User\Gateways\InMemoryUserGateway;
 use App\Tests\Doubles\BusinessRules\User\Responders\UserResponseStub;
-use PHPUnit\Framework\Assert;
+use App\Tests\Doubles\Symfony\Component\Security\Core\Encoder\UserPasswordEncoderMock;
 use PHPUnit\Framework\TestCase;
 
 class CreateUserTest extends TestCase
 {
-    use UserTestCase;
+    const ENCODED_PASSWORD = 'encodedPassword';
 
     /**
      * @var CreateUserRequestDTO
@@ -34,22 +37,19 @@ class CreateUserTest extends TestCase
      */
     final public function createUserSaveAndReturnUser(): void
     {
+        UserPasswordEncoderMock::$encodedPassword = self::ENCODED_PASSWORD;
         InMemoryUserGateway::$id = UserStub::ID;
         InMemoryUserGateway::$uuid = UserStub::UUID;
 
         $response = $this->useCase->execute($this->request);
 
-        $this->assertUser(new UserStub(), InMemoryUserGateway::$users->first());
-        $this->assertUserResponse(new UserResponseStub(), $response);
-    }
-
-    private function assertUserResponse(UserResponse $expected, UserResponse $actual): void
-    {
-        Assert::assertSame($expected->getEmail(), $actual->getEmail());
-        Assert::assertSame($expected->getFirstName(), $actual->getFirstName());
-        Assert::assertSame($expected->getId(), $actual->getId());
-        Assert::assertSame($expected->getLastName(), $actual->getLastName());
-        Assert::assertSame($expected->getUuid(), $actual->getUuid());
+        Assert::assertObjectsEquals(new UserStub(), reset(InMemoryUserGateway::$users));
+        Assert::assertObjectsEquals(new UserResponseStub(), $response);
+        /** @var UserSecurityCredential $credentials */
+        $credentials = reset(InMemoryUserSecurityGateway::$userSecurityCredentials);
+        Assert::assertSame(self::ENCODED_PASSWORD, $credentials->getPassword());
+        Assert::assertIsString($credentials->getSalt());
+        Assert::assertObjectsEquals(new UserStub(), $credentials->getUser());
     }
 
     protected function setUp(): void
@@ -59,6 +59,8 @@ class CreateUserTest extends TestCase
         $this->useCase = new CreateUser(
             new UserFactoryImpl(),
             new InMemoryUserGateway(),
+            new UserSecurityCredentialFactoryImpl(new UserPasswordEncoderMock()),
+            new InMemoryUserSecurityGateway(),
             new UserResponseAssemblerImpl()
         );
     }
@@ -69,6 +71,7 @@ class CreateUserTest extends TestCase
             ->create(UserStub::EMAIL)
             ->withFirstName(UserStub::FIRST_NAME)
             ->withLastName(UserStub::LAST_NAME)
+            ->withPassword(UserSecurityCredentialStub::PASSWORD)
             ->build();
     }
 }

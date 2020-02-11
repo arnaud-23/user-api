@@ -5,13 +5,11 @@ namespace App\Tests\Doubles\BusinessRules\User\Gateways;
 use App\BusinessRules\User\Entities\User;
 use App\BusinessRules\User\Gateways\UserGateway;
 use App\Tests\Doubles\BusinessRules\EntityModifier;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 class InMemoryUserGateway implements UserGateway
 {
     /**
-     * @var User[]|Collection
+     * @var User[]
      */
     public static $users = [];
 
@@ -30,7 +28,7 @@ class InMemoryUserGateway implements UserGateway
      */
     public function __construct(array $users = [])
     {
-        self::$users = new ArrayCollection($users);
+        self::$users = $users;
         self::$id = 0;
         self::$uuid = '';
     }
@@ -40,6 +38,6 @@ class InMemoryUserGateway implements UserGateway
         EntityModifier::setId($user, self::$id);
         EntityModifier::setProperty($user, 'uuid', self::$uuid);
 
-        self::$users->add($user);
+        self::$users[] = $user;
     }
 }

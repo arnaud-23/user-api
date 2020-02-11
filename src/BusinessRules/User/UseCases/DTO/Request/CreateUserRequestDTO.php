@@ -21,6 +21,11 @@ class CreateUserRequestDTO implements CreateUserRequest
      */
     public $lastName;
 
+    /**
+     * @var string
+     */
+    public $password;
+
     public function __construct(string $email)
     {
         $this->email = $email;
@@ -39,5 +44,10 @@ class CreateUserRequestDTO implements CreateUserRequest
     public function getLastName(): string
     {
         return $this->lastName;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
     }
 }

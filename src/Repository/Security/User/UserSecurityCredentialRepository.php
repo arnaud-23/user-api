@@ -43,4 +43,10 @@ class UserSecurityCredentialRepository extends ServiceEntityRepository implement
             throw new UserSecurityCredentialsNotFoundException();
         }
     }
+
+    public function insert(UserSecurityCredential $userSecurityCredential): void
+    {
+        $this->getEntityManager()->persist($userSecurityCredential);
+        $this->getEntityManager()->flush($userSecurityCredential);
+    }
 }
