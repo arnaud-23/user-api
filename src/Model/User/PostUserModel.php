@@ -31,11 +31,11 @@ class PostUserModel
      */
     public $lastName;
 
-    public function __construct(string $jsonContent)
-    {
-        $content = json_decode($jsonContent, true);
-        $this->email = $content['email'] ?? null;
-        $this->firstName = $content['firstName'] ?? null;
-        $this->lastName = $content['lastName'] ?? null;
-    }
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank()
+     * @Assert\Regex(pattern= "/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,}$/",)
+     */
+    public $password;
 }

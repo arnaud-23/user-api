@@ -4,19 +4,16 @@
                   xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="App\Entity\User\UserImpl" table="app_user"
-            repository-class="App\Repository\User\UserRepository">
+    <entity name="App\Entity\User\UserImpl" table="app_user" repository-class="App\Repository\User\UserRepository">
 
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
         </id>
 
-        <field name="createdAt" type="datetimetz_immutable" column="created_at" unique="false"/>
-        <field name="email" type="string" column="email" unique="false"/>
-        <field name="firstName" type="string" column="first_name" unique="false"/>
-        <field name="lastName" type="string" column="last_name" unique="false"/>
-        <field name="uuid" type="string" column="uuid" unique="true"/>
-
+        <field name="email" type="string" column="email" unique="false" nullable="false"/>
+        <field name="firstName" type="string" column="first_name" unique="false" nullable="false"/>
+        <field name="lastName" type="string" column="last_name" unique="false" nullable="false"/>
+        <field name="uuid" type="string" column="uuid" unique="true" nullable="false"/>
     </entity>
 
 </doctrine-mapping>

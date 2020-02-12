@@ -37,4 +37,11 @@ class CreateUserRequestBuilderImpl implements CreateUserRequestBuilder
 
         return $this;
     }
+
+    public function withPassword(string $password): CreateUserRequestBuilder
+    {
+        $this->request->password = $password;
+
+        return $this;
+    }
 }

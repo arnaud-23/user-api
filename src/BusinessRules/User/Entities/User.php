@@ -5,11 +5,6 @@ namespace App\BusinessRules\User\Entities;
 abstract class User
 {
     /**
-     * @var \DateTimeInterface
-     */
-    protected $createdAt;
-
-    /**
      * @var string
      */
     protected $email;
@@ -44,11 +39,6 @@ abstract class User
         return $this->email;
     }
 
-    public function setEmail(string $email): void
-    {
-        $this->email = $email;
-    }
-
     public function getFirstName(): string
     {
         return $this->firstName;
@@ -59,7 +49,7 @@ abstract class User
         $this->firstName = $firstName;
     }
 
-    public function getId(): string
+    public function getId(): int
     {
         return $this->id;
     }
