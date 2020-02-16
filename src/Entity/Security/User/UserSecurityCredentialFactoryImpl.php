@@ -24,15 +24,17 @@ final class UserSecurityCredentialFactoryImpl implements UserSecurityCredentialF
     {
         $userSecurityCredential = new UserSecurityCredentialImpl($user);
         $userSecurityCredential->setSalt($this->generateSalt());
-        $encodedPassword = $this->getEncodedPassword($password, $userSecurityCredential);
+        $encodedPassword = $this->getEncodedPassword($userSecurityCredential, $password);
         $userSecurityCredential->setPassword($encodedPassword);
 
         return $userSecurityCredential;
     }
 
-    private function getEncodedPassword(string $password, UserInterface $userSecurityCredential): string
+    private function getEncodedPassword(UserInterface $userSecurityCredential, string $plainPassword): string
     {
-        return $this->userPasswordEncoder->encodePassword($userSecurityCredential, $password);
+        $raw = sprintf($userSecurityCredential->getSalt(), $plainPassword);
+
+        return $this->userPasswordEncoder->encodePassword($userSecurityCredential, $raw);
     }
 
     private function generateSalt(): string
