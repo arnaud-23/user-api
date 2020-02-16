@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use App\Migrations\MigrationHelper;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -12,19 +13,11 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20200211235635 extends AbstractMigration
 {
-    public function getDescription(): string
-    {
-        return '';
-    }
+    use MigrationHelper;
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() !== 'postgresql',
-            'Migration can only be executed safely on \'postgresql\'.'
-        );
-
+        $this->abortIfNotPostgresqlDatabase();
         $this->addSql(
             'CREATE TABLE app_user_security_credential (
                 user_id INT NOT NULL, 
@@ -41,17 +34,14 @@ final class Version20200211235635 extends AbstractMigration
             'ALTER TABLE app_user_security_credential ADD CONSTRAINT FK_36A80DF0A76ED395 FOREIGN KEY (user_id) 
                 REFERENCES app_user (id) NOT DEFERRABLE INITIALLY IMMEDIATE'
         );
+
+        $this->addSql('ALTER TABLE app_user DROP created_at;');
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() !== 'postgresql',
-            'Migration can only be executed safely on \'postgresql\'.'
-        );
-
-        $this->addSql('CREATE SCHEMA public');
+        $this->abortIfNotPostgresqlDatabase();
         $this->addSql('DROP TABLE app_user_security_credential');
+        $this->addSql('ALTER TABLE app_user ADD COLUMN created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL');
     }
 }

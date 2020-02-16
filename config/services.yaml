@@ -6,12 +6,16 @@ services:
     autoconfigure: true
 
     bind:
-      App\BusinessRules\UseCase $createUser: '@App\BusinessRules\User\UseCases\CreateUser'
+        App\BusinessRules\UseCase $createUser: '@App\BusinessRules\User\UseCases\CreateUser'
 
   App\:
-    resource: '../src/*'
-    exclude: '../src/{DependencyInjection,Migrations,Tests,Kernel.php}'
+      resource: '../src/*'
+      exclude: '../src/{DependencyInjection,Migrations,Tests,Kernel.php}'
 
   App\Controller\:
-    resource: '../src/Controller'
-    tags: ['controller.service_arguments']
+      resource: '../src/Controller'
+      tags: ['controller.service_arguments']
+
+  App\EventListener\Framework\Trikoder\OAuth2\UserResolveListener:
+      tags:
+          - { name: kernel.event_listener, event: trikoder.oauth2.user_resolve, method: onUserResolve }
