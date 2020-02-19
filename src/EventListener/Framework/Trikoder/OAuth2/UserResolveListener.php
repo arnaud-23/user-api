@@ -6,6 +6,7 @@ namespace App\EventListener\Framework\Trikoder\OAuth2;
 
 use App\BusinessRules\Security\User\Gateways\UserSecurityCredentialGateway;
 use App\BusinessRules\User\Entities\User;
+use App\Entity\Security\User\UserSecurityCredentialImpl;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Trikoder\Bundle\OAuth2Bundle\Event\UserResolveEvent;
@@ -39,14 +40,14 @@ final class UserResolveListener
 
     public function onUserResolve(UserResolveEvent $event): void
     {
-        /** @var User $user */
-        $user = $this->userProvider->loadUserByUsername($event->getUsername());
+        /** @var UserSecurityCredentialImpl $userSecurityCredential */
+        $userSecurityCredential = $this->userProvider->loadUserByUsername($event->getUsername());
 
-        if (null === $user) {
+        if (null === $userSecurityCredential) {
             return;
         }
 
-        $userSecurityCredential = $this->userSecurityCredentialGateway->findById($user->getId());
+        $userSecurityCredential = $this->userSecurityCredentialGateway->findById($userSecurityCredential->getUserId());
 
         $raw = sprintf($userSecurityCredential->getSalt(), $event->getPassword());
 

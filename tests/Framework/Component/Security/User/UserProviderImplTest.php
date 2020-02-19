@@ -54,7 +54,7 @@ final class UserProviderImplTest extends TestCase
     {
         $user = $this->provider->loadUserByUsername(UserStub::EMAIL);
 
-        Assert::assertObjectsEquals(new UserStub(), $user);
+        Assert::assertObjectsEquals(new UserSecurityCredentialStub(), $user);
     }
 
     /**
@@ -86,7 +86,7 @@ final class UserProviderImplTest extends TestCase
     {
         $user = $this->provider->refreshUser(new UserSecurityCredentialStub());
 
-        Assert::assertObjectsEquals(new UserStub(), $user);
+        Assert::assertObjectsEquals(new UserSecurityCredentialStub(), $user);
     }
 
     protected function setUp(): void

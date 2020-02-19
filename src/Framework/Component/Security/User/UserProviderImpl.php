@@ -4,7 +4,6 @@ namespace App\Framework\Component\Security\User;
 
 use App\BusinessRules\Security\User\Gateways\UserSecurityCredentialGateway;
 use App\BusinessRules\Security\User\Gateways\UserSecurityCredentialsNotFoundException;
-use App\BusinessRules\User\Entities\User;
 use App\Entity\Security\User\UserSecurityCredentialImpl;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -24,12 +23,10 @@ class UserProviderImpl implements UserProviderInterface
     /**
      * @inheritDoc
      */
-    public function loadUserByUsername($email): User
+    public function loadUserByUsername($email): UserInterface
     {
         try {
-            $userSecurityCredential = $this->userSecurityCredentialGateway->findByEmail($email);
-
-            return $userSecurityCredential->getUser();
+            return $this->userSecurityCredentialGateway->findByEmail($email);
         } catch (UserSecurityCredentialsNotFoundException $e) {
             throw new UsernameNotFoundException("User does not exist with this email: '{$email}'");
         }
@@ -38,16 +35,15 @@ class UserProviderImpl implements UserProviderInterface
     /**
      * @inheritDoc
      */
-    public function refreshUser(UserInterface $user): User
+    public function refreshUser(UserInterface $user): UserInterface
     {
         try {
             if (!$user instanceof UserSecurityCredentialImpl) {
                 $class = get_class($user);
                 throw new UnsupportedUserException("Instances of '{$class}' are not supported.");
             }
-            $userSecurityCredential = $this->userSecurityCredentialGateway->findById($user->getUserId());
 
-            return $userSecurityCredential->getUser();
+            return $this->userSecurityCredentialGateway->findById($user->getUserId());
         } catch (UserSecurityCredentialsNotFoundException $e) {
             throw new UsernameNotFoundException("User id '{$user->getUserId()}' not exist.");
         }
