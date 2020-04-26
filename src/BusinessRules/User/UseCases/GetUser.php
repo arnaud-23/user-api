@@ -6,7 +6,6 @@ namespace App\BusinessRules\User\UseCases;
 
 use App\BusinessRules\UseCase;
 use App\BusinessRules\UseCaseRequest;
-use App\BusinessRules\UseCaseResponse;
 use App\BusinessRules\User\Entities\User;
 use App\BusinessRules\User\Gateways\UserGateway;
 use App\BusinessRules\User\Requestors\GetUserRequest;
@@ -28,7 +27,7 @@ final class GetUser implements UseCase
     /**
      * @param GetUserRequest $useCaseRequest
      */
-    public function execute(UseCaseRequest $useCaseRequest): UseCaseResponse
+    public function execute(UseCaseRequest $useCaseRequest): UserResponse
     {
         $user = $this->getUser($useCaseRequest);
 
