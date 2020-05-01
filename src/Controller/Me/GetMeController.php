@@ -8,9 +8,11 @@ use App\BusinessRules\User\Requestors\GetUserRequestBuilder;
 use App\BusinessRules\User\Responders\UserResponse;
 use App\BusinessRules\User\UseCases\GetUser;
 use App\Controller\ResponseTrait;
+use App\ViewModels\User\UserViewModel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Serializer;
 
 final class GetMeController extends AbstractController
 {
@@ -31,9 +33,12 @@ final class GetMeController extends AbstractController
      */
     public function getAction(): JsonResponse
     {
+
         $response = $this->getUserUseCase();
 
-        return $this->createOKResponse();
+        $vm = UserViewModel::create($response);
+
+        return $this->createOKResponse($vm);
     }
 
     private function getUserUseCase(): UserResponse

@@ -23,11 +23,6 @@ trait ValidationRequestControllerTrait
     private $apiExceptionFactory;
 
     /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
-    /**
      * @Required
      */
     public function setValidator(ValidatorInterface $validator): void
@@ -41,14 +36,6 @@ trait ValidationRequestControllerTrait
     public function setApiExceptionFactory(ApiExceptionFactory $apiExceptionFactory): void
     {
         $this->apiExceptionFactory = $apiExceptionFactory;
-    }
-
-    /**
-     * @Required
-     */
-    public function setSerializer(SerializerInterface $serializer): void
-    {
-        $this->serializer = $serializer;
     }
 
     /**
