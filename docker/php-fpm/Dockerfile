@@ -19,7 +19,6 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*
 
 RUN set -eux; \
-#    docker-php-ext-install pdo_pgsql; \
     docker-php-ext-configure gd --prefix=/usr --with-jpeg --with-freetype; \
     docker-php-ext-install gd; \
     php -r 'var_dump(gd_info());'
@@ -27,6 +26,8 @@ RUN set -eux; \
 # always run apt update when start and after add new source list, then clean up at end.
 RUN set -xe; \
     apt-get update -yqq && \
+    apt-get -y install sudo && \
+    useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo && \
     pecl channel-update pecl.php.net && \
     apt-get install -yqq \
     apt-utils \
@@ -42,6 +43,86 @@ RUN set -xe; \
 #
 
 ###########################################################################
+# AMQP:
+###########################################################################
+
+ARG INSTALL_AMQP=false
+
+RUN if [ ${INSTALL_AMQP} = true ]; then \
+    # download and install manually, to make sure it's compatible with ampq installed by pecl later
+    # install cmake first
+    apt-get -y install cmake && \
+    curl -L -o /tmp/rabbitmq-c.tar.gz https://github.com/alanxz/rabbitmq-c/archive/master.tar.gz && \
+    mkdir -p rabbitmq-c && \
+    tar -C rabbitmq-c -zxvf /tmp/rabbitmq-c.tar.gz --strip 1 && \
+    cd rabbitmq-c/ && \
+    mkdir _build && cd _build/ && \
+    cmake .. && \
+    cmake --build . --target install && \
+    # Install the amqp extension
+    pecl install amqp && \
+    docker-php-ext-enable amqp && \
+    # Install the sockets extension
+    docker-php-ext-install sockets \
+;fi
+
+###########################################################################
+# APCU:
+###########################################################################
+
+ARG INSTALL_APCU=false
+
+RUN if [ ${INSTALL_APCU} = true ]; then \
+    pecl install apcu; \
+    docker-php-ext-enable apcu \
+;fi
+
+###########################################################################
+# Blackfire:
+###########################################################################
+
+ARG INSTALL_BLACKFIRE=false
+
+RUN if [ ${INSTALL_BLACKFIRE} = true ]; then \
+    curl https://installer.blackfire.io | bash \
+;fi
+
+###########################################################################
+# COMPOSER:
+###########################################################################
+
+ARG INSTALL_COMPOSER=false
+
+RUN if [ ${INSTALL_COMPOSER} = true ]; then \
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+        && php -r "if (hash_file('SHA384', 'composer-setup.php') === 'e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+        && php composer-setup.php --filename=composer \
+        && php -r "unlink('composer-setup.php');" \
+        && mv composer /usr/local/bin/composer \
+;fi
+
+###########################################################################
+# GIT:
+###########################################################################
+
+ARG INSTALL_GIT=false
+
+RUN if [ ${INSTALL_GIT} = true ]; then \
+    apt-get install -y git \
+;fi
+###########################################################################
+# Human Language and Character Encoding Support:
+###########################################################################
+
+ARG INSTALL_INTL=false
+
+RUN if [ ${INSTALL_INTL} = true ]; then \
+    apt-get install -y zlib1g-dev libicu-dev g++ && \
+    docker-php-ext-configure intl && \
+    docker-php-ext-install intl \
+;fi
+
+###########################################################################
 # pgsql
 ###########################################################################
 
@@ -50,7 +131,41 @@ ARG INSTALL_PGSQL=false
 RUN if [ ${INSTALL_PGSQL} = true ]; then \
     docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install pdo pdo_pgsql pgsql \
-#    docker-php-ext-install pgsql \
+;fi
+
+###########################################################################
+# Phpdbg:
+###########################################################################
+
+ARG INSTALL_PHPDBG=false
+
+RUN if [ ${INSTALL_PHPDBG} = true ]; then \
+    # Load the xdebug extension only with phpunit commands
+    apt-get install -y --force-yes php${PHP_VERSION}-phpdbg \
+;fi
+
+###########################################################################
+# PHP REDIS EXTENSION
+###########################################################################
+
+ARG INSTALL_PHPREDIS=false
+
+RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
+    # Install Php Redis Extension
+    pecl install -o -f redis; \
+    rm -rf /tmp/pear \
+    && docker-php-ext-enable redis \
+;fi
+
+###########################################################################
+# SYMFONY:
+###########################################################################
+
+ARG INSTALL_SYMFONY=false
+
+RUN if [ ${INSTALL_SYMFONY} = true ]; then \
+    curl -sS https://get.symfony.com/cli/installer | bash \
+    && mv ~/.symfony/bin/symfony /usr/local/bin/symfony \
 ;fi
 
 ###########################################################################
@@ -72,37 +187,15 @@ RUN sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /usr/local/e
     sed -i "s/xdebug.cli_color=0/xdebug.cli_color=1/" /usr/local/etc/php/conf.d/xdebug.ini
 
 ###########################################################################
-# Phpdbg:
+# XSL:
 ###########################################################################
 
-ARG INSTALL_PHPDBG=false
+ARG INSTALL_XSL=false
 
-RUN if [ ${INSTALL_PHPDBG} = true ]; then \
-    # Load the xdebug extension only with phpunit commands
-    apt-get install -y --force-yes php${PHP_VERSION}-phpdbg \
-;fi
-
-###########################################################################
-# Human Language and Character Encoding Support:
-###########################################################################
-
-ARG INSTALL_INTL=false
-
-RUN if [ ${INSTALL_INTL} = true ]; then \
-    apt-get install -y zlib1g-dev libicu-dev g++ && \
-    docker-php-ext-configure intl && \
-    docker-php-ext-install intl \
-;fi
-
-###########################################################################
-# APCU:
-###########################################################################
-
-ARG INSTALL_APCU=false
-
-RUN if [ ${INSTALL_APCU} = true ]; then \
-    pecl install apcu; \
-    docker-php-ext-enable apcu \
+RUN if [ ${INSTALL_XSL} = true ]; then \
+    # Install the xsl extension
+    apt-get -y install libxslt-dev && \
+    docker-php-ext-install xsl \
 ;fi
 
 ###########################################################################
@@ -120,28 +213,17 @@ RUN if [ ${INSTALL_YAML} = true ]; then \
 ;fi
 
 ###########################################################################
-# SYMFONY:
+# YARN:
 ###########################################################################
 
-ARG INSTALL_SYMFONY=false
+ARG INSTALL_YARN=false
 
-RUN if [ ${INSTALL_SYMFONY} = true ]; then \
-    curl -sS https://get.symfony.com/cli/installer | bash \
-    && mv ~/.symfony/bin/symfony /usr/local/bin/symfony \
-;fi
-
-###########################################################################
-# SYMFONY:
-###########################################################################
-
-ARG INSTALL_COMPOSER=false
-
-RUN if [ ${INSTALL_COMPOSER} = true ]; then \
-    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-        && php -r "if (hash_file('SHA384', 'composer-setup.php') === 'e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
-        && php composer-setup.php --filename=composer \
-        && php -r "unlink('composer-setup.php');" \
-        && mv composer /usr/local/bin/composer \
+RUN if [ ${INSTALL_YARN} = true ]; then \
+    curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get install -qq -y build-essential nodejs yarn &&  \
+    yarn install \
 ;fi
 
 ###########################################################################
@@ -166,12 +248,6 @@ RUN apt-get clean && \
 # Configure non-root user.
 RUN groupmod -o -g 1000 www-data && \
     usermod -o -u 1000 -g www-data www-data
-
-# Adding the faketime library to the preload file needs to be done last
-# otherwise it will preload it for all commands that follow in this file
-RUN if [ ${INSTALL_FAKETIME} = true ]; then \
-    echo "/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1" > /etc/ld.so.preload \
-;fi
 
 # Configure locale.
 ARG LOCALE=POSIX

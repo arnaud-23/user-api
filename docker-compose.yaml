@@ -12,14 +12,21 @@ services:
             dockerfile: docker/php-fpm/Dockerfile
             args:
                 - PHP_VERSION=${PHP_VERSION}
-                - INSTALL_PGSQL= true
-                - INSTALL_XDEBUG= true
-                - INSTALL_YAML= true
-                - INSTALL_INTL= true
+                - INSTALL_AMQP= false
                 - INSTALL_APCU= true
-                - INSTALL_COMPOSER=true
-                - INSTALL_SYMFONY=false
-                - INSTALL_PHPDBG=false
+                - INSTALL_BLACKFIRE= false
+                - INSTALL_COMPOSER= true
+                - INSTALL_GIT= true
+                - INSTALL_INTL= true
+                - INSTALL_NODE= false
+                - INSTALL_PGSQL= true
+                - INSTALL_PHPDBG= false
+                - INSTALL_PHPREDIS= false
+                - INSTALL_SYMFONY= true
+                - INSTALL_XDEBUG= true
+                - INSTALL_XSL= true
+                - INSTALL_YAML= true
+                - INSTALL_YARN= false
                 - LOCALE=POSIX
                 - http_proxy
                 - https_proxy
