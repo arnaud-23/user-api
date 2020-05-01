@@ -79,4 +79,9 @@ abstract class UserSecurityCredential
     {
         return $this->user->getId();
     }
+
+    public function getId(): int
+    {
+        return $this->user->getId();
+    }
 }

@@ -7,13 +7,11 @@ use App\Tests\Doubles\BusinessRules\User\Entities\UserStub;
 
 class UserResponseStub extends UserResponseDTO
 {
-    public $email = UserStub::EMAIL;
+    public string $email = UserStub::EMAIL;
 
-    public $firstName = UserStub::FIRST_NAME;
+    public string $firstName = UserStub::FIRST_NAME;
 
-    public $id = UserStub::ID;
+    public string $lastName = UserStub::LAST_NAME;
 
-    public $lastName = UserStub::LAST_NAME;
-
-    public $uuid = UserStub::UUID;
+    public string $uuid = UserStub::UUID;
 }

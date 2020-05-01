@@ -4,6 +4,7 @@ namespace App\Tests\Doubles\BusinessRules\User\Gateways;
 
 use App\BusinessRules\User\Entities\User;
 use App\BusinessRules\User\Gateways\UserGateway;
+use App\BusinessRules\User\Gateways\UserNotFoundException;
 use App\Tests\Doubles\BusinessRules\EntityModifier;
 
 class InMemoryUserGateway implements UserGateway
@@ -11,17 +12,11 @@ class InMemoryUserGateway implements UserGateway
     /**
      * @var User[]
      */
-    public static $users = [];
+    public static array $users = [];
 
-    /**
-     * @var int
-     */
-    public static $id = 0;
+    public static int $id = 0;
 
-    /**
-     * @var string
-     */
-    public static $uuid = '';
+    public static string $uuid = '';
 
     /**
      * @param User[] $users
@@ -39,5 +34,14 @@ class InMemoryUserGateway implements UserGateway
         EntityModifier::setProperty($user, 'uuid', self::$uuid);
 
         self::$users[] = $user;
+    }
+
+    public function findById(int $id): User
+    {
+        if (!empty(self::$users)) {
+            return reset(self::$users);
+        }
+
+        throw new UserNotFoundException();
     }
 }

@@ -10,8 +10,6 @@ interface UserResponse extends UseCaseResponse
 
     public function getFirstName(): string;
 
-    public function getId(): int;
-
     public function getLastName(): string;
 
     public function getUuid(): string;

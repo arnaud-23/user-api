@@ -6,30 +6,13 @@ use App\BusinessRules\User\Responders\UserResponse;
 
 class UserResponseDTO implements UserResponse
 {
-    /**
-     * @var string
-     */
-    public $email;
+    public string $email;
 
-    /**
-     * @var string
-     */
-    public $firstName;
+    public string $firstName;
 
-    /**
-     * @var int
-     */
-    public $id;
+    public string $lastName;
 
-    /**
-     * @var string
-     */
-    public $lastName;
-
-    /**
-     * @var string
-     */
-    public $uuid;
+    public string $uuid;
 
     public function getEmail(): string
     {
@@ -39,11 +22,6 @@ class UserResponseDTO implements UserResponse
     public function getFirstName(): string
     {
         return $this->firstName;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function getLastName(): string
