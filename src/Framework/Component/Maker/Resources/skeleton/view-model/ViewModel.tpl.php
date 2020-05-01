@@ -17,11 +17,11 @@ class <?= $class_name ?><?= "\n" ?>
     <?php endif; ?>
 <?php endforeach; ?>
 
-public static function create(<?= $bounced_class_name ?> $<?= lcfirst($bounced_class_name) ?>): self
-{
-$viewModel = new self();
-ViewModelHydrator::hydrate($viewModel, $<?= lcfirst($bounced_class_name) ?>);
+    public static function create(<?= $bounced_class_name ?> $<?= lcfirst($bounced_class_name) ?>): self
+    {
+        $viewModel = new self();
+        ViewModelHydrator::hydrate($viewModel, $<?= lcfirst($bounced_class_name) ?>);
 
-return $viewModel;
-}
+        return $viewModel;
+    }
 }
