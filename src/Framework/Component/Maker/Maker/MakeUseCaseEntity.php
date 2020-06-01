@@ -91,17 +91,26 @@ final class MakeUseCaseEntity extends AbstractMaker
             'UseCaseResponseAssembler' => 'Responders',
             'UseCaseResponseAssemblerImpl' => 'UseCases\DTO\Response',
             'UseCaseResponseDTO' => 'UseCases\DTO\Response',
+            'UseCaseTest' => 'UseCases',
         ];
 
         foreach ($classesToGenerate as $class => $package) {
             $suffix = preg_replace('/^(Entity|UseCase)/', '', $class);
             $prefix = in_array($package, ['UseCases', 'Requestors', 'UseCases\DTO\Request'])? $crudType : '';
 
-            $generator->generateClass(
-                "App\\BusinessRules\\{$moduleName}\\{$package}\\{$prefix}{$entityName}{$suffix}",
-                __DIR__ . "/../Resources/skeleton/module/{$class}.tpl.php",
-                $variables
-            );
+            if ('Test' !== $suffix) {
+                $generator->generateClass(
+                    "App\\BusinessRules\\{$moduleName}\\{$package}\\{$prefix}{$entityName}{$suffix}",
+                    __DIR__ . "/../Resources/skeleton/module/{$class}.tpl.php",
+                    $variables
+                );
+            } else {
+                $generator->generateFile(
+                    "tests/BusinessRules/{$moduleName}/{$package}/{$prefix}{$entityName}{$suffix}.php",
+                    __DIR__ . "/../Resources/skeleton/module/{$class}.tpl.php",
+                    $variables
+                );
+            }
         }
 
         $generator->writeChanges();
