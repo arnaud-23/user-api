@@ -85,12 +85,7 @@ final class MakeUseCaseEntity extends AbstractMaker
             'EntityGateway' => 'Gateways',
             'UseCase' => 'UseCases',
             'UseCaseRequest' => 'Requestors',
-            'UseCaseRequestBuilder' => 'Requestors',
-            'UseCaseRequestDTO' => 'UseCases\DTO\Request',
             'UseCaseResponse' => 'Responders',
-            'UseCaseResponseAssembler' => 'Responders',
-            'UseCaseResponseAssemblerImpl' => 'UseCases\DTO\Response',
-            'UseCaseResponseDTO' => 'UseCases\DTO\Response',
             'UseCaseTest' => 'UseCases',
         ];
 
