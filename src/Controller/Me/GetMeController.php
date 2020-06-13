@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Me;
 
-use App\BusinessRules\User\Requestors\GetUserRequestBuilder;
+use App\BusinessRules\User\Requestors\GetUserRequest;
 use App\BusinessRules\User\Responders\UserResponse;
 use App\BusinessRules\User\UseCases\GetUser;
 use App\Controller\ResponseTrait;
@@ -12,7 +12,6 @@ use App\ViewModels\User\UserViewModel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Serializer;
 
 final class GetMeController extends AbstractController
 {
@@ -20,12 +19,9 @@ final class GetMeController extends AbstractController
 
     private GetUser $getUser;
 
-    private GetUserRequestBuilder $getUserRequestBuilder;
-
-    public function __construct(GetUser $getUser, GetUserRequestBuilder $getUserRequestBuilder)
+    public function __construct(GetUser $getUser)
     {
         $this->getUser = $getUser;
-        $this->getUserRequestBuilder = $getUserRequestBuilder;
     }
 
     /**
@@ -44,10 +40,8 @@ final class GetMeController extends AbstractController
     private function getUserUseCase(): UserResponse
     {
         return $this->getUser->execute(
-            $this->getUserRequestBuilder
-                ->create()
+            GetUserRequest::create()
                 ->withUserId($this->getUser()->getId())
-                ->build()
         );
     }
 }

@@ -6,7 +6,6 @@ use App\BusinessRules\UseCaseResponseAssembler;
 use App\BusinessRules\User\Gateways\UserNotFoundException;
 use App\BusinessRules\User\Requestors\GetUserRequest;
 use App\BusinessRules\User\Responders\UserResponse;
-use App\BusinessRules\User\UseCases\DTO\Request\GetUserRequestBuilderImpl;
 use App\Doubles\Assert;
 use App\Doubles\BusinessRules\User\Gateways\InMemoryUserGateway;
 use App\Fixtures\InMemoryFixtureGateway;
@@ -47,9 +46,7 @@ final class GetUserTest extends TestCase
 
     protected function buildRequest(): GetUserRequest
     {
-        return (new GetUserRequestBuilderImpl())
-            ->create()
-            ->withUserId(InMemoryFixtureGateway::get('User1')->getId())
-            ->build();
+        return GetUserRequest::create()
+            ->withUserId(InMemoryFixtureGateway::get('User1')->getId());
     }
 }
