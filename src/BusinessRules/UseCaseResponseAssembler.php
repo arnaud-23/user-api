@@ -9,7 +9,7 @@ final class UseCaseResponseAssembler
     public static function create(string $responseClassName, $entity): UseCaseResponse
     {
         $response = new $responseClassName();
-        DtoFieldsHydrator::hydrate($response, $entity);
+        UseCaseResponseHydrator::hydrate($response, $entity);
 
         return $response;
     }
