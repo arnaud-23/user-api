@@ -1,0 +1,8 @@
+App\Entity\User\UserImpl:
+    User{1..10}:
+        __construct:
+            0 (unique): <safeEmail()>
+        firstName: <firstName()>
+        id (unique): <randomNumber()>
+        lastName: <lastName()>
+        uuid (unique): <uuid()>

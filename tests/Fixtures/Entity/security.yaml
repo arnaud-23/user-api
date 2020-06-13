@@ -1,0 +1,7 @@
+App\Entity\Security\User\UserSecurityCredentialImpl:
+    UserSecurityCredential{1..10}:
+        __construct: ['@User<current()>']
+        createdAt: <createdAt()>
+        password: <password()>
+        roles: ['ROLE_USER']
+        salt: 'salt'
