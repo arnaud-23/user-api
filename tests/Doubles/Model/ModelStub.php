@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Doubles\Model;
+namespace App\Doubles\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Doubles\BusinessRules\Security\User\Gateways;
+namespace App\Doubles\BusinessRules\Security\User\Gateways;
 
 use App\BusinessRules\Security\User\Entities\UserSecurityCredential;
 use App\BusinessRules\Security\User\Gateways\UserSecurityCredentialGateway;

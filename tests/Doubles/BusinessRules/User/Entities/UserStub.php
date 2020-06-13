@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Doubles\BusinessRules\User\Entities;
+namespace App\Doubles\BusinessRules\User\Entities;
 
 use App\Entity\User\UserImpl;
 

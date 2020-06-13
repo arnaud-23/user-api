@@ -6,10 +6,10 @@ namespace App\BusinessRules\<?= $module ?>\UseCases;
 
 use App\BusinessRules\<?= $module ?>\Requestors\<?= $crud_type ?><?= $entity_name ?>Request;
 use App\Entity\<?= $module ?>\<?= $entity_name ?>FactoryImpl;
-use App\Tests\Doubles\Assert;
-use App\Tests\Doubles\BusinessRules\<?= $module ?>\Entities\<?= $entity_name ?>Stub;
-use App\Tests\Doubles\BusinessRules\<?= $module ?>\Gateways\InMemory<?= $entity_name ?>Gateway;
-use App\Tests\Doubles\BusinessRules\<?= $module ?>\Responders\<?= $entity_name ?>ResponseStub;
+use App\Doubles\Assert;
+use App\Doubles\BusinessRules\<?= $module ?>\Entities\<?= $entity_name ?>Stub;
+use App\Doubles\BusinessRules\<?= $module ?>\Gateways\InMemory<?= $entity_name ?>Gateway;
+use App\Doubles\BusinessRules\<?= $module ?>\Responders\<?= $entity_name ?>ResponseStub;
 use PHPUnit\Framework\TestCase;
 
 final class <?= $crud_type ?><?= $entity_name ?>Test extends TestCase

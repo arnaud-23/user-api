@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Doubles;
+namespace App\Doubles;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;

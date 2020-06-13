@@ -2,7 +2,7 @@
 
 namespace App\Framework\Component\ApiError;
 
-use App\Tests\Doubles\Model\ModelStub;
+use App\Doubles\Model\ModelStub;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Constraints\NotBlank;

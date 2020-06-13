@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Doubles\Symfony\Component\Security\Core\Encoder;
+namespace App\Doubles\Symfony\Component\Security\Core\Encoder;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

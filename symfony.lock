@@ -78,8 +78,11 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
-    "jdorn/sql-formatter": {
-        "version": "v1.2.17"
+    "doctrine/sql-formatter": {
+        "version": "1.1.0"
+    },
+    "fzaninotto/faker": {
+        "version": "v1.9.1"
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.1"
@@ -98,6 +101,19 @@
     },
     "myclabs/deep-copy": {
         "version": "1.9.3"
+    },
+    "nelmio/alice": {
+        "version": "3.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.2",
+            "ref": "0b9900ece737bec7752e4155c0164639dd9b0cb0"
+        },
+        "files": [
+            "config/packages/dev/nelmio_alice.yaml",
+            "config/packages/test/nelmio_alice.yaml"
+        ]
     },
     "nesbot/carbon": {
         "version": "2.24.0"
@@ -415,6 +431,9 @@
     },
     "symfony/polyfill-php73": {
         "version": "v1.12.0"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.17.0"
     },
     "symfony/profiler-pack": {
         "version": "v1.0.4"

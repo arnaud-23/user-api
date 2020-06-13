@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\Doubles\BusinessRules\User\Gateways;
+namespace App\Doubles\BusinessRules\User\Gateways;
 
 use App\BusinessRules\User\Entities\User;
 use App\BusinessRules\User\Gateways\UserGateway;
 use App\BusinessRules\User\Gateways\UserNotFoundException;
-use App\Tests\Doubles\BusinessRules\EntityModifier;
+use App\Doubles\BusinessRules\EntityModifier;
 
 class InMemoryUserGateway implements UserGateway
 {

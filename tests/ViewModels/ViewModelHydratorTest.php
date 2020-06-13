@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\ViewModels;
+namespace App\ViewModels;
 
-use App\Tests\Doubles\Assert;
+use App\Doubles\Assert;
 use App\ViewModels\ViewModelHydrator;
 use PHPUnit\Framework\TestCase;
 

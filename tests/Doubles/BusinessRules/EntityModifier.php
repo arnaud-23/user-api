@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Doubles\BusinessRules;
+namespace App\Doubles\BusinessRules;
 
 final class EntityModifier
 {

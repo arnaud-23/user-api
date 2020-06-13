@@ -9,13 +9,13 @@ use App\BusinessRules\User\UseCases\DTO\Request\CreateUserRequestDTO;
 use App\BusinessRules\User\UseCases\DTO\Response\UserResponseAssemblerImpl;
 use App\Entity\Security\User\UserSecurityCredentialFactoryImpl;
 use App\Entity\User\UserFactoryImpl;
-use App\Tests\Doubles\Assert;
-use App\Tests\Doubles\BusinessRules\Security\User\Entities\UserSecurityCredentialStub;
-use App\Tests\Doubles\BusinessRules\Security\User\Gateways\InMemoryUserSecurityGateway;
-use App\Tests\Doubles\BusinessRules\User\Entities\UserStub;
-use App\Tests\Doubles\BusinessRules\User\Gateways\InMemoryUserGateway;
-use App\Tests\Doubles\BusinessRules\User\Responders\UserResponseStub;
-use App\Tests\Doubles\Symfony\Component\Security\Core\Encoder\UserPasswordEncoderMock;
+use App\Doubles\Assert;
+use App\Doubles\BusinessRules\Security\User\Entities\UserSecurityCredentialStub;
+use App\Doubles\BusinessRules\Security\User\Gateways\InMemoryUserSecurityGateway;
+use App\Doubles\BusinessRules\User\Entities\UserStub;
+use App\Doubles\BusinessRules\User\Gateways\InMemoryUserGateway;
+use App\Doubles\BusinessRules\User\Responders\UserResponseStub;
+use App\Doubles\Symfony\Component\Security\Core\Encoder\UserPasswordEncoderMock;
 use PHPUnit\Framework\TestCase;
 
 class CreateUserTest extends TestCase

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Doubles\BusinessRules\Security\User\Entities;
+namespace App\Doubles\BusinessRules\Security\User\Entities;
 
 use App\Entity\Security\User\UserSecurityCredentialImpl;
-use App\Tests\Doubles\BusinessRules\User\Entities\UserStub;
+use App\Doubles\BusinessRules\User\Entities\UserStub;
 use Carbon\CarbonImmutable;
 
 final class UserSecurityCredentialStub extends UserSecurityCredentialImpl

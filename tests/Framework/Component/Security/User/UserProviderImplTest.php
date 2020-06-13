@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Framework\Component\Security\User;
+namespace App\Framework\Component\Security\User;
 
 use App\Entity\Security\User\UserSecurityCredentialImpl;
 use App\Framework\Component\Security\User\UserProviderImpl;
-use App\Tests\Doubles\Assert;
-use App\Tests\Doubles\BusinessRules\Security\User\Entities\UserSecurityCredentialStub;
-use App\Tests\Doubles\BusinessRules\Security\User\Gateways\InMemoryUserSecurityGateway;
-use App\Tests\Doubles\BusinessRules\User\Entities\UserStub;
+use App\Doubles\Assert;
+use App\Doubles\BusinessRules\Security\User\Entities\UserSecurityCredentialStub;
+use App\Doubles\BusinessRules\Security\User\Gateways\InMemoryUserSecurityGateway;
+use App\Doubles\BusinessRules\User\Entities\UserStub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
