@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Tests\BusinessRules\User\UseCases;
+namespace App\BusinessRules\User\UseCases;
 
+use App\BusinessRules\UseCaseResponseAssembler;
 use App\BusinessRules\User\Gateways\UserNotFoundException;
 use App\BusinessRules\User\Requestors\GetUserRequest;
+use App\BusinessRules\User\Responders\UserResponse;
 use App\BusinessRules\User\UseCases\DTO\Request\GetUserRequestBuilderImpl;
-use App\BusinessRules\User\UseCases\DTO\Response\UserResponseAssemblerImpl;
-use App\BusinessRules\User\UseCases\GetUser;
-use App\Tests\Doubles\Assert;
-use App\Tests\Doubles\BusinessRules\User\Entities\UserStub;
-use App\Tests\Doubles\BusinessRules\User\Gateways\InMemoryUserGateway;
-use App\Tests\Doubles\BusinessRules\User\Responders\UserResponseStub;
+use App\Doubles\Assert;
+use App\Doubles\BusinessRules\User\Gateways\InMemoryUserGateway;
+use App\Fixtures\InMemoryFixtureGateway;
 use PHPUnit\Framework\TestCase;
 
 final class GetUserTest extends TestCase
@@ -19,9 +18,7 @@ final class GetUserTest extends TestCase
 
     private GetUserRequest $request;
 
-    /**
-     * @test
-     */
+    /** @test */
     public function userNotFoundThrowException(): void
     {
         InMemoryUserGateway::$users = [];
@@ -30,14 +27,13 @@ final class GetUserTest extends TestCase
         $this->useCase->execute($this->request);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function getUserReturnResponse(): void
     {
         $response = $this->useCase->execute($this->request);
 
-        Assert::assertObjectsEquals(new UserResponseStub(), $response);
+        $expectedResponse = UseCaseResponseAssembler::create(UserResponse::class, InMemoryFixtureGateway::get('User1'));
+        Assert::assertObjectsEquals($expectedResponse, $response);
     }
 
     protected function setUp(): void
@@ -45,8 +41,7 @@ final class GetUserTest extends TestCase
         $this->request = $this->buildRequest();
 
         $this->useCase = new GetUser(
-            new InMemoryUserGateway([new UserStub()]),
-            new UserResponseAssemblerImpl()
+            new InMemoryUserGateway([InMemoryFixtureGateway::get('User1')])
         );
     }
 
@@ -54,7 +49,7 @@ final class GetUserTest extends TestCase
     {
         return (new GetUserRequestBuilderImpl())
             ->create()
-            ->withUserId(UserStub::ID)
+            ->withUserId(InMemoryFixtureGateway::get('User1')->getId())
             ->build();
     }
 }

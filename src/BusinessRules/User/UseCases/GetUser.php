@@ -6,27 +6,24 @@ namespace App\BusinessRules\User\UseCases;
 
 use App\BusinessRules\UseCase;
 use App\BusinessRules\UseCaseRequest;
+use App\BusinessRules\UseCaseResponseAssembler;
 use App\BusinessRules\User\Entities\User;
 use App\BusinessRules\User\Gateways\UserGateway;
 use App\BusinessRules\User\Requestors\GetUserRequest;
 use App\BusinessRules\User\Responders\UserResponse;
 use App\BusinessRules\User\Responders\UserResponseAssembler;
+use App\BusinessRules\User\UseCases\DTO\Response\UserResponseDTO;
 
 final class GetUser implements UseCase
 {
     private UserGateway $userGateway;
 
-    private UserResponseAssembler $userResponseAssembler;
-
-    public function __construct(UserGateway $userGateway, UserResponseAssembler $userResponseAssembler)
+    public function __construct(UserGateway $userGateway)
     {
         $this->userGateway = $userGateway;
-        $this->userResponseAssembler = $userResponseAssembler;
     }
 
-    /**
-     * @param GetUserRequest $useCaseRequest
-     */
+    /** @param GetUserRequest $useCaseRequest */
     public function execute(UseCaseRequest $useCaseRequest): UserResponse
     {
         $user = $this->getUser($useCaseRequest);
@@ -41,6 +38,6 @@ final class GetUser implements UseCase
 
     private function buildResponse(User $user): UserResponse
     {
-        return $this->userResponseAssembler->create($user);
+        return UseCaseResponseAssembler::create(UserResponseDTO::class, $user);
     }
 }

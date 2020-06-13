@@ -4,13 +4,33 @@ namespace App\BusinessRules\User\Responders;
 
 use App\BusinessRules\UseCaseResponse;
 
-interface UserResponse extends UseCaseResponse
+class UserResponse implements UseCaseResponse
 {
-    public function getEmail(): string;
+    public string $email = '';
 
-    public function getFirstName(): string;
+    public string $firstName = '';
 
-    public function getLastName(): string;
+    public string $lastName = '';
 
-    public function getUuid(): string;
+    public string $uuid = '';
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    public function getLastName(): string
+    {
+        return $this->lastName;
+    }
+
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
 }
