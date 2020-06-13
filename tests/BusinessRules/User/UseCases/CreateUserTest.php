@@ -3,53 +3,48 @@
 namespace App\BusinessRules\User\UseCases;
 
 use App\BusinessRules\Security\User\Entities\UserSecurityCredential;
+use App\BusinessRules\UseCaseResponseAssembler;
+use App\BusinessRules\User\Entities\User;
 use App\BusinessRules\User\Requestors\CreateUserRequest;
+use App\BusinessRules\User\Responders\UserResponse;
 use App\BusinessRules\User\UseCases\DTO\Request\CreateUserRequestBuilderImpl;
 use App\BusinessRules\User\UseCases\DTO\Request\CreateUserRequestDTO;
-use App\BusinessRules\User\UseCases\DTO\Response\UserResponseAssemblerImpl;
+use App\Doubles\Assert;
+use App\Doubles\BusinessRules\Security\User\Gateways\InMemoryUserSecurityGateway;
+use App\Doubles\BusinessRules\User\Gateways\InMemoryUserGateway;
+use App\Doubles\Symfony\Component\Security\Core\Encoder\UserPasswordEncoderMock;
 use App\Entity\Security\User\UserSecurityCredentialFactoryImpl;
 use App\Entity\User\UserFactoryImpl;
-use App\Doubles\Assert;
-use App\Doubles\BusinessRules\Security\User\Entities\UserSecurityCredentialStub;
-use App\Doubles\BusinessRules\Security\User\Gateways\InMemoryUserSecurityGateway;
-use App\Doubles\BusinessRules\User\Entities\UserStub;
-use App\Doubles\BusinessRules\User\Gateways\InMemoryUserGateway;
-use App\Doubles\BusinessRules\User\Responders\UserResponseStub;
-use App\Doubles\Symfony\Component\Security\Core\Encoder\UserPasswordEncoderMock;
+use App\Fixtures\InMemoryFixtureGateway;
 use PHPUnit\Framework\TestCase;
 
-class CreateUserTest extends TestCase
+final class CreateUserTest extends TestCase
 {
-    const ENCODED_PASSWORD = 'encodedPassword';
+    private const ENCODED_PASSWORD = 'encodedPassword';
 
-    /**
-     * @var CreateUserRequestDTO
-     */
-    private $request;
+    private CreateUserRequestDTO $request;
 
-    /**
-     * @var CreateUser
-     */
-    private $useCase;
+    private CreateUser $useCase;
 
-    /**
-     * @test
-     */
+    /** @test */
     final public function createUserSaveAndReturnUser(): void
     {
+        /** @var User $expectedUser */
+        $expectedUser = InMemoryFixtureGateway::get('User1');
         UserPasswordEncoderMock::$encodedPassword = self::ENCODED_PASSWORD;
-        InMemoryUserGateway::$id = UserStub::ID;
-        InMemoryUserGateway::$uuid = UserStub::UUID;
+        InMemoryUserGateway::$id = $expectedUser->getId();
+        InMemoryUserGateway::$uuid = $expectedUser->getUuid();
 
         $response = $this->useCase->execute($this->request);
 
-        Assert::assertObjectsEquals(new UserStub(), reset(InMemoryUserGateway::$users));
-        Assert::assertObjectsEquals(new UserResponseStub(), $response);
+        Assert::assertObjectsEquals($expectedUser, reset(InMemoryUserGateway::$users));
+        $expectedResponse = UseCaseResponseAssembler::create(UserResponse::class, $expectedUser);
+        Assert::assertObjectsEquals($expectedResponse, $response);
         /** @var UserSecurityCredential $credentials */
         $credentials = reset(InMemoryUserSecurityGateway::$userSecurityCredentials);
         Assert::assertSame(self::ENCODED_PASSWORD, $credentials->getPassword());
         Assert::assertIsString($credentials->getSalt());
-        Assert::assertObjectsEquals(new UserStub(), $credentials->getUser());
+        Assert::assertObjectsEquals($expectedUser, $credentials->getUser());
     }
 
     protected function setUp(): void
@@ -60,18 +55,22 @@ class CreateUserTest extends TestCase
             new UserFactoryImpl(),
             new InMemoryUserGateway(),
             new UserSecurityCredentialFactoryImpl(new UserPasswordEncoderMock()),
-            new InMemoryUserSecurityGateway(),
-            new UserResponseAssemblerImpl()
+            new InMemoryUserSecurityGateway()
         );
     }
 
     private function buildRequest(): CreateUserRequest
     {
+        /** @var User $userStub */
+        $userStub = InMemoryFixtureGateway::get('User1');
+        /** @var UserSecurityCredential $USCStub */
+        $USCStub = InMemoryFixtureGateway::get('UserSecurityCredential1');
+
         return (new CreateUserRequestBuilderImpl())
-            ->create(UserStub::EMAIL)
-            ->withFirstName(UserStub::FIRST_NAME)
-            ->withLastName(UserStub::LAST_NAME)
-            ->withPassword(UserSecurityCredentialStub::PASSWORD)
+            ->create($userStub->getEmail())
+            ->withFirstName($userStub->getFirstName())
+            ->withLastName($userStub->getLastName())
+            ->withPassword($USCStub->getPassword())
             ->build();
     }
 }

@@ -7,52 +7,33 @@ use App\BusinessRules\Security\User\Entities\UserSecurityCredentialFactory;
 use App\BusinessRules\Security\User\Gateways\UserSecurityCredentialGateway;
 use App\BusinessRules\UseCase;
 use App\BusinessRules\UseCaseRequest;
+use App\BusinessRules\UseCaseResponseAssembler;
 use App\BusinessRules\User\Entities\User;
 use App\BusinessRules\User\Entities\UserFactory;
 use App\BusinessRules\User\Gateways\UserGateway;
 use App\BusinessRules\User\Requestors\CreateUserRequest;
 use App\BusinessRules\User\Responders\UserResponse;
-use App\BusinessRules\User\Responders\UserResponseAssembler;
 
 class CreateUser implements UseCase
 {
-    /**
-     * @var UserFactory
-     */
-    private $userFactory;
+    private UserFactory $userFactory;
 
-    /**
-     * @var UserGateway
-     */
-    private $userGateway;
+    private UserGateway $userGateway;
 
-    /**
-     * @var UserSecurityCredentialFactory
-     */
-    private $userSecurityCredentialFactory;
+    private UserSecurityCredentialFactory $userSecurityCredentialFactory;
 
-    /**
-     * @var UserSecurityCredentialGateway
-     */
-    private $userSecurityCredentialGateway;
-
-    /**
-     * @var UserResponseAssembler
-     */
-    private $userResponseAssembler;
+    private UserSecurityCredentialGateway $userSecurityCredentialGateway;
 
     public function __construct(
         UserFactory $userFactory,
         UserGateway $userGateway,
         UserSecurityCredentialFactory $userSecurityCredentialFactory,
-        UserSecurityCredentialGateway $userSecurityCredentialGateway,
-        UserResponseAssembler $userResponseAssembler
+        UserSecurityCredentialGateway $userSecurityCredentialGateway
     ) {
         $this->userFactory = $userFactory;
         $this->userGateway = $userGateway;
         $this->userSecurityCredentialFactory = $userSecurityCredentialFactory;
         $this->userSecurityCredentialGateway = $userSecurityCredentialGateway;
-        $this->userResponseAssembler = $userResponseAssembler;
     }
 
     /**
@@ -65,7 +46,7 @@ class CreateUser implements UseCase
 
         $this->save($user, $credentials);
 
-        return $this->userResponseAssembler->create($user);
+        return $this->buildResponse($user);
     }
 
     private function buildUser(CreateUserRequest $useCaseRequest): User
@@ -86,5 +67,10 @@ class CreateUser implements UseCase
     {
         $this->userGateway->insert($user);
         $this->userSecurityCredentialGateway->insert($credentials);
+    }
+
+    private function buildResponse(User $user): UserResponse
+    {
+        return UseCaseResponseAssembler::create(UserResponse::class, $user);
     }
 }
