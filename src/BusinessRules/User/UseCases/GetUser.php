@@ -11,8 +11,6 @@ use App\BusinessRules\User\Entities\User;
 use App\BusinessRules\User\Gateways\UserGateway;
 use App\BusinessRules\User\Requestors\GetUserRequest;
 use App\BusinessRules\User\Responders\UserResponse;
-use App\BusinessRules\User\Responders\UserResponseAssembler;
-use App\BusinessRules\User\UseCases\DTO\Response\UserResponseDTO;
 
 final class GetUser implements UseCase
 {
@@ -38,6 +36,6 @@ final class GetUser implements UseCase
 
     private function buildResponse(User $user): UserResponse
     {
-        return UseCaseResponseAssembler::create(UserResponseDTO::class, $user);
+        return UseCaseResponseAssembler::create(UserResponse::class, $user);
     }
 }
