@@ -3,7 +3,7 @@
 namespace App\Controller\User;
 
 use App\BusinessRules\UseCase;
-use App\BusinessRules\User\Requestors\CreateUserRequestBuilder;
+use App\BusinessRules\User\Requestors\CreateUserRequest;
 use App\BusinessRules\User\UseCases\CreateUser;
 use App\Controller\ResponseTrait;
 use App\Controller\ValidationRequestControllerTrait;
@@ -17,22 +17,11 @@ class PostUserController
     use ResponseTrait;
     use ValidationRequestControllerTrait;
 
-    /**
-     * @var CreateUser
-     */
-    private $createUser;
+    private CreateUser $createUser;
 
-    /**
-     * @var CreateUserRequestBuilder
-     */
-    private $createUserRequestBuilder;
-
-    public function __construct(
-        UseCase $createUser,
-        CreateUserRequestBuilder $createUserRequestBuilder
-    ) {
+    public function __construct(UseCase $createUser)
+    {
         $this->createUser = $createUser;
-        $this->createUserRequestBuilder = $createUserRequestBuilder;
     }
 
     /**
@@ -43,12 +32,10 @@ class PostUserController
         $model = $this->validateRequest($request, PostUserModel::class);
 
         $this->createUser->execute(
-            $this->createUserRequestBuilder
-                ->create($model->email)
+            CreateUserRequest::create($model->email)
                 ->withFirstName($model->firstName)
                 ->withLastName($model->lastName)
                 ->withPassword($model->password)
-                ->build()
         );
 
         return $this->createCreatedResponse();

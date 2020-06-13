@@ -7,8 +7,6 @@ use App\BusinessRules\UseCaseResponseAssembler;
 use App\BusinessRules\User\Entities\User;
 use App\BusinessRules\User\Requestors\CreateUserRequest;
 use App\BusinessRules\User\Responders\UserResponse;
-use App\BusinessRules\User\UseCases\DTO\Request\CreateUserRequestBuilderImpl;
-use App\BusinessRules\User\UseCases\DTO\Request\CreateUserRequestDTO;
 use App\Doubles\Assert;
 use App\Doubles\BusinessRules\Security\User\Gateways\InMemoryUserSecurityGateway;
 use App\Doubles\BusinessRules\User\Gateways\InMemoryUserGateway;
@@ -22,7 +20,7 @@ final class CreateUserTest extends TestCase
 {
     private const ENCODED_PASSWORD = 'encodedPassword';
 
-    private CreateUserRequestDTO $request;
+    private CreateUserRequest $request;
 
     private CreateUser $useCase;
 
@@ -66,11 +64,9 @@ final class CreateUserTest extends TestCase
         /** @var UserSecurityCredential $USCStub */
         $USCStub = InMemoryFixtureGateway::get('UserSecurityCredential1');
 
-        return (new CreateUserRequestBuilderImpl())
-            ->create($userStub->getEmail())
+        return CreateUserRequest::create($userStub->getEmail())
             ->withFirstName($userStub->getFirstName())
             ->withLastName($userStub->getLastName())
-            ->withPassword($USCStub->getPassword())
-            ->build();
+            ->withPassword($USCStub->getPassword());
     }
 }
