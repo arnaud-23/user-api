@@ -1,0 +1,5 @@
+App\Entity\Application\ApplicationImpl:
+    Application{1..3}:
+        __construct: ['@User<numberBetween(1, 10)>', <company()>]
+        id (unique): <randomNumber()>
+        uuid (unique): <uuid()>
