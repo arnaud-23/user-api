@@ -14,6 +14,7 @@ use App\BusinessRules\UseCaseRequest;
 use App\BusinessRules\UseCaseResponseAssembler;
 use App\BusinessRules\User\Entities\User;
 use App\BusinessRules\User\Gateways\UserGateway;
+use App\BusinessRules\User\Responders\UserResponse;
 
 class RegisterApplication implements UseCase
 {
@@ -61,6 +62,10 @@ class RegisterApplication implements UseCase
 
     private function buildResponse(Application $application): ApplicationResponse
     {
-        return UseCaseResponseAssembler::create(ApplicationResponse::class, $application);
+        /** @var ApplicationResponse $applicationResponse */
+        $applicationResponse = UseCaseResponseAssembler::create(ApplicationResponse::class, $application, ['owner']);
+        $applicationResponse->owner = UseCaseResponseAssembler::create(UserResponse::class, $application->getOwner());
+
+        return $applicationResponse;
     }
 }

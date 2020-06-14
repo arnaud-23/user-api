@@ -8,23 +8,19 @@ final class UseCaseResponseHydrator
      * @param object $destination
      * @param object $source
      */
-    public static function hydrate($destination, $source): void
+    public static function hydrate($destination, $source, array $exclude = []): void
     {
         $sourceAccessibleProperties = array_keys(get_class_vars(get_class($source)));
         foreach ($destination as $field => $var) {
+            if (in_array($field, $exclude, true)) {
+                continue;
+            }
             $getter = self::getFieldGetter($source, $field);
             if ($getter) {
-                $sourceFieldValue = $source->$getter();
+                $destination->$field = $source->$getter();
             } elseif (in_array($field, $sourceAccessibleProperties, true)) {
-                $sourceFieldValue = $source->$field;
-            } else {
-                $sourceFieldValue = null;
+                $destination->$field = $source->$field;
             }
-
-            if (is_object($sourceFieldValue)) {
-                $sourceFieldValue = $sourceFieldValue->getUuid();
-            }
-            $destination->$field = $sourceFieldValue;
         }
     }
 

@@ -3,12 +3,13 @@
 namespace App\BusinessRules\Application\Responders;
 
 use App\BusinessRules\UseCaseResponse;
+use App\BusinessRules\User\Responders\UserResponse;
 
 final class ApplicationResponse implements UseCaseResponse
 {
     public string $name = '';
 
-    public string $owner = '';
+    public ?UserResponse $owner = null;
 
     public string $uuid = '';
 
@@ -17,7 +18,7 @@ final class ApplicationResponse implements UseCaseResponse
         return $this->name;
     }
 
-    public function getOwner(): string
+    public function getOwner(): UserResponse
     {
         return $this->owner;
     }

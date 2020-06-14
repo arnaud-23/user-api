@@ -9,32 +9,32 @@ final class UseCaseResponseHydratorTest extends TestCase
 {
     public function getClassTest(): \Generator
     {
-        yield 'entity field is public' => [
+        yield 'source field is public' => [
             $this->getDestinationWithPublicField(),
             $this->getSourceWithPublicField(),
             (object) ['field' => 1],
         ];
-        yield 'entity field is private' => [
+        yield 'source field is private' => [
             $this->getDestinationWithPublicField(),
             $this->getSourceWithPrivateField(),
             (object) ['field' => null],
         ];
-        yield 'entity field does not exist' => [
+        yield 'source field does not exist' => [
             $this->getDestinationWithPublicField(),
             $this->getSourceWithoutAnyField(),
             (object) ['field' => null],
         ];
-        yield 'entity public field with accesseur "get"' => [
+        yield 'source public field with accesseur "get"' => [
             $this->getDestinationWithPublicField(),
             $this->getSourceWithPublicFieldAndAccesseurGet(),
             (object) ['field' => 1],
         ];
-        yield 'entity private field with accesseur "is"' => [
+        yield 'source private field with accesseur "is"' => [
             $this->getDestinationWithPublicField(),
             $this->getSourceWithPrivateFieldAndAccesseurIs(),
             (object) ['field' => true],
         ];
-        yield 'response field is private' => [
+        yield 'destination field is private' => [
             $this->getDestinationWithPrivateField(),
             $this->getSourceWithPublicField(),
             new class {
@@ -115,6 +115,21 @@ final class UseCaseResponseHydratorTest extends TestCase
     public function hydrateResponse($destination, $source, $expectedDestination): void
     {
         UseCaseResponseHydrator::hydrate($destination, $source);
-        Assert::assertObjectsEquals($destination, $expectedDestination);
+        Assert::assertObjectsEquals($expectedDestination, $destination);
+    }
+
+    /**
+     * @test
+     * @dataProvider getClassTest
+     */
+    public function hydrateWithExcludeField(): void
+    {
+        $destination = $this->getDestinationWithPublicField();
+        UseCaseResponseHydrator::hydrate(
+            $destination,
+            $this->getSourceWithPublicField(),
+            ['field']
+        );
+        Assert::assertObjectsEquals((object) ['field' => null], $destination);
     }
 }
