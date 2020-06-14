@@ -1,0 +1,71 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\BusinessRules\Application\UseCases;
+
+use App\BusinessRules\Application\Entities\Application;
+use App\BusinessRules\Application\Requestors\RegisterApplicationRequest;
+use App\BusinessRules\Application\Responders\ApplicationResponse;
+use App\BusinessRules\UseCaseResponseAssembler;
+use App\BusinessRules\User\Gateways\UserNotFoundException;
+use App\Doubles\Assert;
+use App\Doubles\BusinessRules\Application\Entities\ApplicationStub;
+use App\Doubles\BusinessRules\Application\Gateways\InMemoryApplicationGateway;
+use App\Doubles\BusinessRules\Application\Responders\ApplicationResponseStub;
+use App\Doubles\BusinessRules\User\Gateways\InMemoryUserGateway;
+use App\Entity\Application\ApplicationFactoryImpl;
+use App\Fixtures\InMemoryFixtureGateway;
+use PHPUnit\Framework\TestCase;
+
+final class RegisterApplicationTest extends TestCase
+{
+    private RegisterApplication $useCase;
+
+    private RegisterApplicationRequest $request;
+
+    /** @test */
+    public function userDoesNotExistThrowException(): void
+    {
+        $this->expectException(UserNotFoundException::class);
+        InMemoryUserGateway::$users = [];
+
+        $this->useCase->execute($this->request);
+    }
+
+    /** @test */
+    public function registerApplicationSaveAndReturnApplication(): void
+    {
+        /** @var Application $expectedEntity */
+        $expectedEntity = InMemoryFixtureGateway::get('Application1');
+        InMemoryApplicationGateway::$id = $expectedEntity->getId();
+        InMemoryApplicationGateway::$uuid = $expectedEntity->getUuid();
+        $expectedResponse = UseCaseResponseAssembler::create(ApplicationResponse::class, $expectedEntity);
+
+        InMemoryApplicationGateway::$id = $expectedEntity->getId();
+
+        $response = $this->useCase->execute($this->request);
+
+        Assert::assertObjectsEquals($expectedEntity, reset(InMemoryApplicationGateway::$application));
+        Assert::assertObjectsEquals($expectedResponse, $response);
+    }
+
+    protected function setUp(): void
+    {
+        /** @var Application $stub */
+        $stub = InMemoryFixtureGateway::get('Application1');
+
+        $this->request = $this->buildRequest($stub);
+
+        $this->useCase = new RegisterApplication(
+            new ApplicationFactoryImpl(),
+            new InMemoryApplicationGateway(),
+            new InMemoryUserGateway([$stub->getOwner()])
+        );
+    }
+
+    private function buildRequest(Application $stub): RegisterApplicationRequest
+    {
+        return RegisterApplicationRequest::create($stub->getName(), $stub->getOwner()->getId());
+    }
+}
