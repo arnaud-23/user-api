@@ -5,19 +5,24 @@ namespace App\BusinessRules;
 final class UseCaseResponseHydrator
 {
     /**
-     * @param object $response
-     * @param object $entity
+     * @param object $destination
+     * @param object $source
      */
-    public static function hydrate($response, $entity): void
+    public static function hydrate($destination, $source): void
     {
-        $accessibleProperties = array_keys(get_class_vars(get_class($entity)));
-        foreach ($response as $field => $var) {
-            $getter = self::getFieldGetter($entity, $field);
+        $sourceAccessibleProperties = array_keys(get_class_vars(get_class($source)));
+        foreach ($destination as $field => $var) {
+            $getter = self::getFieldGetter($source, $field);
             if ($getter) {
-                $response->$field = $entity->$getter();
-            } elseif (in_array($field, $accessibleProperties, true)) {
-                $response->$field = $entity->$field;
+                $sourceFieldValue = $source->$getter();
+            } elseif (in_array($field, $sourceAccessibleProperties, true)) {
+                $sourceFieldValue = $source->$field;
             }
+
+            if (is_object($sourceFieldValue)) {
+                $sourceFieldValue = $sourceFieldValue->getUuid();
+            }
+            $destination->$field = $sourceFieldValue;
         }
     }
 
