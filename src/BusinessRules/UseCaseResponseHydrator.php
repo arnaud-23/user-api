@@ -17,6 +17,8 @@ final class UseCaseResponseHydrator
                 $sourceFieldValue = $source->$getter();
             } elseif (in_array($field, $sourceAccessibleProperties, true)) {
                 $sourceFieldValue = $source->$field;
+            } else {
+                $sourceFieldValue = null;
             }
 
             if (is_object($sourceFieldValue)) {
