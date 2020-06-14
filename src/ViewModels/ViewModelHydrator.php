@@ -10,25 +10,27 @@ final class ViewModelHydrator
      * @param object $destination
      * @param object $source
      */
-    public static function hydrate($destination, $source, array $exclude = []): void
+    public static function hydrate($destination, $source): void
     {
-        $accessibleProperties = array_keys(get_class_vars(get_class($source)));
+        $sourceAccessibleProperties = array_keys(get_class_vars(get_class($source)));
         foreach ($destination as $field => $var) {
-            if (in_array($field, $exclude, true)) {
-                continue;
-            }
             $getter = self::getFieldGetter($source, $field);
             if ($getter) {
-                $destination->$field = $source->$getter();
-            } elseif (in_array($field, $accessibleProperties, true)) {
-                $destination->$field = $source->$field;
+                $sourceFieldValue = $source->$getter();
+            } elseif (in_array($field, $sourceAccessibleProperties, true)) {
+                $sourceFieldValue = $source->$field;
+            } else {
+                $sourceFieldValue = null;
             }
+
+            if (is_object($sourceFieldValue)) {
+                $sourceFieldValue = $sourceFieldValue->getUuid();
+            }
+            $destination->$field = $sourceFieldValue;
         }
     }
 
-    /**
-     * @param object $source
-     */
+    /** @param object $source */
     private static function getFieldGetter($source, string $field): ?string
     {
         foreach (['get', 'is'] as $prefix) {
