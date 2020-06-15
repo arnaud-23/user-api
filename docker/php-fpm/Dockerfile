@@ -123,6 +123,24 @@ RUN if [ ${INSTALL_INTL} = true ]; then \
 ;fi
 
 ###########################################################################
+# NODE.JS:
+###########################################################################
+
+ARG INSTALL_NODE=false
+ARG INSTALL_YARN=false
+
+RUN if [ ${INSTALL_NODE} = true ]; then \
+    curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+    && apt-get install -y nodejs && \
+    if [ ${INSTALL_YARN} = true ]; then \
+        apt-get install -y apt-transport-https && \
+        curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+        echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+        apt-get update && apt-get install yarn \
+    ;fi \
+;fi
+
+###########################################################################
 # pgsql
 ###########################################################################
 
@@ -210,20 +228,6 @@ RUN if [ ${INSTALL_YAML} = true ]; then \
     apt-get install libyaml-dev -y ; \
     pecl install yaml; \
     docker-php-ext-enable yaml \
-;fi
-
-###########################################################################
-# YARN:
-###########################################################################
-
-ARG INSTALL_YARN=false
-
-RUN if [ ${INSTALL_YARN} = true ]; then \
-    curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
-    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-    apt-get install -qq -y build-essential nodejs yarn &&  \
-    yarn install \
 ;fi
 
 ###########################################################################
