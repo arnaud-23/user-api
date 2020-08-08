@@ -11,5 +11,8 @@ interface UserGateway
     /** @throws UserNotFoundException */
     public function findById(int $id): User;
 
+    /** @throws UserNotFoundException */
+    public function findByUuid(string $uuid): User;
+
     public function insert(User $user): void;
 }

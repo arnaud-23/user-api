@@ -10,7 +10,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NoResultException;
 
-class UserRepository extends ServiceEntityRepository implements UserGateway
+final class UserRepository extends ServiceEntityRepository implements UserGateway
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -23,6 +23,19 @@ class UserRepository extends ServiceEntityRepository implements UserGateway
             return $this->createQueryBuilder('u')
                 ->where('u.id = :userId')
                 ->setParameter('userId', $id)
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException $e) {
+            throw new UserNotFoundException();
+        }
+    }
+
+    public function findByUuid(string $uuid): User
+    {
+        try {
+            return $this->createQueryBuilder('u')
+                ->where('u.uuid = :uuid')
+                ->setParameter('uuid', $uuid)
                 ->getQuery()
                 ->getSingleResult();
         } catch (NoResultException $e) {

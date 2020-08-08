@@ -25,20 +25,30 @@ final class InMemoryUserGateway implements UserGateway
         self::$uuid = '';
     }
 
-    public function insert(User $user): void
+    public function findById(int $id): User
     {
-        EntityModifier::setId($user, self::$id);
-        EntityModifier::setProperty($user, 'uuid', self::$uuid);
-
-        self::$users[] = $user;
+        return $this->findOneOrThrowException();
     }
 
-    public function findById(int $id): User
+    private function findOneOrThrowException(): User
     {
         if (!empty(self::$users)) {
             return reset(self::$users);
         }
 
         throw new UserNotFoundException();
+    }
+
+    public function findByUuid(string $uuid): User
+    {
+        return $this->findOneOrThrowException();
+    }
+
+    public function insert(User $user): void
+    {
+        EntityModifier::setId($user, self::$id);
+        EntityModifier::setProperty($user, 'uuid', self::$uuid);
+
+        self::$users[] = $user;
     }
 }
