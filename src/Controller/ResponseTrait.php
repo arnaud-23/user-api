@@ -13,10 +13,8 @@ trait ResponseTrait
 {
     private SerializerInterface $serializer;
 
-    /**
-     * @Required
-     */
-    public function setSerializer(SerializerInterface $serializer): void
+    /** @required */
+    final public function setSerializer(SerializerInterface $serializer): void
     {
         $this->serializer = $serializer;
     }
@@ -28,7 +26,7 @@ trait ResponseTrait
         return $this->createJsonResponse($vm ?? new \stdClass(), Response::HTTP_CREATED, $headers);
     }
 
-    protected function createJsonResponse($vm, int $status = Response::HTTP_OK, array $headers = []): JsonResponse
+    private function createJsonResponse($vm, int $status = Response::HTTP_OK, array $headers = []): JsonResponse
     {
         return new JsonResponse($this->serialize($vm), $status, $headers, true);
     }

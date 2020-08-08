@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\BusinessRules\Security\User\Gateways;
 
-class UserSecurityCredentialsNotFoundException extends \Exception
+use App\BusinessRules\BusinessRulesException;
+
+class UserSecurityCredentialsNotFoundException extends BusinessRulesException
 {
 }

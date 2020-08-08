@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Application;
 
 use App\BusinessRules\Application\Requestors\RegisterApplicationRequest;
@@ -15,7 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PutApplicationController extends AbstractController
+final class PutApplicationController extends AbstractController
 {
     use ResponseTrait;
     use ValidationRequestControllerTrait;

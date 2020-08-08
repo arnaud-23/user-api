@@ -16,7 +16,7 @@ use App\BusinessRules\User\Entities\User;
 use App\BusinessRules\User\Gateways\UserGateway;
 use App\BusinessRules\User\Responders\UserResponse;
 
-class RegisterApplication implements UseCase
+final class RegisterApplication implements UseCase
 {
     private ApplicationFactory $applicationFactory;
 

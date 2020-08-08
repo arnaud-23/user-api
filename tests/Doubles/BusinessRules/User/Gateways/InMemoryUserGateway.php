@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Doubles\BusinessRules\User\Gateways;
 
 use App\BusinessRules\User\Entities\User;
@@ -7,20 +9,15 @@ use App\BusinessRules\User\Gateways\UserGateway;
 use App\BusinessRules\User\Gateways\UserNotFoundException;
 use App\Doubles\BusinessRules\EntityModifier;
 
-class InMemoryUserGateway implements UserGateway
+final class InMemoryUserGateway implements UserGateway
 {
-    /**
-     * @var User[]
-     */
+    /** @var User[] */
     public static array $users = [];
 
     public static int $id = 0;
 
     public static string $uuid = '';
 
-    /**
-     * @param User[] $users
-     */
     public function __construct(array $users = [])
     {
         self::$users = $users;

@@ -1,70 +1,57 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\BusinessRules\User\Entities;
 
 abstract class User
 {
-    /**
-     * @var string
-     */
-    protected $email;
+    protected string $email;
 
-    /**
-     * @var string
-     */
-    protected $firstName;
+    protected string $firstName;
 
-    /**
-     * @var int
-     */
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
-    protected $lastName;
+    protected string $lastName;
 
-    /**
-     * @var string
-     */
-    protected $uuid;
+    protected string $uuid;
 
     public function __construct(string $email)
     {
         $this->email = $email;
     }
 
-    public function getEmail(): string
+    final public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function getFirstName(): string
+    final public function getFirstName(): string
     {
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): void
+    final public function setFirstName(string $firstName): void
     {
         $this->firstName = $firstName;
     }
 
-    public function getId(): int
+    final public function getId(): int
     {
         return $this->id;
     }
 
-    public function getLastName(): string
+    final public function getLastName(): string
     {
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): void
+    final public function setLastName(string $lastName): void
     {
         $this->lastName = $lastName;
     }
 
-    public function getUuid(): string
+    final public function getUuid(): string
     {
         return $this->uuid;
     }

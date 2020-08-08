@@ -6,7 +6,7 @@ namespace App\BusinessRules\User\Requestors;
 
 use App\BusinessRules\UseCaseRequest;
 
-class GetUserRequest implements UseCaseRequest
+final class GetUserRequest implements UseCaseRequest
 {
     public int $userId;
 

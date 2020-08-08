@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\BusinessRules\User\Responders;
 
 use App\BusinessRules\UseCaseResponse;
 
-class UserResponse implements UseCaseResponse
+final class UserResponse implements UseCaseResponse
 {
     public string $email = '';
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\User;
 
 use App\BusinessRules\UseCase;
@@ -12,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PostUserController
+final class PostUserController
 {
     use ResponseTrait;
     use ValidationRequestControllerTrait;
