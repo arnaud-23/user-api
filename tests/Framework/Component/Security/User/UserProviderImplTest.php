@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Framework\Component\Security\User;
 
-use App\BusinessRules\User\Entities\User;
+use App\BusinessRules\Security\User\Entities\UserSecurityCredential;
 use App\Doubles\Assert;
 use App\Doubles\BusinessRules\Security\User\Gateways\InMemoryUserSecurityGateway;
 use App\Entity\Security\User\UserSecurityCredentialImpl;
@@ -44,11 +44,11 @@ final class UserProviderImplTest extends TestCase
     /** @test */
     public function loadReturnUser(): void
     {
-        /** @var User $userStub */
-        $userStub = InMemoryFixtureGateway::get('User1');
-        $user = $this->provider->loadUserByUsername($userStub->getEmail());
+        /** @var UserSecurityCredential $uscStub */
+        $uscStub = InMemoryFixtureGateway::get('UserSecurityCredential1');
+        $usc = $this->provider->loadUserByUsername($uscStub->getUser()->getEmail());
 
-        Assert::assertObjectsEquals(InMemoryFixtureGateway::get('UserSecurityCredential1'), $user);
+        Assert::assertObjectsEquals($uscStub, $usc);
     }
 
     /** @test */
@@ -62,11 +62,13 @@ final class UserProviderImplTest extends TestCase
     /** @test */
     public function refreshUserNotFoundThrowException(): void
     {
+        /** @var UserSecurityCredential $usc */
+        $usc = InMemoryFixtureGateway::get('UserSecurityCredential1');
         $this->expectException(UsernameNotFoundException::class);
-        $this->expectExceptionMessage("User id '236543' not exist.");
+        $this->expectExceptionMessage("User id '{$usc->getUserId()}' not exist.");
 
         InMemoryUserSecurityGateway::$userSecurityCredentials = [];
-        $this->provider->refreshUser(InMemoryFixtureGateway::get('UserSecurityCredential1'));
+        $this->provider->refreshUser($usc);
     }
 
     /** @test */

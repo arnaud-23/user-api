@@ -14,7 +14,7 @@ abstract class UserSecurityCredential
     protected string $password;
 
     /** @var string[] */
-    protected array $roles;
+    protected array $roles = [];
 
     protected string $salt;
 
