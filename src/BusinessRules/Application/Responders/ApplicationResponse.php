@@ -11,7 +11,7 @@ final class ApplicationResponse implements UseCaseResponse
 {
     public string $name = '';
 
-    public ?UserResponse $owner = null;
+    public UserResponse $owner;
 
     public string $uuid = '';
 

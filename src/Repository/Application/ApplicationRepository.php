@@ -17,6 +17,16 @@ final class ApplicationRepository extends ServiceEntityRepository implements App
         parent::__construct($registry, ApplicationImpl::class);
     }
 
+    public function findAllByUser(string $userUuid): array
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.owner', 'owner')
+            ->where('owner.uuid = :userUuid')
+            ->setParameter('userUuid', $userUuid)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function insert(Application $application): void
     {
         $this->getEntityManager()->persist($application);

@@ -22,17 +22,27 @@ abstract class Application
         $this->name = $name;
     }
 
-    public function getName(): string
+    final public function getId(): int
+    {
+        return $this->id;
+    }
+
+    final public function getName(): string
     {
         return $this->name;
     }
 
-    public function getOwner(): User
+    final public function getOwnerUuid(): string
+    {
+        return $this->getOwner()->getUuid();
+    }
+
+    final public function getOwner(): User
     {
         return $this->owner;
     }
 
-    public function getUuid(): string
+    final public function getUuid(): string
     {
         return $this->uuid;
     }
