@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\BusinessRules\User\Entities;
 
+use Ramsey\Uuid\Uuid;
+
 abstract class User
 {
     protected string $email;
@@ -19,6 +21,7 @@ abstract class User
     public function __construct(string $email)
     {
         $this->email = $email;
+        $this->uuid = Uuid::uuid4()->toString();
     }
 
     final public function getEmail(): string
