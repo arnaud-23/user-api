@@ -6,6 +6,7 @@ namespace App\Doubles\BusinessRules\Application\Gateways;
 
 use App\BusinessRules\Application\Entities\Application;
 use App\BusinessRules\Application\Gateways\ApplicationGateway;
+use App\BusinessRules\Application\Gateways\ApplicationNotFoundException;
 use App\Doubles\BusinessRules\EntityModifier;
 
 final class InMemoryApplicationGateway implements ApplicationGateway
@@ -27,6 +28,20 @@ final class InMemoryApplicationGateway implements ApplicationGateway
     public function findAllByUser(string $userUuid): array
     {
         return self::$applications;
+    }
+
+    public function findByUuid(string $uuid): Application
+    {
+        return $this->findOneOrThrowException();
+    }
+
+    private function findOneOrThrowException(): Application
+    {
+        if (!empty(self::$applications)) {
+            return reset(self::$applications);
+        }
+
+        throw new ApplicationNotFoundException();
     }
 
     public function insert(Application $application): void

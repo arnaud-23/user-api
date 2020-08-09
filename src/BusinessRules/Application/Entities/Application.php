@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 abstract class Application
 {
     /** @var ApplicationUser[] */
-    protected ?array $applicationUsers = [];
+    protected array $applicationUsers = [];
 
     protected int $id;
 

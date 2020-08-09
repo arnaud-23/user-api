@@ -51,7 +51,7 @@ final class GetUserApplicationsTest extends TestCase
         /** @var ApplicationResponse $response */
         $expectedResponse = UseCaseResponseAssembler::create(ApplicationResponse::class, $expectedEntity);
         $expectedResponse->owner = UseCaseResponseAssembler::create(UserResponse::class, $expectedEntity->getOwner());
-        Assert::assertObjectsEquals(new ApplicationsResponse([$expectedResponse]), $response);
+        Assert::assertObjectsEquals(ApplicationsResponse::create([$expectedResponse]), $response);
     }
 
     protected function setUp(): void
