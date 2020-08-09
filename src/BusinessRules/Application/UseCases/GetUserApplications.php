@@ -51,15 +51,16 @@ final class GetUserApplications implements UseCase
     /** @param Application[] $applications */
     private function buildResponse(array $applications): ApplicationsResponse
     {
-        $responses = [];
-        foreach ($applications as $application) {
-            $response = UseCaseResponseAssembler::create(ApplicationResponse::class, $application, ['owner']);
-            /** @var UserResponse $userResponse */
-            $userResponse = UseCaseResponseAssembler::create(UserResponse::class, $application->getOwner());
-            $response->owner = $userResponse;
-            $responses[] = $response;
-        }
+        return ApplicationsResponse::create(
+            array_map(
+                static function (Application $application) {
+                    $response = UseCaseResponseAssembler::create(ApplicationResponse::class, $application, ['owner']);
+                    $response->owner = UseCaseResponseAssembler::create(UserResponse::class, $application->getOwner());
 
-        return new ApplicationsResponse($responses);
+                    return $response;
+                },
+                $applications
+            )
+        );
     }
 }

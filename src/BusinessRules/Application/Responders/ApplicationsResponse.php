@@ -16,6 +16,12 @@ final class ApplicationsResponse implements UseCaseResponse
         $this->applications = $applications;
     }
 
+    /** @param ApplicationResponse[] $applications */
+    public static function create(array $applications): self
+    {
+        return new self($applications);
+    }
+
     /** @return ApplicationResponse[] */
     public function getApplications(): array
     {
