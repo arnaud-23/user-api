@@ -14,7 +14,6 @@ use App\BusinessRules\UseCaseRequest;
 use App\BusinessRules\UseCaseResponseAssembler;
 use App\BusinessRules\User\Entities\User;
 use App\BusinessRules\User\Gateways\UserGateway;
-use App\BusinessRules\User\Responders\UserResponse;
 
 final class GetUserApplications implements UseCase
 {
@@ -31,21 +30,21 @@ final class GetUserApplications implements UseCase
     /** @param GetUserApplicationsRequest $useCaseRequest */
     public function execute(UseCaseRequest $useCaseRequest): ApplicationsResponse
     {
-        $user = $this->getUser($useCaseRequest);
-        $applications = $this->getApplications($user->getUuid());
+        $user = $this->getUser($useCaseRequest->getUserUuid());
+        $applications = $this->getApplications($user);
 
         return $this->buildResponse($applications);
     }
 
-    private function getUser(GetUserApplicationsRequest $useCaseRequest): User
+    private function getUser(string $userUuid): User
     {
-        return $this->userGateway->findByUuid($useCaseRequest->userUuid);
+        return $this->userGateway->findByUuid($userUuid);
     }
 
     /** @return Application[] */
-    private function getApplications(string $userUuid): array
+    private function getApplications(User $user): array
     {
-        return $this->applicationGateway->findAllByUser($userUuid);
+        return $this->applicationGateway->findAllByUser($user->getUuid());
     }
 
     /** @param Application[] $applications */
@@ -54,10 +53,7 @@ final class GetUserApplications implements UseCase
         return ApplicationsResponse::create(
             array_map(
                 static function (Application $application) {
-                    $response = UseCaseResponseAssembler::create(ApplicationResponse::class, $application, ['owner']);
-                    $response->owner = UseCaseResponseAssembler::create(UserResponse::class, $application->getOwner());
-
-                    return $response;
+                    return UseCaseResponseAssembler::create(ApplicationResponse::class, $application);
                 },
                 $applications
             )

@@ -8,7 +8,7 @@ use App\BusinessRules\UseCaseRequest;
 
 final class GetUserApplicationsRequest implements UseCaseRequest
 {
-    public string $userUuid;
+    private string $userUuid;
 
     public function __construct(string $userUuid)
     {
@@ -18,5 +18,10 @@ final class GetUserApplicationsRequest implements UseCaseRequest
     public static function create(string $userUuid): GetUserApplicationsRequest
     {
         return new self($userUuid);
+    }
+
+    public function getUserUuid(): string
+    {
+        return $this->userUuid;
     }
 }
