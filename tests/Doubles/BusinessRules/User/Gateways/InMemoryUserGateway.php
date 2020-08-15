@@ -51,4 +51,9 @@ final class InMemoryUserGateway implements UserGateway
 
         self::$users[] = $user;
     }
+
+    public function update(User $user): void
+    {
+        self::$users[] = $user;
+    }
 }

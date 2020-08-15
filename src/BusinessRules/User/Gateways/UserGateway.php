@@ -15,4 +15,6 @@ interface UserGateway
     public function findByUuid(string $uuid): User;
 
     public function insert(User $user): void;
+
+    public function update(User $user): void;
 }

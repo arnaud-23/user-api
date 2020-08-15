@@ -46,6 +46,11 @@ final class UserRepository extends ServiceEntityRepository implements UserGatewa
     public function insert(User $user): void
     {
         $this->getEntityManager()->persist($user);
-        $this->getEntityManager()->flush($user);
+        $this->getEntityManager()->flush();
+    }
+
+    public function update(User $user): void
+    {
+        $this->getEntityManager()->flush();
     }
 }
