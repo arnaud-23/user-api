@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Application;
 
 use App\BusinessRules\Application\Requestors\RegisterApplicationRequest;
+use App\BusinessRules\Application\Responders\ApplicationResponse;
 use App\BusinessRules\Application\UseCases\RegisterApplication;
 use App\Controller\ResponseTrait;
 use App\Controller\ValidationRequestControllerTrait;
@@ -30,18 +31,26 @@ final class PutApplicationController extends AbstractController
     }
 
     /**
-     * @Route("/api/applications", methods={"PUT"}, defaults={"oauth2_scopes":{"application"}})
+     * @Route("/api/users/{uuid}/applications", methods={"PUT"}, defaults={"oauth2_scopes":{"application"}})
      * @IsGranted("ROLE_USER")
      */
-    public function post(Request $request): JsonResponse
+    public function post(Request $request, string $uuid): JsonResponse
     {
         /** @var PutApplicationModel $model */
         $model = $this->validateRequest($request, PutApplicationModel::class);
+        $response = $this->registerApplication($model, $uuid);
+        $vm = $this->buildVM($response);
 
-        $response = $this->registerApplication->execute(
-            RegisterApplicationRequest::create($model->name, $this->getUser()->getId())
-        );
+        return $this->createCreatedResponse($vm);
+    }
 
-        return $this->createCreatedResponse(null, ViewModelAssembler::create(ApplicationViewModel::class, $response));
+    private function registerApplication(PutApplicationModel $model, string $uuid): ApplicationResponse
+    {
+        return $this->registerApplication->execute(RegisterApplicationRequest::create($model->name, $uuid));
+    }
+
+    private function buildVM(ApplicationResponse $response): ApplicationViewModel
+    {
+        return ViewModelAssembler::create(ApplicationViewModel::class, $response);
     }
 }

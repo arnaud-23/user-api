@@ -8,19 +8,19 @@ use App\BusinessRules\UseCaseRequest;
 
 final class RegisterApplicationRequest implements UseCaseRequest
 {
-    public string $name;
+    private string $name;
 
-    public int $ownerId;
+    private string $ownerUuid;
 
-    public function __construct(string $name, int $ownerId)
+    public function __construct(string $name, string $ownerUuid)
     {
         $this->name = $name;
-        $this->ownerId = $ownerId;
+        $this->ownerUuid = $ownerUuid;
     }
 
-    public static function create(string $name, int $ownerId): RegisterApplicationRequest
+    public static function create(string $name, string $ownerUuid): RegisterApplicationRequest
     {
-        return new self($name, $ownerId);
+        return new self($name, $ownerUuid);
     }
 
     public function getName(): string
@@ -28,8 +28,8 @@ final class RegisterApplicationRequest implements UseCaseRequest
         return $this->name;
     }
 
-    public function getOwnerId(): int
+    public function getOwnerUuid(): string
     {
-        return $this->ownerId;
+        return $this->ownerUuid;
     }
 }

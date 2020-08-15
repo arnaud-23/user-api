@@ -9,7 +9,6 @@ use App\BusinessRules\Application\Requestors\RegisterApplicationRequest;
 use App\BusinessRules\Application\Responders\ApplicationResponse;
 use App\BusinessRules\UseCaseResponseAssembler;
 use App\BusinessRules\User\Gateways\UserNotFoundException;
-use App\BusinessRules\User\Responders\UserResponse;
 use App\Doubles\Assert;
 use App\Doubles\BusinessRules\Application\Gateways\InMemoryApplicationGateway;
 use App\Doubles\BusinessRules\EntityModifier;
@@ -45,10 +44,10 @@ final class RegisterApplicationTest extends TestCase
         $response = $this->useCase->execute($this->request);
 
         Assert::assertObjectsEquals($expectedEntity, reset(InMemoryApplicationGateway::$applications));
-        /** @var ApplicationResponse $response */
-        $expectedResponse = UseCaseResponseAssembler::create(ApplicationResponse::class, $expectedEntity);
-        $expectedResponse->owner = UseCaseResponseAssembler::create(UserResponse::class, $expectedEntity->getOwner());
-        Assert::assertObjectsEquals($expectedResponse, $response);
+        Assert::assertObjectsEquals(
+            UseCaseResponseAssembler::create(ApplicationResponse::class, $expectedEntity),
+            $response
+        );
     }
 
     protected function setUp(): void
@@ -67,6 +66,6 @@ final class RegisterApplicationTest extends TestCase
 
     private function buildRequest(Application $stub): RegisterApplicationRequest
     {
-        return RegisterApplicationRequest::create($stub->getName(), $stub->getOwner()->getId());
+        return RegisterApplicationRequest::create($stub->getName(), $stub->getOwnerUuid());
     }
 }

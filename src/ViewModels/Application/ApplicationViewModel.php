@@ -8,7 +8,5 @@ final class ApplicationViewModel
 {
     public string $name = '';
 
-    public string $owner = '';
-
     public string $uuid = '';
 }

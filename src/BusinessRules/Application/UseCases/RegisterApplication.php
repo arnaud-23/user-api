@@ -14,7 +14,6 @@ use App\BusinessRules\UseCaseRequest;
 use App\BusinessRules\UseCaseResponseAssembler;
 use App\BusinessRules\User\Entities\User;
 use App\BusinessRules\User\Gateways\UserGateway;
-use App\BusinessRules\User\Responders\UserResponse;
 
 final class RegisterApplication implements UseCase
 {
@@ -37,7 +36,7 @@ final class RegisterApplication implements UseCase
     /** @param RegisterApplicationRequest $useCaseRequest */
     public function execute(UseCaseRequest $useCaseRequest): ApplicationResponse
     {
-        $owner = $this->getOwner($useCaseRequest);
+        $owner = $this->getOwner($useCaseRequest->getOwnerUuid());
         $application = $this->buildApplication($owner, $useCaseRequest);
 
         $this->save($application);
@@ -45,9 +44,9 @@ final class RegisterApplication implements UseCase
         return $this->buildResponse($application);
     }
 
-    protected function getOwner(RegisterApplicationRequest $useCaseRequest): User
+    private function getOwner(string $ownerUuid): User
     {
-        return $this->userGateway->findById($useCaseRequest->getOwnerId());
+        return $this->userGateway->findByUuid($ownerUuid);
     }
 
     private function buildApplication(User $owner, RegisterApplicationRequest $useCaseRequest): Application
@@ -62,10 +61,6 @@ final class RegisterApplication implements UseCase
 
     private function buildResponse(Application $application): ApplicationResponse
     {
-        /** @var ApplicationResponse $applicationResponse */
-        $applicationResponse = UseCaseResponseAssembler::create(ApplicationResponse::class, $application, ['owner']);
-        $applicationResponse->owner = UseCaseResponseAssembler::create(UserResponse::class, $application->getOwner());
-
-        return $applicationResponse;
+        return UseCaseResponseAssembler::create(ApplicationResponse::class, $application);
     }
 }

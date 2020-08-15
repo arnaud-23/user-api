@@ -19,7 +19,7 @@ trait ResponseTrait
         $this->serializer = $serializer;
     }
 
-    private function createCreatedResponse(string $locationUrl = null, $vm = null): JsonResponse
+    private function createCreatedResponse($vm = null, string $locationUrl = null): JsonResponse
     {
         $headers = null !== $locationUrl ? [Header::LOCATION => $locationUrl] : [];
 
