@@ -12,6 +12,7 @@ use App\BusinessRules\User\Gateways\UserNotFoundException;
 use App\BusinessRules\User\Responders\UserResponse;
 use App\Doubles\Assert;
 use App\Doubles\BusinessRules\Application\Gateways\InMemoryApplicationGateway;
+use App\Doubles\BusinessRules\EntityModifier;
 use App\Doubles\BusinessRules\User\Gateways\InMemoryUserGateway;
 use App\Entity\Application\ApplicationFactoryImpl;
 use App\Fixtures\InMemoryFixtureGateway;
@@ -37,6 +38,7 @@ final class RegisterApplicationTest extends TestCase
     {
         /** @var Application $expectedEntity */
         $expectedEntity = InMemoryFixtureGateway::get('Application1');
+        EntityModifier::setProperty($expectedEntity, 'applicationUsers', []);
         InMemoryApplicationGateway::$id = $expectedEntity->getId();
         InMemoryApplicationGateway::$uuid = $expectedEntity->getUuid();
 
