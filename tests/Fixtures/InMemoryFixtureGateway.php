@@ -15,7 +15,7 @@ final class InMemoryFixtureGateway
             throw new \RuntimeException("No fixture with key '$key' found.");
         }
 
-        return self::$objects[$key];
+        return clone self::$objects[$key];
     }
 
     public static function has(string $key): bool
