@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class PutApplicationController extends AbstractController
+final class PostApplicationController extends AbstractController
 {
     use ResponseTrait;
     use ValidationRequestControllerTrait;
@@ -31,7 +31,7 @@ final class PutApplicationController extends AbstractController
     }
 
     /**
-     * @Route("/api/users/{uuid}/applications", methods={"PUT"}, defaults={"oauth2_scopes":{"application"}})
+     * @Route("/api/users/{uuid}/applications", methods={"POST"}, defaults={"oauth2_scopes":{"application"}})
      * @IsGranted("ROLE_USER")
      */
     public function post(Request $request, string $uuid): JsonResponse
