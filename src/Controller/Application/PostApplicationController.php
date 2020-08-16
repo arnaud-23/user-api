@@ -13,12 +13,11 @@ use App\Model\Application\PutApplicationModel;
 use App\ViewModels\Application\ApplicationViewModel;
 use App\ViewModels\ViewModelAssembler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class PostApplicationController extends AbstractController
+final class PostApplicationController
 {
     use ResponseTrait;
     use ValidationRequestControllerTrait;
