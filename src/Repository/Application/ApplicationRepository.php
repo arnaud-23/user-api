@@ -6,8 +6,10 @@ namespace App\Repository\Application;
 
 use App\BusinessRules\Application\Entities\Application;
 use App\BusinessRules\Application\Gateways\ApplicationGateway;
+use App\BusinessRules\Application\Gateways\ApplicationNotFoundException;
 use App\Entity\Application\ApplicationImpl;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 final class ApplicationRepository extends ServiceEntityRepository implements ApplicationGateway
@@ -25,6 +27,19 @@ final class ApplicationRepository extends ServiceEntityRepository implements App
             ->setParameter('userUuid', $userUuid)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findByUuid(string $uuid): Application
+    {
+        try {
+            return $this->createQueryBuilder('a')
+                ->where('a.uuid = :uuid')
+                ->setParameter('uuid', $uuid)
+                ->getQuery()
+                ->getResult();
+        } catch (NoResultException $exception) {
+            throw new ApplicationNotFoundException();
+        }
     }
 
     public function insert(Application $application): void
