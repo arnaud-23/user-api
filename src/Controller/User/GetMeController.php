@@ -10,6 +10,7 @@ use App\BusinessRules\User\UseCases\GetUser;
 use App\Controller\ResponseTrait;
 use App\ViewModels\User\UserViewModel;
 use App\ViewModels\ViewModelAssembler;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
