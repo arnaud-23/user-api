@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Application;
+namespace App\Controller\Api\Application;
 
 use App\BusinessRules\Application\Requestors\RegisterApplicationRequest;
 use App\BusinessRules\Application\Responders\ApplicationResponse;

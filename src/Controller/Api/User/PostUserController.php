@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\User;
+namespace App\Controller\Api\User;
 
 use App\BusinessRules\User\Requestors\CreateUserRequest;
 use App\BusinessRules\User\UseCases\CreateUser;
