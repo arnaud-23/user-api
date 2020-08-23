@@ -5,42 +5,28 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Framework\Component\ApiError\ApiExceptionFactory;
-use Doctrine\Common\Annotations\Annotation\Required;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 trait ValidationRequestControllerTrait
 {
-    /**
-     * @var ValidatorInterface
-     */
-    private $validator;
+    private ValidatorInterface $validator;
 
-    /**
-     * @var ApiExceptionFactory
-     */
-    private $apiExceptionFactory;
+    private ApiExceptionFactory $apiExceptionFactory;
 
-    /**
-     * @Required
-     */
-    public function setValidator(ValidatorInterface $validator): void
+    /** @required */
+    final public function setValidator(ValidatorInterface $validator): void
     {
         $this->validator = $validator;
     }
 
-    /**
-     * @Required
-     */
-    public function setApiExceptionFactory(ApiExceptionFactory $apiExceptionFactory): void
+    /** @required */
+    final public function setApiExceptionFactory(ApiExceptionFactory $apiExceptionFactory): void
     {
         $this->apiExceptionFactory = $apiExceptionFactory;
     }
 
-    /**
-     * @return array|object
-     */
+    /** @return array|object */
     private function validateRequest(Request $request, string $model)
     {
         $model = $this->serializer->deserialize($request->getContent(), $model, 'json');

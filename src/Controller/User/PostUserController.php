@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\User;
 
-use App\BusinessRules\UseCase;
 use App\BusinessRules\User\Requestors\CreateUserRequest;
 use App\BusinessRules\User\UseCases\CreateUser;
 use App\Controller\ResponseTrait;
@@ -12,14 +13,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PostUserController
+final class PostUserController
 {
     use ResponseTrait;
     use ValidationRequestControllerTrait;
 
     private CreateUser $createUser;
 
-    public function __construct(UseCase $createUser)
+    public function __construct(CreateUser $createUser)
     {
         $this->createUser = $createUser;
     }

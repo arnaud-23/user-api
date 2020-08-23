@@ -1,5 +1,7 @@
 <?= "<?php\n" ?>
 
+declare(strict_types=1);
+
 namespace App\BusinessRules\<?= $module ?>\Gateways;
 
 use App\BusinessRules\<?= $module ?>\Entities\<?= $entity_name ?>;

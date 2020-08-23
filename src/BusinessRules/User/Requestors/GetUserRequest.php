@@ -6,9 +6,11 @@ namespace App\BusinessRules\User\Requestors;
 
 use App\BusinessRules\UseCaseRequest;
 
-class GetUserRequest implements UseCaseRequest
+final class GetUserRequest implements UseCaseRequest
 {
-    public int $userId;
+    public ?int $userId = null;
+
+    public ?string $userUuid = null;
 
     public static function create(): GetUserRequest
     {
@@ -22,8 +24,20 @@ class GetUserRequest implements UseCaseRequest
         return $this;
     }
 
-    public function getUserId(): int
+    public function withUserUuid(string $uuid): GetUserRequest
+    {
+        $this->userUuid = $uuid;
+
+        return $this;
+    }
+
+    public function getUserId(): ?int
     {
         return $this->userId;
+    }
+
+    public function getUserUuid(): ?string
+    {
+        return $this->userUuid;
     }
 }

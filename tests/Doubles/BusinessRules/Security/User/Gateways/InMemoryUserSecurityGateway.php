@@ -1,36 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Doubles\BusinessRules\Security\User\Gateways;
 
 use App\BusinessRules\Security\User\Entities\UserSecurityCredential;
 use App\BusinessRules\Security\User\Gateways\UserSecurityCredentialGateway;
 use App\BusinessRules\Security\User\Gateways\UserSecurityCredentialsNotFoundException;
 
-class InMemoryUserSecurityGateway implements UserSecurityCredentialGateway
+final class InMemoryUserSecurityGateway implements UserSecurityCredentialGateway
 {
     /** @var UserSecurityCredential[] */
-    public static $userSecurityCredentials = [];
+    public static array $userSecurityCredentials = [];
 
     public function __construct(array $userSecurityCredentials = [])
     {
         self::$userSecurityCredentials = $userSecurityCredentials;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function findById(int $id): UserSecurityCredential
     {
-        if (array_key_exists($id, self::$userSecurityCredentials)) {
-            return self::$userSecurityCredentials[$id];
+        if (!empty(self::$userSecurityCredentials)) {
+            return reset(self::$userSecurityCredentials);
         }
 
         throw new UserSecurityCredentialsNotFoundException();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function findByEmail(string $email): UserSecurityCredential
     {
         if (!empty(self::$userSecurityCredentials)) {

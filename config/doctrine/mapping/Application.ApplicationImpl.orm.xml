@@ -14,9 +14,18 @@
         <field name="name" type="string" column="name" unique="false" nullable="false"/>
         <field name="uuid" type="string" column="uuid" unique="true" nullable="false"/>
 
+        <one-to-many field="applicationUsers" target-entity="App\Entity\Application\ApplicationUserImpl"
+                     mapped-by="application">
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+        </one-to-many>
+
         <many-to-one field="owner" target-entity="App\Entity\User\UserImpl" fetch="EAGER">
             <join-column name="user_id" referenced-column-name="id"/>
         </many-to-one>
+
     </entity>
 
 </doctrine-mapping>

@@ -6,22 +6,42 @@ namespace App\Doubles\BusinessRules\Application\Gateways;
 
 use App\BusinessRules\Application\Entities\Application;
 use App\BusinessRules\Application\Gateways\ApplicationGateway;
+use App\BusinessRules\Application\Gateways\ApplicationNotFoundException;
 use App\Doubles\BusinessRules\EntityModifier;
 
 final class InMemoryApplicationGateway implements ApplicationGateway
 {
     /** @var Application[] */
-    public static array $application = [];
+    public static array $applications = [];
 
     public static int $id = 0;
 
     public static string $uuid = '';
 
-    public function __construct(array $application = [])
+    public function __construct(array $applications = [])
     {
-        self::$application = $application;
+        self::$applications = $applications;
         self::$id = 0;
         self::$uuid = '';
+    }
+
+    public function findAllByUser(string $userUuid): array
+    {
+        return self::$applications;
+    }
+
+    public function findByUuid(string $uuid): Application
+    {
+        return $this->findOneOrThrowException();
+    }
+
+    private function findOneOrThrowException(): Application
+    {
+        if (!empty(self::$applications)) {
+            return reset(self::$applications);
+        }
+
+        throw new ApplicationNotFoundException();
     }
 
     public function insert(Application $application): void
@@ -29,6 +49,6 @@ final class InMemoryApplicationGateway implements ApplicationGateway
         EntityModifier::setId($application, self::$id);
         EntityModifier::setProperty($application, 'uuid', self::$uuid);
 
-        self::$application[] = $application;
+        self::$applications[] = $application;
     }
 }

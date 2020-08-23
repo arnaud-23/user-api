@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\BusinessRules\Application\Entities;
 
 use App\BusinessRules\User\Entities\User;
+use Ramsey\Uuid\Uuid;
 
 abstract class Application
 {
+    /** @var ApplicationUser[] */
+    protected array $applicationUsers = [];
+
     protected int $id;
 
     protected string $name;
@@ -20,24 +24,39 @@ abstract class Application
     {
         $this->owner = $owner;
         $this->name = $name;
+        $this->uuid = Uuid::uuid4()->toString();
     }
 
-    public function getId(): int
+    /** @return User[] */
+    final public function getUsers(): array
+    {
+        return array_map(
+            fn(ApplicationUser $applicationUser) => $applicationUser->getUser(),
+            $this->applicationUsers
+        );
+    }
+
+    final public function getId(): int
     {
         return $this->id;
     }
 
-    public function getName(): string
+    final public function getName(): string
     {
         return $this->name;
     }
 
-    public function getOwner(): User
+    final public function getOwnerUuid(): string
+    {
+        return $this->getOwner()->getUuid();
+    }
+
+    final public function getOwner(): User
     {
         return $this->owner;
     }
 
-    public function getUuid(): string
+    final public function getUuid(): string
     {
         return $this->uuid;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\BusinessRules\Security\User\Entities;
 
 use App\BusinessRules\User\Entities\User;
@@ -7,20 +9,16 @@ use Carbon\CarbonImmutable;
 
 abstract class UserSecurityCredential
 {
-    /** @var \DateTimeInterface */
-    protected $createdAt;
+    protected \DateTimeInterface $createdAt;
 
-    /** @var string */
-    protected $password;
+    protected string $password;
 
     /** @var string[] */
-    protected $roles;
+    protected array $roles = [];
 
-    /** @var string */
-    protected $salt;
+    protected string $salt;
 
-    /** @var User */
-    protected $user;
+    protected User $user;
 
     public function __construct(User $user)
     {
@@ -28,17 +26,17 @@ abstract class UserSecurityCredential
         $this->user = $user;
     }
 
-    public function getPassword(): string
+    final public function getPassword(): string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): void
+    final public function setPassword(string $password): void
     {
         $this->password = $password;
     }
 
-    public function getRoles(): array
+    final public function getRoles(): array
     {
         $roles = $this->roles;
         $roles[] = 'ROLE_USER';
@@ -46,41 +44,41 @@ abstract class UserSecurityCredential
         return array_unique($roles);
     }
 
-    public function addRole(string $role): void
+    final public function addRole(string $role): void
     {
         if (!in_array($role, $this->roles)) {
             $this->roles[] = $role;
         }
     }
 
-    public function removeRole(string $role): void
+    final public function removeRole(string $role): void
     {
         if (false !== $key = array_search($role, $this->roles)) {
             unset($this->roles[$key]);
         }
     }
 
-    public function getSalt(): string
+    final public function getSalt(): string
     {
         return $this->salt;
     }
 
-    public function setSalt(string $salt): void
+    final public function setSalt(string $salt): void
     {
         $this->salt = $salt;
     }
 
-    public function getUser(): User
+    final public function getUser(): User
     {
         return $this->user;
     }
 
-    public function getUserId(): int
+    final public function getUserId(): int
     {
         return $this->user->getId();
     }
 
-    public function getId(): int
+    final public function getId(): int
     {
         return $this->user->getId();
     }

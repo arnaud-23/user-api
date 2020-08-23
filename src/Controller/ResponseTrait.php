@@ -13,22 +13,20 @@ trait ResponseTrait
 {
     private SerializerInterface $serializer;
 
-    /**
-     * @Required
-     */
-    public function setSerializer(SerializerInterface $serializer): void
+    /** @required */
+    final public function setSerializer(SerializerInterface $serializer): void
     {
         $this->serializer = $serializer;
     }
 
-    private function createCreatedResponse(string $locationUrl = null, $vm = null): JsonResponse
+    private function createCreatedResponse($vm = null, string $locationUrl = null): JsonResponse
     {
         $headers = null !== $locationUrl ? [Header::LOCATION => $locationUrl] : [];
 
         return $this->createJsonResponse($vm ?? new \stdClass(), Response::HTTP_CREATED, $headers);
     }
 
-    protected function createJsonResponse($vm, int $status = Response::HTTP_OK, array $headers = []): JsonResponse
+    private function createJsonResponse($vm, int $status = Response::HTTP_OK, array $headers = []): JsonResponse
     {
         return new JsonResponse($this->serialize($vm), $status, $headers, true);
     }

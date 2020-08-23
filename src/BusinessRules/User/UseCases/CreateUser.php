@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\BusinessRules\User\UseCases;
 
 use App\BusinessRules\Security\User\Entities\UserSecurityCredential;
@@ -14,7 +16,7 @@ use App\BusinessRules\User\Gateways\UserGateway;
 use App\BusinessRules\User\Requestors\CreateUserRequest;
 use App\BusinessRules\User\Responders\UserResponse;
 
-class CreateUser implements UseCase
+final class CreateUser implements UseCase
 {
     private UserFactory $userFactory;
 
@@ -36,9 +38,7 @@ class CreateUser implements UseCase
         $this->userSecurityCredentialGateway = $userSecurityCredentialGateway;
     }
 
-    /**
-     * @param CreateUserRequest $useCaseRequest
-     */
+    /** @param CreateUserRequest $useCaseRequest */
     public function execute(UseCaseRequest $useCaseRequest): UserResponse
     {
         $user = $this->buildUser($useCaseRequest);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ViewModels;
 
 use PHPUnit\Framework\TestCase;
@@ -11,10 +13,20 @@ final class ViewModelAssemblerTest extends TestCase
     {
         $viewModel = ViewModelAssembler::create(ViewModelStub::class, new \stdClass());
 
-        $this->assertInstanceOf(ViewModelStub::class, $viewModel);
+        self::assertInstanceOf(ViewModelStub::class, $viewModel);
+    }
+
+    /** @test */
+    public function assembleCollection(): void
+    {
+        $collection = ViewModelAssembler::createCollection(ViewModelStub::class, [new \stdClass()]);
+
+        $items = $collection->getItems();
+        self::assertCount(1, $items);
+        self::assertInstanceOf(ViewModelStub::class, reset($items));
     }
 }
 
-class ViewModelStub
+final class ViewModelStub
 {
 }

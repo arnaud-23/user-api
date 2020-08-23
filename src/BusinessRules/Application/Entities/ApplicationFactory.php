@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\BusinessRules\Application\Entities;
 
 use App\BusinessRules\User\Entities\User;

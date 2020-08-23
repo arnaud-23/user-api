@@ -7,12 +7,11 @@ namespace App\BusinessRules\Application\UseCases;
 use App\BusinessRules\Application\Entities\Application;
 use App\BusinessRules\Application\Requestors\RegisterApplicationRequest;
 use App\BusinessRules\Application\Responders\ApplicationResponse;
+use App\BusinessRules\UseCaseResponseAssembler;
 use App\BusinessRules\User\Gateways\UserNotFoundException;
-use App\BusinessRules\User\Responders\UserResponse;
 use App\Doubles\Assert;
-use App\Doubles\BusinessRules\Application\Entities\ApplicationStub;
 use App\Doubles\BusinessRules\Application\Gateways\InMemoryApplicationGateway;
-use App\Doubles\BusinessRules\Application\Responders\ApplicationResponseStub;
+use App\Doubles\BusinessRules\EntityModifier;
 use App\Doubles\BusinessRules\User\Gateways\InMemoryUserGateway;
 use App\Entity\Application\ApplicationFactoryImpl;
 use App\Fixtures\InMemoryFixtureGateway;
@@ -38,13 +37,17 @@ final class RegisterApplicationTest extends TestCase
     {
         /** @var Application $expectedEntity */
         $expectedEntity = InMemoryFixtureGateway::get('Application1');
+        EntityModifier::setProperty($expectedEntity, 'applicationUsers', []);
         InMemoryApplicationGateway::$id = $expectedEntity->getId();
         InMemoryApplicationGateway::$uuid = $expectedEntity->getUuid();
 
         $response = $this->useCase->execute($this->request);
 
-        Assert::assertObjectsEquals($expectedEntity, reset(InMemoryApplicationGateway::$application));
-        Assert::assertObjectsEquals($this->getApplicationStub($expectedEntity), $response);
+        Assert::assertObjectsEquals($expectedEntity, reset(InMemoryApplicationGateway::$applications));
+        Assert::assertObjectsEquals(
+            UseCaseResponseAssembler::create(ApplicationResponse::class, $expectedEntity),
+            $response
+        );
     }
 
     protected function setUp(): void
@@ -63,23 +66,6 @@ final class RegisterApplicationTest extends TestCase
 
     private function buildRequest(Application $stub): RegisterApplicationRequest
     {
-        return RegisterApplicationRequest::create($stub->getName(), $stub->getOwner()->getId());
-    }
-
-    /**
-     * @return ApplicationResponse
-     */
-    private function getApplicationStub(Application $expectedEntity): ApplicationResponse
-    {
-        $applicationStub = new ApplicationResponse();
-        $applicationStub->name = $expectedEntity->getName();
-        $applicationStub->uuid = $expectedEntity->getUuid();
-        $applicationStub->owner = new UserResponse();
-        $applicationStub->owner->uuid = $expectedEntity->getOwner()->getUuid();
-        $applicationStub->owner->firstName = $expectedEntity->getOwner()->getFirstName();
-        $applicationStub->owner->lastName = $expectedEntity->getOwner()->getLastName();
-        $applicationStub->owner->email = $expectedEntity->getOwner()->getEmail();
-
-        return $applicationStub;
+        return RegisterApplicationRequest::create($stub->getName(), $stub->getOwnerUuid());
     }
 }
