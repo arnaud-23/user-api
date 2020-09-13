@@ -2,11 +2,28 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>{% block title %}Welcome!{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
+    {% block stylesheets %}
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,500i,600,600i&display=swap" rel="stylesheet"/>
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 </head>
 <body>
-{% block body %}{% endblock %}
-{% block javascripts %}{% endblock %}
+<header class="sticky-top">
+    {% include 'partials/navbar.html.twig' %}
+</header>
+
+<main>
+    {% block body %}{% endblock %}
+</main>
+
+<footer class="container py-5">
+    {% include 'partials/footer.html.twig' %}
+</footer>
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
 </body>
 </html>
