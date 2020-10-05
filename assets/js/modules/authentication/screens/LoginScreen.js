@@ -1,4 +1,4 @@
-import { Component } from 'preact';
+import { h, Component } from 'preact';
 import LoginForm from '../components/LoginForm';
 
 export default class LoginScreen extends Component {

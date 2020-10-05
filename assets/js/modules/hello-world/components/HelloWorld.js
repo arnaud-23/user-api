@@ -1,4 +1,4 @@
-import { Component } from 'preact';
+import { h, Component } from 'preact';
 
 export default class HelloWorld extends Component {
     state = { value: '', name: 'toto' };

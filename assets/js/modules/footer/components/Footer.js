@@ -1,3 +1,5 @@
+import { h } from 'preact';
+
 export default function Footer() {
     return (<footer class="py-8 py-md-11 bg-gray-200">
         <div class="container">

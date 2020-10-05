@@ -1,3 +1,4 @@
+import { h } from 'preact';
 import 'bootstrap';
 import bsCustomFileInput from 'bs-custom-file-input';
 import { Component, Fragment, render } from 'preact';

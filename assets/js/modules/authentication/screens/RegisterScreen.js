@@ -1,4 +1,4 @@
-import { Component } from 'preact';
+import { h, Component } from 'preact';
 import RegisterForm from '../components/RegisterForm';
 
 export default class RegisterScreen extends Component {

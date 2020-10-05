@@ -1,4 +1,4 @@
-import { Component } from 'preact';
+import { h, Component } from 'preact';
 
 export default class Clock extends Component {
     state = { time: Date.now() };
