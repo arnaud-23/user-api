@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import LoginForm from '../components/LoginForm';
 import WelcomeIllustration from '../../../../img/illustrations/illustration-2.png'
+import { ROUTES } from '../hooks/routing';
 
 export default class LoginScreen extends Component {
     render() {
@@ -18,7 +19,7 @@ export default class LoginScreen extends Component {
                         <LoginForm/>
 
                         <p class="mb-0 font-size-sm text-center text-muted">
-                            Don't have an account yet? <a href="signup-illustration.html">Sign up</a>.
+                            Don't have an account yet? <a href={ROUTES.AUTHENTICATION.REGISTER}>Sign up</a>.
                         </p>
 
                     </div>

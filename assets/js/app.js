@@ -6,6 +6,7 @@ import { Component, Fragment, render } from 'preact';
 import Router from 'preact-router';
 import LoginScreen from './modules/authentication/screens/LoginScreen';
 import RegisterScreen from './modules/authentication/screens/RegisterScreen';
+import ResetPasswordScreen from './modules/authentication/screens/ResetPasswordScreen';
 import Clock from './modules/clock/components/Clock';
 import Example from './modules/example/components/Example';
 import Footer from './modules/footer/components/Footer';
@@ -24,6 +25,7 @@ class App extends Component {
                 <HomeScreen path={ROUTES.HOME}/>
                 <LoginScreen path={ROUTES.AUTHENTICATION.LOGIN}/>
                 <RegisterScreen path={ROUTES.AUTHENTICATION.REGISTER}/>
+                <ResetPasswordScreen path={ROUTES.SECURITY.RESET_PASSWORD}/>
                 <HelloWorld path={ROUTES.TEST.HELLO_WORLD}/>
                 <Clock path={ROUTES.TEST.CLOCK}/>
                 <Example path={ROUTES.TEST.EXAMPLE}/>

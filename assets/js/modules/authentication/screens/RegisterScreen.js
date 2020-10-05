@@ -1,10 +1,31 @@
 import { h, Component } from 'preact';
+import { ROUTES } from '../hooks/routing';
 import RegisterForm from '../components/RegisterForm';
+import SignUpIllustration from '../../../../img/illustrations/illustration-8.png'
 
 export default class RegisterScreen extends Component {
     render() {
-        return (<div class="text-center">
-                <RegisterForm/>
-            </div>)
+        return (<section class="section-border border-primary">
+            <div class="container d-flex flex-column">
+                <div class="row align-items-center justify-content-center no-gutters min-vh-100">
+                    <div class="col-8 col-md-6 col-lg-7 offset-md-1 order-md-2 mt-auto mt-md-0 pt-8 pb-4 py-md-11">
+                        <img src={SignUpIllustration} alt="..." class="img-fluid"/>
+                    </div>
+                    <div class="col-12 col-md-5 col-lg-4 order-md-1 mb-auto mb-md-0 pb-8 py-md-11">
+                        <h1 class="mb-0 font-weight-bold text-center">Sign up</h1>
+
+                        <p class="mb-6 text-center text-muted">Simplify your workflow in minutes.</p>
+
+                        <RegisterForm/>
+
+                        <p class="mb-0 font-size-sm text-center text-muted">
+                            Already have an account? <a href={ROUTES.AUTHENTICATION.LOGIN}>Log in</a>.
+                        </p>
+                    </div>
+                </div>
+                {/*.row*/}
+            </div>
+            {/*.container*/}
+        </section>)
     };
 }

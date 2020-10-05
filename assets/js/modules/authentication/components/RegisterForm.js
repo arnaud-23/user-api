@@ -1,21 +1,17 @@
+import { h } from 'preact';
+
 export default function RegisterForm() {
-    return (<form style="display: block; width: 100%; max-width: 330px; padding: 15px; margin: auto;">
-            <img class="mb-4" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"/>
-            <h1 class="h3 mb-3 font-weight-normal">Get started</h1>
+    return (<form class="mb-6">
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" class="form-control" id="email" placeholder="name@address.com"/>
+        </div>
 
-            <label for="inputFirstName" class="sr-only">First name</label>
-            <input type="text" id="inputFirstName" class="form-control" placeholder="Enter your first name" required autofocus style="cursor: auto;"/>
+        <div class="form-group mb-5">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter your password" style="cursor: auto; background-size: 20px 20px !important; background-position: 98% 50% !important; background-repeat: no-repeat !important; background-image: url(&quot;chrome-extension://ehpbfbahieociaeckccnklpdcmfaeegd/Icon-20@2x.png&quot;) !important;"/>
+        </div>
 
-            <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Enter your email address" required/>
-
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Enter your password" required style="margin-bottom: 10px;"/>
-            <div class="mb-3">
-                <label>
-                    <input type="checkbox"/> I have read and I accept the Terms of Use and the Privacy Policy.
-                </label>
-            </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        </form>);
+        <button class="btn btn-block btn-primary" type="submit">Sign up</button>
+    </form>);
 };
