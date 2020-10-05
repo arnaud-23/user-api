@@ -16,12 +16,6 @@ final class WebAppController extends AbstractController
         return $this->render('web/web_app/index.html.twig');
     }
 
-    /** @Route("/html", name="web_app_html", methods={"GET"}) */
-    public function html(): Response
-    {
-        return $this->render('web/web_app/home.html.twig');
-    }
-
     /** @Route("/{path}", name="web_app", methods={"GET"}) */
     public function index(string $path): Response
     {

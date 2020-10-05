@@ -70,7 +70,7 @@ export default function Footer() {
                     <ul class="list-unstyled text-muted mb-0">
                         <li class="mb-3"><a href="#!" class="text-reset">Documentation</a></li>
                         <li class="mb-3"><a href="#!" class="text-reset">Changelog</a></li>
-                        <li><a href="#!" class="text-reset">Page Builder</a></li>
+                        <li><a href="#!" class="text-reset">Pagebuilder</a></li>
                     </ul>
                 </div>
 
