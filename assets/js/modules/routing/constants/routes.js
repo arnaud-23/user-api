@@ -12,7 +12,7 @@ const webappRoutes = {
     AUTHENTICATION: {
         LOGIN: '/login', REGISTER: '/register',
     }, TEST: {
-        HELLO_WORLD: '/hello-world', CLOCK: '/clock', EXAMPLE: '/toto',
+        HELLO_WORLD: '/hello-world', CLOCK: '/clock', EXAMPLE: '/example',
     }, // SECURITY: {
     //     SET_NEW_PASSWORD: '/set-new-password',
     //     GENERATE_PASSWORD: '/generate-password',
