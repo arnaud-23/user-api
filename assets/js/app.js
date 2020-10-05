@@ -1,9 +1,10 @@
+import '../css/theme.min.css';
+import '../css/app.scss';
 import { h } from 'preact';
 import 'bootstrap';
 import bsCustomFileInput from 'bs-custom-file-input';
 import { Component, Fragment, render } from 'preact';
 import Router from 'preact-router';
-import '../css/app.scss';
 import LoginScreen from './modules/authentication/screens/LoginScreen';
 import RegisterScreen from './modules/authentication/screens/RegisterScreen';
 import Clock from './modules/clock/components/Clock';

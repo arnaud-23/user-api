@@ -1,4 +1,9 @@
 import { h } from 'preact';
+import logo from '../../../../img/brand.svg';
+import instagram from '../../../../img/icons/social/instagram.svg';
+import facebook from '../../../../img/icons/social/facebook.svg';
+import twitter from '../../../../img/icons/social/twitter.svg';
+import pinterest from '../../../../img/icons/social/pinterest.svg';
 
 export default function Footer() {
     return (<footer class="py-8 py-md-11 bg-gray-200">
@@ -6,22 +11,22 @@ export default function Footer() {
             <div class="row">
 
                 <div class="col-12 col-md-4 col-lg-3">
-                    <img src="/assets/img/brand.svg" alt="..." class="footer-brand img-fluid mb-2"/>
+                    <img src={logo} alt="..." class="footer-brand img-fluid mb-2"/>
 
                     <p class="text-gray-700 mb-2">A better way to build.</p>
 
                     <ul class="list-unstyled list-inline list-social mb-6 mb-md-0">
                         <li class="list-inline-item list-social-item mr-3">
-                            <a href="#!" class="text-decoration-none"><img src="/assets/img/icons/social/instagram.svg" class="list-social-icon" alt="..."/></a>
+                            <a href="#!" class="text-decoration-none"><img src={instagram} class="list-social-icon" alt="..."/></a>
                         </li>
                         <li class="list-inline-item list-social-item mr-3">
-                            <a href="#!" class="text-decoration-none"><img src="/assets/img/icons/social/facebook.svg" class="list-social-icon" alt="..."/></a>
+                            <a href="#!" class="text-decoration-none"><img src={facebook} class="list-social-icon" alt="..."/></a>
                         </li>
                         <li class="list-inline-item list-social-item mr-3">
-                            <a href="#!" class="text-decoration-none"><img src="/assets/img/icons/social/twitter.svg" class="list-social-icon" alt="..."/></a>
+                            <a href="#!" class="text-decoration-none"><img src={twitter} class="list-social-icon" alt="..."/></a>
                         </li>
                         <li class="list-inline-item list-social-item">
-                            <a href="#!" class="text-decoration-none"><img src="/assets/img/icons/social/pinterest.svg" class="list-social-icon" alt="..."/></a>
+                            <a href="#!" class="text-decoration-none"><img src={pinterest} class="list-social-icon" alt="..."/></a>
                         </li>
                     </ul>
                 </div>
