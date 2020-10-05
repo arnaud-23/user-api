@@ -7,7 +7,7 @@ namespace App\Controller\Api\User;
 use App\BusinessRules\User\Requestors\GetUserRequest;
 use App\BusinessRules\User\Responders\UserResponse;
 use App\BusinessRules\User\UseCases\GetUser;
-use App\Controller\ResponseTrait;
+use App\Controller\Api\ResponseTrait;
 use App\ViewModels\User\UserViewModel;
 use App\ViewModels\ViewModelAssembler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;

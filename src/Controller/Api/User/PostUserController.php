@@ -6,7 +6,7 @@ namespace App\Controller\Api\User;
 
 use App\BusinessRules\User\Requestors\CreateUserRequest;
 use App\BusinessRules\User\UseCases\CreateUser;
-use App\Controller\ResponseTrait;
+use App\Controller\Api\ResponseTrait;
 use App\Controller\ValidationRequestControllerTrait;
 use App\Model\User\PostUserModel;
 use Symfony\Component\HttpFoundation\JsonResponse;

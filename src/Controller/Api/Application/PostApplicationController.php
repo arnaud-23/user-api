@@ -7,7 +7,7 @@ namespace App\Controller\Api\Application;
 use App\BusinessRules\Application\Requestors\RegisterApplicationRequest;
 use App\BusinessRules\Application\Responders\ApplicationResponse;
 use App\BusinessRules\Application\UseCases\RegisterApplication;
-use App\Controller\ResponseTrait;
+use App\Controller\Api\ResponseTrait;
 use App\Controller\ValidationRequestControllerTrait;
 use App\Model\Application\PutApplicationModel;
 use App\ViewModels\Application\ApplicationViewModel;

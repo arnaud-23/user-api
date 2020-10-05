@@ -7,7 +7,7 @@ namespace App\Controller\Api\Application;
 use App\BusinessRules\Application\Requestors\GetUserApplicationsRequest;
 use App\BusinessRules\Application\Responders\ApplicationsResponse;
 use App\BusinessRules\Application\UseCases\GetUserApplications;
-use App\Controller\ResponseTrait;
+use App\Controller\Api\ResponseTrait;
 use App\ViewModels\Application\ApplicationViewModel;
 use App\ViewModels\ViewModelAssembler;
 use App\ViewModels\ViewModelCollection;
