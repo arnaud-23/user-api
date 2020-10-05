@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/assets/css/theme.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,500i,600,600i&display=swap" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+    {{ include('web/web_app/partials/navbar.html.twig') }}
+    {{ include('web/web_app/partials/welcome.html.twig') }}
+    {{ include('web/web_app/partials/features.html.twig') }}
+    {{ include('web/web_app/partials/brands.html.twig') }}
+    {{ include('web/web_app/partials/about.html.twig') }}
+    {{ include('web/web_app/partials/focus.html.twig') }}
+    {{ include('web/web_app/partials/pricing.html.twig') }}
+    {{ include('web/web_app/partials/FAQ.html.twig') }}
+    {{ include('web/web_app/partials/CTA.html.twig') }}
+    {{ include('web/web_app/partials/footer.html.twig') }}
+{% endblock %}
