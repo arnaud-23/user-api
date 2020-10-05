@@ -8,7 +8,7 @@ use App\BusinessRules\Application\Requestors\RegisterApplicationRequest;
 use App\BusinessRules\Application\Responders\ApplicationResponse;
 use App\BusinessRules\Application\UseCases\RegisterApplication;
 use App\Controller\Api\ResponseTrait;
-use App\Controller\ValidationRequestControllerTrait;
+use App\Controller\Api\ValidationRequestControllerTrait;
 use App\Model\Application\PutApplicationModel;
 use App\ViewModels\Application\ApplicationViewModel;
 use App\ViewModels\ViewModelAssembler;
