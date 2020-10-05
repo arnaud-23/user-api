@@ -255,7 +255,7 @@ export default function NavBar() {
                     </li>
                 </ul>
 
-                <a class="navbar-btn btn btn-sm btn-primary lift ml-auto" href="https://themes.getbootstrap.com/product/landkit/" target="_blank">Buy now</a>
+                <a class="navbar-btn btn btn-sm btn-primary lift ml-auto" href={ROUTES.AUTHENTICATION.LOGIN}>Sign in</a>
 
             </div>
 
