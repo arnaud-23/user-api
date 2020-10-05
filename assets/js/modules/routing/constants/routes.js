@@ -23,7 +23,7 @@ const webappRoutes = {
         // CONFIRM_PASSWORD: '/confirm-new-password/:userId',
     }, ERRORS: {
         // ERROR403: '/errors/403',
-        ERROR404: '/errors/404',
+        ERROR404: '/errors-404',
         // ERROR410: '/errors/410',
         // ERROR500: '/errors/500',
     },

@@ -7,10 +7,8 @@ import Router from 'preact-router';
 import LoginScreen from './modules/authentication/screens/LoginScreen';
 import RegisterScreen from './modules/authentication/screens/RegisterScreen';
 import ResetPasswordScreen from './modules/authentication/screens/ResetPasswordScreen';
-import Clock from './modules/clock/components/Clock';
-import Example from './modules/example/components/Example';
+import Error404 from './modules/errors/screens/Error404';
 import Footer from './modules/footer/components/Footer';
-import HelloWorld from './modules/hello-world/components/HelloWorld';
 import HomeScreen from './modules/home/screens/HomeScreen';
 import NavBar from './modules/navigation/components/NavBar';
 import { ROUTES } from './modules/routing';
@@ -22,13 +20,11 @@ class App extends Component {
         return (<Fragment>
             <NavBar/>
             <Router>
+                <Error404 path={ROUTES.ERRORS.ERROR404}/>
                 <HomeScreen path={ROUTES.HOME}/>
                 <LoginScreen path={ROUTES.AUTHENTICATION.LOGIN}/>
                 <RegisterScreen path={ROUTES.AUTHENTICATION.REGISTER}/>
                 <ResetPasswordScreen path={ROUTES.SECURITY.RESET_PASSWORD}/>
-                <HelloWorld path={ROUTES.TEST.HELLO_WORLD}/>
-                <Clock path={ROUTES.TEST.CLOCK}/>
-                <Example path={ROUTES.TEST.EXAMPLE}/>
             </Router>
             <Footer/>
         </Fragment>)
