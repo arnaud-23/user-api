@@ -1,13 +1,26 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
-
-// any CSS you import will output into a single css file (app.css in this case)
-import '../css/app.scss';
 import 'bootstrap';
 import bsCustomFileInput from 'bs-custom-file-input';
+import { Component, Fragment, render } from 'preact';
+import '../css/app.scss';
+import NavBar from './modules/navigation/components/NavBar';
 
 bsCustomFileInput.init();
+
+class App extends Component {
+    render() {
+        return (<Fragment>
+            <NavBar/>
+            {/*<Router>*/}
+            {/*<HomeScreen path={ROUTES.HOME}/>*/}
+            {/*<LoginScreen path={ROUTES.AUTHENTICATION.LOGIN}/>*/}
+            {/*<RegisterScreen path={ROUTES.AUTHENTICATION.REGISTER}/>*/}
+            {/*<HelloWorld path={ROUTES.TEST.HELLO_WORLD}/>*/}
+            {/*<Clock path={ROUTES.TEST.CLOCK}/>*/}
+            {/*<Example path={ROUTES.TEST.EXAMPLE}/>*/}
+            {/*</Router>*/}
+            {/*<Footer/>*/}
+        </Fragment>)
+    }
+}
+
+render(<App/>, document.getElementById('app'));
