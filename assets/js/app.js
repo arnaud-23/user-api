@@ -1,8 +1,7 @@
-import '../css/theme.min.css';
-import '../css/app.scss';
+// import '../css/app.scss';
+// import 'bootstrap';
+// import bsCustomFileInput from 'bs-custom-file-input';
 import { h } from 'preact';
-import 'bootstrap';
-import bsCustomFileInput from 'bs-custom-file-input';
 import { Component, Fragment, render } from 'preact';
 import Router from 'preact-router';
 import LoginScreen from './modules/authentication/screens/LoginScreen';
@@ -15,7 +14,7 @@ import HomeScreen from './modules/home/screens/HomeScreen';
 import NavBar from './modules/navigation/components/NavBar';
 import { ROUTES } from './modules/routing';
 
-bsCustomFileInput.init();
+// bsCustomFileInput.init();
 
 class App extends Component {
     render() {
