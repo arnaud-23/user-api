@@ -13,15 +13,13 @@ const webappRoutes = {
     AUTHENTICATION: {
         LOGIN: '/login',
         REGISTER: '/register',
-    }, TEST: {
-        HELLO_WORLD: '/hello-world',
-        CLOCK: '/clock',
-        EXAMPLE: '/example',
-    }, SECURITY: {
+    },
+    SECURITY: {
         RESET_PASSWORD: '/reset-password',
         // GENERATE_PASSWORD: '/generate-password',
         // CONFIRM_PASSWORD: '/confirm-new-password/:userId',
-    }, ERRORS: {
+    },
+    ERRORS: {
         // ERROR403: '/errors/403',
         ERROR404: '/errors-404',
         // ERROR410: '/errors/410',
