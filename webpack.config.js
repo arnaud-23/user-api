@@ -1,4 +1,6 @@
-var Encore = require('@symfony/webpack-encore');
+const webpack = require('webpack');
+const dotEnv = require('dotenv-webpack');
+const Encore = require('@symfony/webpack-encore');
 
 if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
@@ -8,6 +10,7 @@ Encore
     .setOutputPath('public/build/')
     .setPublicPath('/build')
     .addEntry('app', './assets/js/app.js')
+    .addPlugin(new dotEnv({ path: './.env.local', systemvars: true }))
     .splitEntryChunks()
     .enableSingleRuntimeChunk()
     .cleanupOutputBeforeBuild()
