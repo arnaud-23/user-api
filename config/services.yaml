@@ -2,15 +2,15 @@ parameters:
 
 services:
     _defaults:
-    autowire: true
-    autoconfigure: true
+        autowire: true
+        autoconfigure: true
 
-    bind:
-        App\BusinessRules\UseCase $createUser: '@App\BusinessRules\User\UseCases\CreateUser'
+        bind:
+            App\BusinessRules\UseCase $createUser: '@App\BusinessRules\User\UseCases\CreateUser'
 
-  App\:
-      resource: '../src/*'
-      exclude: '../src/{DependencyInjection,Migrations,Tests,Kernel.php}'
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Migrations,Tests,Kernel.php}'
 
     App\Controller\:
         resource: '../src/Controller'
