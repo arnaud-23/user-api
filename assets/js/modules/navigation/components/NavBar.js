@@ -1,3 +1,4 @@
+import { h } from 'preact';
 import logo from '../../../../img/brand.svg';
 import { ROUTES } from '../hooks/routing'
 
