@@ -28,7 +28,7 @@ final class PostUserController
     /**
      * @Route("/api/users", methods={"POST"}, defaults={"oauth2_scopes":{"user_creation"}})
      */
-    public function post(Request $request): JsonResponse
+    public function __invoke(Request $request): JsonResponse
     {
         $model = $this->validateRequest($request, PostUserModel::class);
 
