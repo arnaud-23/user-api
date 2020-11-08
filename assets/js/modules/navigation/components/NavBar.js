@@ -1,7 +1,5 @@
-import { h } from 'preact';
-import { Link } from 'preact-router';
-import { ROUTES } from '../hooks/routing'
 import logo from '../../../../img/brand.svg';
+import { ROUTES } from '../hooks/routing'
 
 export default function NavBar() {
     return (<nav class="navbar navbar-expand-lg navbar-light bg-white">
@@ -25,8 +23,8 @@ export default function NavBar() {
                     <li class="nav-item"><a class="nav-link" href="#">Documentation</a></li>
                 </ul>
 
-                <a class="navbar-btn btn btn-sm btn-secondary-soft lift ml-auto" href={ROUTES.AUTHENTICATION.LOGIN}>Sign up</a>
-                <a class="navbar-btn btn btn-sm btn-primary lift" href={ROUTES.AUTHENTICATION.REGISTER}>Sign in</a>
+                <a class="navbar-btn btn btn-sm btn-secondary-soft lift ml-auto" href={ROUTES.AUTHENTICATION.LOGIN}>Sign in</a>
+                <a class="navbar-btn btn btn-sm btn-primary lift" href={ROUTES.AUTHENTICATION.REGISTER}>Sign up</a>
 
             </div>
 
