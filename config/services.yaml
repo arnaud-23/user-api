@@ -1,7 +1,7 @@
 parameters:
 
 services:
-  _defaults:
+    _defaults:
     autowire: true
     autoconfigure: true
 
@@ -12,10 +12,13 @@ services:
       resource: '../src/*'
       exclude: '../src/{DependencyInjection,Migrations,Tests,Kernel.php}'
 
-  App\Controller\:
-      resource: '../src/Controller'
-      tags: ['controller.service_arguments']
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: [ 'controller.service_arguments' ]
 
-  App\EventListener\Framework\Trikoder\OAuth2\UserResolveListener:
-      tags:
-          - { name: kernel.event_listener, event: trikoder.oauth2.user_resolve, method: onUserResolve }
+    App\EventListener\Framework\Trikoder\OAuth2\UserResolveListener:
+        tags:
+            - { name: kernel.event_listener, event: trikoder.oauth2.user_resolve, method: onUserResolve }
+
+    Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory:
+        alias: sensio_framework_extra.psr7.http_message_factory
