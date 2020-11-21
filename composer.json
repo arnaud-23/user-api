@@ -6,6 +6,7 @@
     "ext-ctype": "*",
     "ext-iconv": "*",
     "ext-json": "*",
+    "nelmio/cors-bundle": "^2.1",
     "nesbot/carbon": "^2.28",
     "nyholm/psr7": "^1.2",
     "ramsey/uuid": "^3.9",
