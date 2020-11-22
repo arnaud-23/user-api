@@ -7,16 +7,14 @@ use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 
 final class ErrorBodyFactoryTest extends TestCase
 {
-    /**
-     * @var ErrorBodyFactory
-     */
-    private $factory;
+    private ErrorBodyFactory $factory;
 
-    public function singleErrorProvider()
+    public function singleErrorProvider(): \Generator
     {
         $nullData = ['code' => null, 'field' => null, 'message' => null, 'value' => null];
         $nullResult = 'null';
@@ -43,7 +41,7 @@ final class ErrorBodyFactoryTest extends TestCase
         Assert::assertJsonStringEqualsJsonString($result, json_encode($errors));
     }
 
-    public function violationErrorProvider()
+    public function violationErrorProvider(): \Generator
     {
         $model = new ModelStub();
 
@@ -80,10 +78,9 @@ final class ErrorBodyFactoryTest extends TestCase
 
     /**
      * @test
-     *
      * @dataProvider violationErrorProvider
      */
-    public function createFromViolations($violation, $result): void
+    public function createFromViolations(ConstraintViolationInterface $violation, string $result): void
     {
         $violations = new ConstraintViolationList([$violation]);
 

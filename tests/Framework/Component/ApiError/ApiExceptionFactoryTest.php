@@ -9,17 +9,12 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 
-class ApiExceptionFactoryTest extends TestCase
+final class ApiExceptionFactoryTest extends TestCase
 {
-    /**
-     * @var ApiExceptionFactory
-     */
-    private $factory;
+    private ApiExceptionFactory $factory;
 
-    /**
-     * @test
-     */
-    final public function createWithMessageNullReturnException(): void
+    /** @test */
+    public function createWithMessageNullReturnException(): void
     {
         $actual = $this->factory->create(Response::HTTP_I_AM_A_TEAPOT);
 
@@ -28,20 +23,16 @@ class ApiExceptionFactoryTest extends TestCase
         $this->assertSame('{}', json_encode($actual));
     }
 
-    /**
-     * @test
-     */
-    final public function createReturnException(): void
+    /** @test */
+    public function createReturnException(): void
     {
         $actual = $this->factory->create(Response::HTTP_I_AM_A_TEAPOT, 'message', 'code');
         $this->assertEquals(Response::HTTP_I_AM_A_TEAPOT, $actual->getStatusCode());
         $this->assertEquals('{"errors":[{"code":"code","message":"message"}]}', $actual->getMessage());
     }
 
-    /**
-     * @test
-     */
-    final public function createFromEmptyViolationsReturnException(): void
+    /** @test */
+    public function createFromEmptyViolationsReturnException(): void
     {
         $actual = $this->factory->createFromViolations(new ConstraintViolationList());
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $actual->getStatusCode());
@@ -49,10 +40,8 @@ class ApiExceptionFactoryTest extends TestCase
         $this->assertSame('{}', json_encode($actual));
     }
 
-    /**
-     * @test
-     */
-    public function createFromViolationsReturnException()
+    /** @test */
+    public function createFromViolationsReturnException(): void
     {
         $model = new ModelStub();
 

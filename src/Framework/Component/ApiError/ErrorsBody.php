@@ -4,16 +4,12 @@ namespace App\Framework\Component\ApiError;
 
 use JsonSerializable;
 
-class ErrorsBody implements JsonSerializable
+final class ErrorsBody implements JsonSerializable
 {
-    /**
-     * @var ErrorBody[]
-     */
-    protected $errors;
+    /** @var ErrorBody[] */
+    private array $errors;
 
-    /**
-     * @param ErrorBody[] $errors
-     */
+    /** @param ErrorBody[] $errors */
     public function __construct(array $errors)
     {
         $this->errors = $errors;

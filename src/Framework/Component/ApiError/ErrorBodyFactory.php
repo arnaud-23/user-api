@@ -5,17 +5,25 @@ namespace App\Framework\Component\ApiError;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-class ErrorBodyFactory
+final class ErrorBodyFactory
 {
-    public function createSingleError(?string $code, ?string $field, ?string $message, ?string $value): ErrorsBody
-    {
+    public function createSingleError(
+        string $code = null,
+        string $field = null,
+        string $message = null,
+        string $value = null
+    ): ErrorsBody {
         $error = $this->create($code, $field, $message, $value);
 
         return new ErrorsBody([$error]);
     }
 
-    private function create(?string $code, ?string $field, ?string $message, ?string $value): ErrorBody
-    {
+    private function create(
+        string $code = null,
+        string $field = null,
+        string $message = null,
+        string $value = null
+    ): ErrorBody {
         return new ErrorBody($code, $field, $message, $value);
     }
 
@@ -25,6 +33,7 @@ class ErrorBodyFactory
         foreach ($violations as $violation) {
             $errors[] = $this->createFromViolation($violation);
         }
+
         return new ErrorsBody($errors);
     }
 

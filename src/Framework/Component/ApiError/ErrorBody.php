@@ -4,29 +4,17 @@ namespace App\Framework\Component\ApiError;
 
 use JsonSerializable;
 
-class ErrorBody implements JsonSerializable
+final class ErrorBody implements JsonSerializable
 {
-    /**
-     * @var string|null
-     */
-    protected $code;
+    private ?string $code;
 
-    /**
-     * @var string|null
-     */
-    protected $field;
+    private ?string $field;
 
-    /**
-     * @var string|null
-     */
-    protected $message;
+    private ?string $message;
 
-    /**
-     * @var string|null
-     */
-    protected $value;
+    private ?string $value;
 
-    public function __construct(?string $code, ?string $field, ?string $message, ?string $value)
+    public function __construct(string $code = null, string $field = null, string $message = null, string $value = null)
     {
         $this->code = $code;
         $this->field = $field;
@@ -36,10 +24,11 @@ class ErrorBody implements JsonSerializable
 
     public function jsonSerialize()
     {
-        $data = ['code' => $this->code];
-        null !== $this->field ? $data['field'] = $this->field : null;
+        $data = [];
+        null === $this->code ?: $data['code'] = $this->code;
+        null === $this->field ?: $data['field'] = $this->field;
         $data['message'] = $this->message;
-        null !== $this->value ? $data['value'] = $this->value : null;
+        null === $this->value ?: $data['value'] = $this->value;
 
         return !$this->isEmpty() ? $data : null;
     }

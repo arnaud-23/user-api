@@ -7,12 +7,9 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Throwable;
 
-class ApiExceptionFactory
+final class ApiExceptionFactory
 {
-    /**
-     * @var ErrorBodyFactory
-     */
-    private $errorBodyFactory;
+    private ErrorBodyFactory $errorBodyFactory;
 
     public function __construct(ErrorBodyFactory $errorBodyFactory)
     {
