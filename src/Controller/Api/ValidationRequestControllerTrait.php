@@ -10,6 +10,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 trait ValidationRequestControllerTrait
 {
+    use SerializerTrait;
+
     private ValidatorInterface $validator;
 
     private ApiExceptionFactory $apiExceptionFactory;
