@@ -9,6 +9,9 @@ use App\BusinessRules\User\Entities\User;
 interface UserGateway
 {
     /** @throws UserNotFoundException */
+    public function findByEmail(string $email): User;
+
+    /** @throws UserNotFoundException */
     public function findById(int $id): User;
 
     /** @throws UserNotFoundException */

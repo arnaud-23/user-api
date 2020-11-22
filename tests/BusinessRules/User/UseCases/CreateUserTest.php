@@ -25,7 +25,19 @@ final class CreateUserTest extends TestCase
     private CreateUser $useCase;
 
     /** @test */
-    final public function createUserSaveAndReturnUser(): void
+    public function emailAlreadyExistThrowException(): void
+    {
+        $this->expectException(EmailAlreadyExistException::class);
+
+        /** @var User $expectedUser */
+        $expectedUser = InMemoryFixtureGateway::get('User1');
+        InMemoryUserGateway::$users = [$expectedUser];
+
+        $this->useCase->execute($this->request);
+    }
+
+    /** @test */
+    public function createUserSaveAndReturnUser(): void
     {
         /** @var User $expectedUser */
         $expectedUser = InMemoryFixtureGateway::get('User1');

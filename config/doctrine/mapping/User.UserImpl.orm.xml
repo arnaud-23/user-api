@@ -10,7 +10,7 @@
             <generator strategy="AUTO"/>
         </id>
 
-        <field name="email" type="string" column="email" unique="false" nullable="false"/>
+        <field name="email" type="string" column="email" unique="true" nullable="false"/>
         <field name="firstName" type="string" column="first_name" unique="false" nullable="false"/>
         <field name="lastName" type="string" column="last_name" unique="false" nullable="false"/>
         <field name="uuid" type="string" column="uuid" unique="true" nullable="false"/>

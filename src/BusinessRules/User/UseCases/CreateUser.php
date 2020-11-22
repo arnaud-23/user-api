@@ -13,6 +13,7 @@ use App\BusinessRules\UseCaseResponseAssembler;
 use App\BusinessRules\User\Entities\User;
 use App\BusinessRules\User\Entities\UserFactory;
 use App\BusinessRules\User\Gateways\UserGateway;
+use App\BusinessRules\User\Gateways\UserNotFoundException;
 use App\BusinessRules\User\Requestors\CreateUserRequest;
 use App\BusinessRules\User\Responders\UserResponse;
 
@@ -41,12 +42,24 @@ final class CreateUser implements UseCase
     /** @param CreateUserRequest $useCaseRequest */
     public function execute(UseCaseRequest $useCaseRequest): UserResponse
     {
+        $this->checkEmailAlreadyExist($useCaseRequest);
+
         $user = $this->buildUser($useCaseRequest);
         $credentials = $this->buildSecurityCredentials($useCaseRequest, $user);
 
         $this->save($user, $credentials);
 
         return $this->buildResponse($user);
+    }
+
+    private function checkEmailAlreadyExist(CreateUserRequest $useCaseRequest): void
+    {
+        try {
+            $user = $this->userGateway->findByEmail($useCaseRequest->getEmail());
+            throw new EmailAlreadyExistException();
+        } catch (UserNotFoundException $exception) {
+
+        }
     }
 
     private function buildUser(CreateUserRequest $useCaseRequest): User
@@ -58,7 +71,7 @@ final class CreateUser implements UseCase
         return $user;
     }
 
-    private function buildSecurityCredentials(UseCaseRequest $useCaseRequest, User $user): UserSecurityCredential
+    private function buildSecurityCredentials(CreateUserRequest $useCaseRequest, User $user): UserSecurityCredential
     {
         return $this->userSecurityCredentialFactory->create($user, $useCaseRequest->getPassword());
     }

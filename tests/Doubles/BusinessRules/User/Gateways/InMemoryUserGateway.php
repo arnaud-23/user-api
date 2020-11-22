@@ -25,7 +25,7 @@ final class InMemoryUserGateway implements UserGateway
         self::$uuid = '';
     }
 
-    public function findById(int $id): User
+    public function findByEmail(string $email): User
     {
         return $this->findOneOrThrowException();
     }
@@ -37,6 +37,11 @@ final class InMemoryUserGateway implements UserGateway
         }
 
         throw new UserNotFoundException();
+    }
+
+    public function findById(int $id): User
+    {
+        return $this->findOneOrThrowException();
     }
 
     public function findByUuid(string $uuid): User

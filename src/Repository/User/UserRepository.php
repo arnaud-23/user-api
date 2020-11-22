@@ -17,6 +17,19 @@ final class UserRepository extends ServiceEntityRepository implements UserGatewa
         parent::__construct($registry, UserImpl::class);
     }
 
+    public function findByEmail(string $email): User
+    {
+        try {
+            return $this->createQueryBuilder('u')
+                ->where('u.email = :email')
+                ->setParameter('email', $email)
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException $e) {
+            throw new UserNotFoundException();
+        }
+    }
+
     public function findById(int $id): User
     {
         try {
