@@ -9,7 +9,6 @@ export default class RegisterForm extends Component {
         password: null,
         confirmPassword: false,
         loading: false,
-        request: null
     };
 
     onInput = (statePath) => {
@@ -36,9 +35,9 @@ export default class RegisterForm extends Component {
             password: this.state.password,
         }
 
-        const result = await UserClient.post(args);
+        await UserClient.post(args);
 
-        this.setState({ loading: false, request: JSON.stringify(result) })
+        this.setState({ loading: false })
     }
 
     render() {

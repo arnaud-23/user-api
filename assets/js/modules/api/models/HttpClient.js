@@ -10,9 +10,6 @@ export default class HttpClient {
             headers: { ...this.headers, ...options.headers },
         }
 
-        console.log(url);
-        console.log(requestOptions);
-
         let promise = await fetch(url, requestOptions)
         return promise.json();
     }

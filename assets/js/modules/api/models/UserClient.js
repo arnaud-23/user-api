@@ -21,9 +21,7 @@ export default class UserClient {
             }
         };
 
-        let result = await HttpClient.POST(this.endPoint, options);
-        console.log(result);
-        // return result;
+        return await HttpClient.POST(this.endPoint, options);
     }
 
     static getClientCredentials() {
