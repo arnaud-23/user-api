@@ -1,3 +1,4 @@
 doctrine_migrations:
+    custom_template: '%kernel.project_dir%/src/Migrations/template.php.txt'
     migrations_paths:
         'DoctrineMigrations': 'src/Migrations'
