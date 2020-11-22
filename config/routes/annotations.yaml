@@ -1,3 +1,9 @@
-controllers:
-    resource: ../../src/Controller/
+api_controllers:
+    resource: ../../src/Controller/Api
     type: annotation
+    host: '%api_host%'
+
+web_controllers:
+    resource: ../../src/Controller/Web
+    type: annotation
+    host: '%web_host%'

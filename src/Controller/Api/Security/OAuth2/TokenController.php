@@ -34,10 +34,9 @@ final class TokenController
         $this->httpMessageFactory = $httpMessageFactory;
     }
 
-    /** @Route("/api/token", name="oauth2_token", methods= {"POST"}) */
+    /** @Route("/oauth2/token", name="oauth2_token", methods= {"POST"}) */
     public function __invoke(Request $request): ResponseInterface
     {
-
         $serverResponse = $this->responseFactory->createResponse();
 
         try {

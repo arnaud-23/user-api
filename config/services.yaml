@@ -1,4 +1,6 @@
 parameters:
+    api_host: '%env(API_HOST)%'
+    web_host: '%env(WEB_HOST)%'
 
 services:
     _defaults:

@@ -13,12 +13,14 @@ security:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
     api_token:
-      pattern: ^/api/token$
+      pattern: ^/oauth2/token$
       security: false
+      host: '%api_host%'
     api:
-      pattern: ^/api
+      pattern: ^/(?!oauth2/token).*
       security: true
       stateless: true
+      host: '%api_host%'
       oauth2: true
 
       # activate different ways to authenticate

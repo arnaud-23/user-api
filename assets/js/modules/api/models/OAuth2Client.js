@@ -2,7 +2,7 @@ import HttpClient from './HttpClient';
 
 export default class OAuth2Client {
     static authorizeUrl = '/authorize';
-    static tokenUrl = '/token';
+    static tokenUrl = '/oauth2/token';
 
     // static authorize({
     //                      response_type,
