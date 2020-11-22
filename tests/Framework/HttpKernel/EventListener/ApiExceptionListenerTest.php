@@ -6,10 +6,10 @@ namespace App\Framework\HttpKernel\EventListener;
 
 use App\Framework\Component\ApiError\ErrorBodyFactory;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -40,7 +40,7 @@ final class ApiExceptionListenerTest extends TestCase
     }
 
     /** @test */
-    public function httpNotFoundExceptionReturnResponse(): void
+    public function NotFoundHttpExceptionReturnResponse(): void
     {
         $event = $this->createEvent(
             Request::create(self::REQUEST_URI),
@@ -51,6 +51,20 @@ final class ApiExceptionListenerTest extends TestCase
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $event->getResponse()->getStatusCode());
         $this->assertEquals('{"errors":[{"message":"No route found message"}]}', $event->getResponse()->getContent());
+    }
+
+    /** @test */
+    public function badRequestHttpExceptionReturnResponse(): void
+    {
+        $event = $this->createEvent(
+            Request::create(self::REQUEST_URI),
+            new BadRequestHttpException('{"errors":[{"message":"Bad request message"}]}')
+        );
+
+        $this->listener->onException($event);
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $event->getResponse()->getStatusCode());
+        $this->assertEquals('{"errors":[{"message":"Bad request message"}]}', $event->getResponse()->getContent());
     }
 
     /** @test */
@@ -69,10 +83,6 @@ final class ApiExceptionListenerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->listener = new ApiExceptionListener(
-            self::API_HOST_TEST,
-            new ErrorBodyFactory(),
-            new HttpFoundationFactory()
-        );
+        $this->listener = new ApiExceptionListener(self::API_HOST_TEST, new ErrorBodyFactory());
     }
 }
