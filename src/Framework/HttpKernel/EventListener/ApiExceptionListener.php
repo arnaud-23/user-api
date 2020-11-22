@@ -7,8 +7,10 @@ namespace App\Framework\HttpKernel\EventListener;
 use App\Framework\Component\ApiError\ErrorBodyFactory;
 use Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 final class ApiExceptionListener
 {
@@ -37,14 +39,30 @@ final class ApiExceptionListener
         $exception = $event->getThrowable();
 
         if ($exception instanceof HttpException) {
-            $message = $this->errorBodyFactory->createSingleError(null, null, $exception->getMessage());
+            $this->handleHttpException($exception, $event);
+        }
 
-            $event->setResponse(new JsonResponse($message, $exception->getStatusCode(), $exception->getHeaders()));
+        if ($exception instanceof AuthenticationException) {
+            $this->handleAuthenticationException($exception, $event);
         }
     }
 
     private function supportsException(ExceptionEvent $event): bool
     {
         return $event->getRequest()->getHost() === $this->apiHost;
+    }
+
+    private function handleHttpException(HttpException $exception, ExceptionEvent $event): void
+    {
+        $message = $this->errorBodyFactory->createSingleError(null, null, $exception->getMessage());
+
+        $event->setResponse(new JsonResponse($message, $exception->getStatusCode(), $exception->getHeaders()));
+    }
+
+    private function handleAuthenticationException(AuthenticationException $exception, ExceptionEvent $event): void
+    {
+        $message = $this->errorBodyFactory->createSingleError(null, null, $exception->getMessage());
+
+        $event->setResponse(new JsonResponse($message, Response::HTTP_UNAUTHORIZED, []));
     }
 }

@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 final class ApiExceptionListenerTest extends TestCase
 {
@@ -50,6 +51,20 @@ final class ApiExceptionListenerTest extends TestCase
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $event->getResponse()->getStatusCode());
         $this->assertEquals('{"errors":[{"message":"No route found message"}]}', $event->getResponse()->getContent());
+    }
+
+    /** @test */
+    public function httpUnauthorizedExceptionReturnResponse(): void
+    {
+        $event = $this->createEvent(
+            Request::create(self::REQUEST_URI),
+            new AuthenticationException('Unauthorized message')
+        );
+
+        $this->listener->onException($event);
+
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $event->getResponse()->getStatusCode());
+        $this->assertEquals('{"errors":[{"message":"Unauthorized message"}]}', $event->getResponse()->getContent());
     }
 
     protected function setUp(): void
