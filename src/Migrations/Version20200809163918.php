@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use App\Migrations\MigrationHelper;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -12,22 +13,14 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20200809163918 extends AbstractMigration
 {
-    public function getDescription(): string
-    {
-        return '';
-    }
+    use MigrationHelper;
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() !== 'postgresql',
-            'Migration can only be executed safely on \'postgresql\'.'
-        );
+        $this->abortIfNotPostgresqlDatabase();
 
-        $this->addSql('CREATE SEQUENCE app_application_user_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql(
-            'CREATE TABLE app_application_user (id INT NOT NULL, user_id INT DEFAULT NULL, application_id INT DEFAULT NULL, PRIMARY KEY(id))'
+            'CREATE TABLE app_application_user (id SERIAL NOT NULL, user_id INT DEFAULT NULL, application_id INT DEFAULT NULL, PRIMARY KEY(id))'
         );
         $this->addSql('CREATE UNIQUE INDEX UNIQ_EE415F60A76ED395 ON app_application_user (user_id)');
         $this->addSql('CREATE INDEX IDX_EE415F603E030ACD ON app_application_user (application_id)');
@@ -41,14 +34,8 @@ final class Version20200809163918 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() !== 'postgresql',
-            'Migration can only be executed safely on \'postgresql\'.'
-        );
+        $this->abortIfNotPostgresqlDatabase();
 
-        $this->addSql('CREATE SCHEMA public');
-        $this->addSql('DROP SEQUENCE app_application_user_id_seq CASCADE');
         $this->addSql('DROP TABLE app_application_user');
     }
 }

@@ -42,6 +42,6 @@ final class Version20200211235635 extends AbstractMigration
     {
         $this->abortIfNotPostgresqlDatabase();
         $this->addSql('DROP TABLE app_user_security_credential');
-        $this->addSql('ALTER TABLE app_user ADD COLUMN created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL');
+        $this->addSql('ALTER TABLE app_user ADD COLUMN created_at TIMESTAMP(0) WITH TIME ZONE NULL');
     }
 }
