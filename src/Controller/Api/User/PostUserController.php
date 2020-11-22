@@ -35,8 +35,6 @@ final class PostUserController
     {
         $model = $this->validateRequest($request, PostUserModel::class);
 
-        return new JsonResponse($model);
-
         $response = $this->createUser($model);
 
         $vm = ViewModelAssembler::create(UserViewModel::class, $response);

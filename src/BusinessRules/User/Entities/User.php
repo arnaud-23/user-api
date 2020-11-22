@@ -20,7 +20,7 @@ abstract class User
 
     public function __construct(string $email)
     {
-        $this->email = $email;
+        $this->email = strtolower($email);
         $this->uuid = Uuid::uuid4()->toString();
     }
 
@@ -36,7 +36,7 @@ abstract class User
 
     final public function setFirstName(string $firstName): void
     {
-        $this->firstName = $firstName;
+        $this->firstName = ucwords(strtolower($firstName), " \t\r\n\f\v'");
     }
 
     final public function getId(): int
@@ -51,7 +51,7 @@ abstract class User
 
     final public function setLastName(string $lastName): void
     {
-        $this->lastName = $lastName;
+        $this->lastName = ucwords(strtolower($lastName), " \t\r\n\f\v'");
     }
 
     final public function getUuid(): string
