@@ -8,6 +8,7 @@ services:
         autoconfigure: true
 
         bind:
+            string $apiHost: '%api_host%'
             App\BusinessRules\UseCase $createUser: '@App\BusinessRules\User\UseCases\CreateUser'
 
     App\:
@@ -18,9 +19,16 @@ services:
         resource: '../src/Controller'
         tags: [ 'controller.service_arguments' ]
 
+    App\Framework\HttpKernel\EventListener\ApiExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onException, priority: 10 }
+
     App\EventListener\Framework\Trikoder\OAuth2\UserResolveListener:
         tags:
             - { name: kernel.event_listener, event: trikoder.oauth2.user_resolve, method: onUserResolve }
 
     Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory:
         alias: sensio_framework_extra.psr7.http_message_factory
+
+    Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface:
+        alias: sensio_framework_extra.psr7.http_foundation_factory
