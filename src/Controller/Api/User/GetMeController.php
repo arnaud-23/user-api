@@ -26,7 +26,7 @@ final class GetMeController
     }
 
     /**
-     * @Route("/api/me", methods={"GET"})
+     * @Route("/me", methods={"GET"})
      * @IsGranted("ROLE_USER")
      */
     public function getAction(): JsonResponse

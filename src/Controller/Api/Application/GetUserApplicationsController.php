@@ -27,7 +27,7 @@ final class GetUserApplicationsController
     }
 
     /**
-     * @Route("/api/users/{uuid}/applications", methods={"GET"}, defaults={"oauth2_scopes":{"application"}})
+     * @Route("/users/{uuid}/applications", methods={"GET"}, defaults={"oauth2_scopes":{"application"}})
      * @IsGranted("ROLE_USER")
      */
     public function get(string $uuid): JsonResponse

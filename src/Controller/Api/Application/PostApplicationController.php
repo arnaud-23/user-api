@@ -30,7 +30,7 @@ final class PostApplicationController
     }
 
     /**
-     * @Route("/api/users/{uuid}/applications", methods={"POST"}, defaults={"oauth2_scopes":{"application"}})
+     * @Route("/users/{uuid}/applications", methods={"POST"}, defaults={"oauth2_scopes":{"application"}})
      * @IsGranted("ROLE_USER")
      */
     public function post(Request $request, string $uuid): JsonResponse
