@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Security\OAuth2;
 
+use App\Framework\Component\ApiError\ErrorBodyFactory;
+use App\Framework\Component\ApiError\ErrorsBody;
 use App\Framework\HttpFoundation\RequestFormat;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Exception\OAuthServerException;
@@ -11,6 +13,7 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -20,16 +23,20 @@ final class TokenController
 {
     private AuthorizationServer $server;
 
+    private ErrorBodyFactory $errorBodyFactory;
+
     private ResponseFactoryInterface $responseFactory;
 
     private PsrHttpFactory $httpMessageFactory;
 
     public function __construct(
         AuthorizationServer $server,
+        ErrorBodyFactory $errorBodyFactory,
         ResponseFactoryInterface $responseFactory,
         PsrHttpFactory $httpMessageFactory
     ) {
         $this->server = $server;
+        $this->errorBodyFactory = $errorBodyFactory;
         $this->responseFactory = $responseFactory;
         $this->httpMessageFactory = $httpMessageFactory;
     }
@@ -44,7 +51,9 @@ final class TokenController
 
             return $this->server->respondToAccessTokenRequest($serverRequest, $serverResponse);
         } catch (OAuthServerException $e) {
-            return $e->generateHttpResponse($serverResponse);
+            $response = $e->generateHttpResponse($serverResponse);
+
+            return $this->adaptExceptionResponse($e, $response);
         }
     }
 
@@ -60,5 +69,25 @@ final class TokenController
         $serverRequest = $this->httpMessageFactory->createRequest($request);
 
         return $serverRequest->withParsedBody($content);
+    }
+
+    private function adaptExceptionResponse(OAuthServerException $e, ResponseInterface $response): ResponseInterface
+    {
+        $jsonResponse = new JsonResponse(
+            $this->createBody($e),
+            $response->getStatusCode(),
+            $response->getHeaders()
+        );
+
+        return $this->httpMessageFactory->createResponse($jsonResponse);
+    }
+
+    private function createBody(OAuthServerException $e): ErrorsBody
+    {
+        return $this->errorBodyFactory->createSingleError(
+            strtoupper($e->getErrorType()),
+            null,
+            "{$e->getMessage()} {$e->getHint()}."
+        );
     }
 }
