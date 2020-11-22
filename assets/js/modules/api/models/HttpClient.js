@@ -2,13 +2,16 @@ export default class HttpClient {
     static baseUri = process.env.API_ENDPOINT;
     static headers = { 'Content-Type': 'application/json' };
 
-    static async request(method, path, options = { body: '' }) {
+    static async request(method, path, options = { headers: '', body: '' }) {
         const url = this.baseUri + path;
         const requestOptions = {
             method: method,
             body: JSON.stringify(options.body),
-            headers: this.headers
+            headers: { ...this.headers, ...options.headers },
         }
+
+        console.log(url);
+        console.log(requestOptions);
 
         let promise = await fetch(url, requestOptions)
         return promise.json();
