@@ -59,8 +59,13 @@ final class TokenController
 
     private function adaptRequest(Request $request): ServerRequestInterface
     {
-        $requestFormat = $request->getRequestFormat(RequestFormat::JSON);
-        if (RequestFormat::JSON === $requestFormat) {
+        $requestFormat = $request->getContentType();
+
+        if (null === $requestFormat) {
+            $content = $request->request->all();
+        } elseif (RequestFormat::FORM === $requestFormat) {
+            parse_str($request->getContent(), $content);
+        } elseif (RequestFormat::JSON === $requestFormat) {
             $content = json_decode($request->getContent(), true);
         } else {
             throw new HttpException(Response::HTTP_UNSUPPORTED_MEDIA_TYPE);

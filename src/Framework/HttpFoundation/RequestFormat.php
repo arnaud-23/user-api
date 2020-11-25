@@ -8,6 +8,8 @@ final class RequestFormat
 {
     public const JSON = 'json';
 
+    public const FORM = 'form';
+
     private function __construct()
     {
     }
