@@ -35,7 +35,7 @@ class PostUserModel
      * @var string
      *
      * @Assert\NotBlank()
-     * @Assert\Regex(pattern= "/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,}$/",)
+     * @Assert\Regex(pattern= "/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,}$/", message="This password is too weak.")
      */
     public $password;
 }
