@@ -13,7 +13,6 @@ use App\BusinessRules\UseCaseResponseAssembler;
 use App\BusinessRules\User\Entities\User;
 use App\BusinessRules\User\Entities\UserFactory;
 use App\BusinessRules\User\Gateways\UserGateway;
-use App\BusinessRules\User\Gateways\UserNotFoundException;
 use App\BusinessRules\User\Requestors\CreateUserRequest;
 use App\BusinessRules\User\Responders\UserResponse;
 
@@ -54,11 +53,8 @@ final class CreateUser implements UseCase
 
     private function checkEmailAlreadyExist(CreateUserRequest $useCaseRequest): void
     {
-        try {
-            $user = $this->userGateway->findByEmail($useCaseRequest->getEmail());
+        if ($this->userGateway->emailExist($useCaseRequest->getEmail())) {
             throw new EmailAlreadyExistException();
-        } catch (UserNotFoundException $exception) {
-
         }
     }
 
