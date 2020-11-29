@@ -1,5 +1,4 @@
 security:
-
   providers:
     user_provider:
       id: 'App\Framework\Component\Security\User\UserProviderImpl'
@@ -7,7 +6,7 @@ security:
   encoders:
     App\Entity\Security\User\UserSecurityCredentialImpl:
         algorithm: auto
-    #
+
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -30,4 +29,4 @@ security:
       # switch_user: true
 
   access_control:
-    - { path: ^/authorize, roles: IS_AUTHENTICATED_REMEMBERED }
+    - { path: ^/oauth2/authorize, roles: IS_AUTHENTICATED_REMEMBERED }
