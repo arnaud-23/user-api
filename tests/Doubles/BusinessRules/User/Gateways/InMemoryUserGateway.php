@@ -25,6 +25,11 @@ final class InMemoryUserGateway implements UserGateway
         self::$uuid = '';
     }
 
+    public function emailExist(string $email): bool
+    {
+        return !empty(self::$users);
+    }
+
     public function findByEmail(string $email): User
     {
         return $this->findOneOrThrowException();

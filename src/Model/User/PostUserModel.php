@@ -2,11 +2,9 @@
 
 namespace App\Model\User;
 
+use App\Framework\Component\Validator\Constraints as MyAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ DoctrineAssert\UniqueEntity("email", entityClass="App\Entity\User\UserImpl")
- */
 class PostUserModel
 {
     /**
@@ -14,6 +12,7 @@ class PostUserModel
      *
      * @Assert\NotBlank()
      * @Assert\Email()
+     * @MyAssert\AvailableEmail()
      */
     public $email;
 

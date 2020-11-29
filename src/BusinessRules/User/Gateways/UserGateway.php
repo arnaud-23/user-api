@@ -8,6 +8,8 @@ use App\BusinessRules\User\Entities\User;
 
 interface UserGateway
 {
+    public function emailExist(string $email): bool;
+
     /** @throws UserNotFoundException */
     public function findByEmail(string $email): User;
 
