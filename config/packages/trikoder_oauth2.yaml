@@ -5,20 +5,24 @@ trikoder_oauth2:
     private_key_passphrase: null
 
     encryption_key: '%env(string:OAUTH2_ENCRYPTION_KEY)%'
+    encryption_key_type: plain
 
+    access_token_ttl: PT1H
+    refresh_token_ttl: P1M
+    auth_code_ttl: PT10M
 
-      # The type of value of 'encryption_key'
-    encryption_key_type:  plain # One of "plain"; "defuse"
-
-    access_token_ttl:     PT1H
-    refresh_token_ttl:    P1M
-    auth_code_ttl:        PT10M
-
-    enable_client_credentials_grant: true
-    enable_auth_code_grant: true
-    enable_refresh_token_grant: true
-    enable_password_grant: true
-    enable_implicit_grant: false
+    grant_types:
+      authorization_code:
+        enable: true
+        require_code_challenge_for_public_clients: true
+      client_credentials:
+        enable: true
+      implicit:
+        enable: false
+      password:
+        enable: true
+      refresh_token:
+        enable: true
 
   resource_server:
     public_key: '%kernel.project_dir%/var/oauth/public.key'

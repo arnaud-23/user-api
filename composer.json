@@ -21,7 +21,7 @@
     "symfony/validator": "5.1.*",
     "symfony/webpack-encore-bundle": "^1.7",
     "symfony/yaml": "5.1.*",
-    "trikoder/oauth2-bundle": "3.1.*"
+    "trikoder/oauth2-bundle": "3.2.*"
   },
   "require-dev": {
     "nelmio/alice": "^3.7",

@@ -1,20 +1,20 @@
 {
-    "_readme": [
-        "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-        "This file is @generated automatically"
-    ],
-    "content-hash": "3f8279b261c8ff462b9e1724cdf10fcd",
-    "packages": [
-        {
-            "name": "composer/package-versions-deprecated",
-            "version": "1.10.99.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/composer/package-versions-deprecated.git",
-                "reference": "68c9b502036e820c33445ff4d174327f6bb87486"
-            },
-            "dist": {
+  "_readme": [
+    "This file locks the dependencies of your project to a known state",
+    "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+    "This file is @generated automatically"
+  ],
+  "content-hash": "9412175fcb880bab83ce2a70497ac405",
+  "packages": [
+    {
+      "name": "composer/package-versions-deprecated",
+      "version": "1.10.99.1",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/composer/package-versions-deprecated.git",
+        "reference": "68c9b502036e820c33445ff4d174327f6bb87486"
+      },
+      "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/composer/package-versions-deprecated/zipball/68c9b502036e820c33445ff4d174327f6bb87486",
                 "reference": "68c9b502036e820c33445ff4d174327f6bb87486",
@@ -6276,20 +6276,20 @@
             ],
             "time": "2020-05-20T17:43:50+00:00"
         },
-        {
-            "name": "trikoder/oauth2-bundle",
-            "version": "v3.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/trikoder/oauth2-bundle.git",
-                "reference": "73cddab208efa823ef516b62bc5f1758aea609de"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/trikoder/oauth2-bundle/zipball/73cddab208efa823ef516b62bc5f1758aea609de",
-                "reference": "73cddab208efa823ef516b62bc5f1758aea609de",
-                "shasum": ""
-            },
+    {
+      "name": "trikoder/oauth2-bundle",
+      "version": "v3.2.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/trikoder/oauth2-bundle.git",
+        "reference": "58788136d3856a3e0c7fb41364943af8bc89101c"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/trikoder/oauth2-bundle/zipball/58788136d3856a3e0c7fb41364943af8bc89101c",
+        "reference": "58788136d3856a3e0c7fb41364943af8bc89101c",
+        "shasum": ""
+      },
             "require": {
                 "doctrine/doctrine-bundle": "^1.8|^2.0",
                 "doctrine/orm": "^2.7",
@@ -6302,13 +6302,13 @@
                 "symfony/security-bundle": "^4.4|^5.0"
             },
             "require-dev": {
-                "ext-timecop": "*",
-                "ext-xdebug": "*",
-                "laminas/laminas-diactoros": "^2.2",
-                "nyholm/psr7": "^1.2",
-                "phpunit/phpunit": "^8.5",
-                "symfony/browser-kit": "^4.4|^5.0",
-                "symfony/phpunit-bridge": "^5.0"
+              "ext-timecop": "*",
+              "ext-xdebug": "*",
+              "laminas/laminas-diactoros": "^2.2",
+              "nyholm/psr7": "^1.2",
+              "phpunit/phpunit": "^8.5|^9.4",
+              "symfony/browser-kit": "^4.4|^5.0",
+              "symfony/phpunit-bridge": "^5.0"
             },
             "suggest": {
                 "defuse/php-encryption": "For better performance when doing encryption",
@@ -6352,7 +6352,7 @@
             "keywords": [
                 "oauth2"
             ],
-            "time": "2020-04-10T16:45:57+00:00"
+      "time": "2020-10-26T15:54:32+00:00"
         },
         {
             "name": "webimpress/safe-writer",
@@ -6448,17 +6448,18 @@
                 "MIT"
             ],
             "authors": [
-                {
-                    "name": "François Zaninotto"
-                }
+              {
+                "name": "François Zaninotto"
+              }
             ],
-            "description": "Faker is a PHP library that generates fake data for you.",
-            "keywords": [
-                "data",
-                "faker",
-                "fixtures"
-            ],
-            "time": "2019-12-12T13:22:17+00:00"
+          "description": "Faker is a PHP library that generates fake data for you.",
+          "keywords": [
+            "data",
+            "faker",
+            "fixtures"
+          ],
+          "abandoned": true,
+          "time": "2019-12-12T13:22:17+00:00"
         },
         {
             "name": "monolog/monolog",
