@@ -26,7 +26,7 @@ final class GetMeController
     }
 
     /**
-     * @Route("/me", methods={"GET"})
+     * @Route("/me", methods={"GET"}, defaults={"oauth2_scopes":{"user_basic_profile"}})
      * @IsGranted("ROLE_USER")
      */
     public function getAction(): JsonResponse

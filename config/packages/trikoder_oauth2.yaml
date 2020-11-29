@@ -23,7 +23,7 @@ trikoder_oauth2:
   resource_server:
     public_key: '%kernel.project_dir%/var/oauth/public.key'
 
-  scopes: [user_creation]
+  scopes: [ user_creation, user_basic_profile ]
 
   persistence:
     doctrine:
