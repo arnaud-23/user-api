@@ -2,8 +2,8 @@ export default class HttpClient {
     static baseUri = process.env.API_ENDPOINT;
     static headers = { 'Content-Type': 'application/json' };
 
-    static async request(method, path, options = { headers: '', body: '' }) {
-        const url = this.baseUri + path;
+    static async request(method, path, options = { baseUri: '', headers: {}, body: {} }) {
+        const url = (options.baseUri ?? this.baseUri) + path;
         const requestOptions = {
             method: method,
             body: JSON.stringify(options.body),
