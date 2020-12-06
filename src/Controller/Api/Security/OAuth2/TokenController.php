@@ -89,10 +89,12 @@ final class TokenController
 
     private function createBody(OAuthServerException $e): ErrorsBody
     {
+        $hint = empty($e->getHint()) ? null : " {$e->getHint()}.";
+
         return $this->errorBodyFactory->createSingleError(
             strtoupper($e->getErrorType()),
             null,
-            "{$e->getMessage()} {$e->getHint()}."
+            "{$e->getMessage()}{$hint}"
         );
     }
 }
