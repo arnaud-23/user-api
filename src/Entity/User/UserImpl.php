@@ -6,6 +6,6 @@ namespace App\Entity\User;
 
 use App\BusinessRules\User\Entities\User;
 
-final class UserImpl extends User
+class UserImpl extends User
 {
 }

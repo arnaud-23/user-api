@@ -7,7 +7,7 @@ namespace App\Entity\Security\User;
 use App\BusinessRules\Security\User\Entities\UserSecurityCredential;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-final class UserSecurityCredentialImpl extends UserSecurityCredential implements UserInterface
+class UserSecurityCredentialImpl extends UserSecurityCredential implements UserInterface
 {
     /** @see UserInterface */
     public function getUsername(): string

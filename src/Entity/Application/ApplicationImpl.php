@@ -6,6 +6,6 @@ namespace App\Entity\Application;
 
 use App\BusinessRules\Application\Entities\Application;
 
-final class ApplicationImpl extends Application
+class ApplicationImpl extends Application
 {
 }
