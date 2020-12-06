@@ -1,4 +1,4 @@
-import { Component } from 'preact';
+import { h, Component } from 'preact';
 import UserClient from '../hooks/UserClient';
 
 export default class RegisterForm extends Component {
